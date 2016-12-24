@@ -1,0 +1,7 @@
+id,userId,name,categoryIds,taskIds,taskListIds
+0,0,Exercise,,,
+1,0,Work,,,
+2,0,Home,,,
+3,0,Groceries,,,
+4,1,Home,,,
+5,1,Work,,,

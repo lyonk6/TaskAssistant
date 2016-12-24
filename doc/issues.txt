@@ -7,13 +7,7 @@
 
 1.  Enum type errors are not caught by Gson.
 
-2.  Boolean errors arn't caught either.
-     
 3.  Objects that need names no longer errors when a null value is given.
-
-4.  Number format exceptions are also missed.
-
-5.  Null timestamps are unhandled exceptions.
 
 6.  All APIs still use JSONObject to create a response.
 
@@ -28,13 +22,11 @@
     changes to the taskIds list is just ignored.
 
 *** Miscellaneous issues:
-0.  All model objects must implement an addObject(Object) method that ensures that a 
-    given reference cannot be placed in the Array of IDs more than once. This needs to
-    be tested by the model unit tests as well.
-    
-1.  An api should be made that verifies a User's object tree is valid.
+0.  An api should be made that verifies a User's object tree is valid.
 
-2.  Models should implement java.time.Instant instead of java.util.Date.    
+1.  Models should implement java.time.Instant instead of java.util.Date.    
+
+2. Use SoapUI to test the API at run-time.
 *****************************************************************************************
 Mike likes a program called: http://todotxt.com/
 

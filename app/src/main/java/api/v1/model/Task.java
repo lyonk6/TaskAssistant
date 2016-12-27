@@ -1,6 +1,7 @@
 package api.v1.model;
 
 import api.v1.error.BusinessException;
+import api.v1.error.CriticalException;
 import api.v1.error.Error;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
@@ -13,7 +14,7 @@ import java.util.Date;
  * This class serves as a basic data structure for tasks.
  * @author kennethlyon
  */
-public class Task {
+public class Task extends TaskAssistantModel {
     private int id;
     private int taskListId;
     private String name;
@@ -162,10 +163,6 @@ public class Task {
         categoryIds.add(category.getId());
     }
 
-    public ArrayList<Integer> getReminderIds() {
-        return reminderIds;
-    }
-
     public void setReminderIds(ArrayList<Integer> reminderIds) {
         this.reminderIds = reminderIds;
     }
@@ -185,10 +182,6 @@ public class Task {
         reminderIds.add(reminder.getId());
     }
 
-    public ArrayList<Integer> getScheduleIds() {
-        return scheduleIds;
-    }
-
     public void setScheduleIds(ArrayList<Integer> scheduleIds) {
         this.scheduleIds = scheduleIds;
     }
@@ -206,10 +199,6 @@ public class Task {
                 return;
         scheduleIds.add(schedule.getId());
     }
-    public ArrayList<Integer> getCategoryIds() {
-        return categoryIds;
-    }
-
     
     public void setCategoryIds(ArrayList<Integer> categoryIds) {
         this.categoryIds = categoryIds;
@@ -254,5 +243,20 @@ public class Task {
         result = 31 * result + (scheduleIds != null ? scheduleIds.hashCode() : 0);
         result = 31 * result + (reminderIds != null ? reminderIds.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public ArrayList<Integer> getCategoryIds() {
+        return categoryIds;
+    }
+
+    @Override
+    public ArrayList<Integer> getReminderIds() {
+        return reminderIds;
+    }
+
+    @Override
+    public ArrayList<Integer> getScheduleIds() {
+        return scheduleIds;
     }
 }

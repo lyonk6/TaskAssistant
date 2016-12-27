@@ -45,8 +45,8 @@ public enum Error{
     CREATE_USER_SQL_ERROR(2001),
 
     /*** Critical Errors ***/
-    API_DELETE_OBJECT_FAILURE(3001);
-
+    API_DELETE_OBJECT_FAILURE(3001),
+    MODEL_RELATIONSHIP_ERROR(3002);
 
     private int code;
 

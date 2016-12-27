@@ -9,7 +9,6 @@ import java.util.ArrayList;
  */
 
 public interface Cleanable {
-    enum Type {USER, TASK, TASKLIST, CALENDAR, CATEGORY, REMINDER, SCHEDULE, TIMEBLOCK};
     int getId();
     String toJson();
     ArrayList<Integer> getCategoryIds() throws CriticalException;

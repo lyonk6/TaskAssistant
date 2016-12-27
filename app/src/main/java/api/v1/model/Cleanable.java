@@ -9,16 +9,16 @@ import java.util.ArrayList;
  */
 
 public interface Cleanable {
-    public enum Type {USER, TASK, TASKLIST, CALENDAR, CATEGORY, REMINDER, SCHEDULE, TIMEBLOCK};
-    public int getId();
-    public String toJson();
-    public ArrayList<Integer> getCategoryIds() throws CriticalException;
-    public ArrayList<Integer> getScheduleIds() throws CriticalException;
-    public ArrayList<Integer> getCalendarIds() throws CriticalException;
-    public ArrayList<Integer> getTaskListIds() throws CriticalException;
-    public ArrayList<Integer> getReminderIds() throws CriticalException;
-    public ArrayList<Integer> getTimeBlockIds() throws CriticalException;
-    public ArrayList<Integer> getTaskIds() throws CriticalException;
+    enum Type {USER, TASK, TASKLIST, CALENDAR, CATEGORY, REMINDER, SCHEDULE, TIMEBLOCK};
+    int getId();
+    String toJson();
+    ArrayList<Integer> getCategoryIds() throws CriticalException;
+    ArrayList<Integer> getScheduleIds() throws CriticalException;
+    ArrayList<Integer> getCalendarIds() throws CriticalException;
+    ArrayList<Integer> getTaskListIds() throws CriticalException;
+    ArrayList<Integer> getReminderIds() throws CriticalException;
+    ArrayList<Integer> getTimeBlockIds() throws CriticalException;
+    ArrayList<Integer> getTaskIds() throws CriticalException;
 
     // Schedulable
     // Categorizable

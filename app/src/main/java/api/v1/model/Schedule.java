@@ -1,7 +1,5 @@
 package api.v1.model;
 
-import api.v1.error.Error;
-import api.v1.error.BusinessException;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
@@ -9,7 +7,7 @@ import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Schedule {
+public class Schedule extends TaskAssistantModel{
     private int id;
     private int userId;
     private Date startDate;
@@ -69,8 +67,8 @@ public class Schedule {
 	this.repeatType=repeatType;
     }
 
+    @Override
     public ArrayList<Integer> getTaskIds() {
-
         return taskIds;
     }
 
@@ -92,6 +90,7 @@ public class Schedule {
         taskIds.add(task.getId());
     }
 
+    @Override
     public ArrayList<Integer> getCategoryIds() {
 
         return categoryIds;

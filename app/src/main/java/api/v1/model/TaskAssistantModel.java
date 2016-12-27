@@ -17,6 +17,7 @@ public abstract class TaskAssistantModel implements Cleanable{
     // Taskable
     // TaskListable
     // Remindable
+
     @Override
     public ArrayList<Integer> getCategoryIds() throws CriticalException {
         throw new CriticalException("This Type cannot be assigned to Categories.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));

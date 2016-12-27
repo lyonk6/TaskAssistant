@@ -12,26 +12,26 @@ import java.util.ArrayList;
  * @author kennethlyon
  */
 public class TaskList {
-	private int id;
+    private int id;
     private int userId;
     private String name;
-	private String description;
+    private String description;
     private ArrayList<Integer> taskIds;
     /**
      * Create a new TaskList w/o a taskList id. TasksLists created without
      * an id are assigned an id of -1.
      */
-	public TaskList(){
+    public TaskList(){
         this.id=-1;
         this.userId=-1;
-	}
+    }
 
     /**
      * Create a deep copy of this TaskList.
      * @param taskList
      */
-	public TaskList(TaskList taskList){
-	    this.id=taskList.getId();
+    public TaskList(TaskList taskList){
+        this.id=taskList.getId();
         this.userId=taskList.getUserId();
         this.name=new String(taskList.getName());
         this.description=new String(taskList.getDescription());
@@ -55,21 +55,21 @@ public class TaskList {
             throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
     }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id=id;
-	}
+    public void setId(int id) {
+        this.id=id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
     public int getUserId() {
         return userId;
     }

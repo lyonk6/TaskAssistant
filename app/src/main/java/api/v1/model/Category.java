@@ -6,7 +6,7 @@ import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
-public class Category {
+public class Category extends TaskAssistantModel{
     private int id;
     private int userId;
     private String name;
@@ -42,8 +42,13 @@ public class Category {
     public void setDescription(String description) {
         this.description = description.trim();
     }
+    @Override
     public ArrayList<Integer> getTaskIds() {
         return taskIds;
+    }
+    @Override
+    public ArrayList<Integer> getScheduleIds() {
+        return scheduleIds;
     }
     public void setTaskIds(ArrayList<Integer> taskIds) {
         this.taskIds = taskIds;
@@ -62,9 +67,7 @@ public class Category {
                 return;
        taskIds.add(task.getId());
     }
-    public ArrayList<Integer> getScheduleIds() {
-        return scheduleIds;
-    }
+
     public void setScheduleIds(ArrayList<Integer> scheduleIds) {
         this.scheduleIds = scheduleIds;
     }

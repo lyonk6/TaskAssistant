@@ -12,9 +12,9 @@ import com.google.gson.Gson;
 public class TimeBlock extends TaskAssistantModel {
 
     private int id;
+    private long stopTime;
     private int scheduleId;
     private long startTime;
-    private long stopTime;
     private boolean onMonday;
     private boolean onTuesday;
     private boolean onWednesday;

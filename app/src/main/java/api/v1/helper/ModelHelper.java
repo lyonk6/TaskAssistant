@@ -1,11 +1,18 @@
 package api.v1.helper;
 
+import api.v1.error.CriticalException;
+import api.v1.model.TaskAssistantModel;
+import org.slf4j.LoggerFactory;
+import api.v1.error.Error;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 
 /**
  * Created by kennethlyon on 8/27/16.
  */
 public class ModelHelper {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModelHelper.class);
     /**
      * Create a deep copy of an ArrayList of Integers. This method is used
      * frequently to copy reference arrays to
@@ -23,4 +30,22 @@ public class ModelHelper {
         }
     }
 
+    /**
+     *
+     * @param scheduleId
+     * @param modelObjects
+     * @throws CriticalException
+     */
+    private void dereferenceSchedule(int scheduleId, ArrayList<TaskAssistantModel> modelObjects) throws CriticalException {
+        if(modelObjects==null || modelObjects.size()==0)
+            return;
+        for(TaskAssistantModel object: modelObjects)
+            if (object.getScheduleIds().contains(scheduleId)) {
+                object.getScheduleIds().remove((Object) scheduleId);
+            }else {
+                LOGGER.error("The schedule id {" + scheduleId +"} is not referenced by this object: " + object.toJson());
+                throw new CriticalException("Critical error! Cannot clean this Schedule. Task {id=" + object.getId()
+                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
+            }
+    }
 }

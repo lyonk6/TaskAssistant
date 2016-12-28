@@ -123,6 +123,31 @@ public class AuthRequestHandler extends BaseRequestHandler{
 
     /**
      * Verify that the User with the specified ID has permission to access these
+     * taskLists.
+     *
+     * @param userId
+     * @param taskListIds
+     */
+    protected void verifyTaskListPrivileges(int userId, ArrayList<Integer> taskListIds) throws BusinessException, SystemException{
+        //LOGGER.debug("Here inside verifyTaskListPrivileges. These are our taskList ids {}", new Gson().toJson(taskListIds));
+        if(taskListIds==null || taskListIds.size()==0)
+            return;
+        TaskList taskList=new TaskList();
+        for(int i: taskListIds) {
+            taskList.setId(i);
+            taskList = taskListRepository.get(taskList);
+            //LOGGER.debug("Here is the TaskList we are verifying {}", taskList.toJson());
+            if (taskList.getUserId() == userId)
+                continue;	    
+            else {
+                String message = "This taskList cannot be accessed by the specified user. ";
+                throwObjectOwnershipError(userId, message);
+            }
+        }
+    }
+
+    /**
+     * Verify that the User with the specified ID has permission to access these
      * schedules.
      *
      * @param userId
@@ -146,3 +171,4 @@ public class AuthRequestHandler extends BaseRequestHandler{
         }
     }
 }
+

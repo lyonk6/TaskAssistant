@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
-public class User {
+public class User extends TaskAssistantModel{
 	private int id;
 	private String email;
 	private String password;

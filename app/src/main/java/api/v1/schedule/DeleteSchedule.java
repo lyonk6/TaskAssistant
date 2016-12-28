@@ -6,14 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.ScheduleRequestHandler;
-import api.v1.error.BusinessException;
-import api.v1.error.CriticalException;
-import api.v1.error.Error;
-import api.v1.error.SystemException;
-import api.v1.helper.ModelHelper;
-import api.v1.helper.RepositoryHelper;
+import api.v1.error.*;
+import api.v1.helper.*;
 import api.v1.model.*;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
@@ -79,7 +74,6 @@ public class DeleteSchedule extends ScheduleRequestHandler {
             errorCode = c.getError().getCode();
             error = true;
         }
-
 
         JSONObject jsonResponse = new JSONObject();
         if (error) {

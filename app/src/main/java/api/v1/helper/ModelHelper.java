@@ -32,7 +32,7 @@ public class ModelHelper {
     }
 
     /**
-     *
+     * Remove references to the provided Schedule from the ArrayList of Cleanable objects.
      * @param scheduleId
      * @param modelObjects
      * @throws CriticalException
@@ -41,12 +41,22 @@ public class ModelHelper {
         if(modelObjects==null || modelObjects.size()==0)
             return;
         for(Cleanable object: modelObjects)
-            if (object.getScheduleIds().contains(scheduleId)) {
-                object.getScheduleIds().remove((Object) scheduleId);
-            }else {
-                LOGGER.error("The schedule id {" + scheduleId +"} is not referenced by this object: " + object.toJson());
-                throw new CriticalException("Critical error! Cannot clean this Schedule. Task {id=" + object.getId()
-                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
-            }
+            dereferenceSchedule(scheduleId, object);
+    }
+
+    /**
+     * Remove the reference to the provided Schedule from a Cleanable object.
+     * @param scheduleId
+     * @param object
+     * @throws CriticalException
+     */
+    public static void dereferenceSchedule(int scheduleId, Cleanable object) throws CriticalException {
+        if (object.getScheduleIds().contains(scheduleId)) {
+            object.getScheduleIds().remove((Object) scheduleId);
+        }else {
+            LOGGER.error("The schedule id {" + scheduleId +"} is not referenced by this object: " + object.toJson());
+            throw new CriticalException("Critical error! Cannot clean this Schedule. Task {id=" + object.getId()
+                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
+        }
     }
 }

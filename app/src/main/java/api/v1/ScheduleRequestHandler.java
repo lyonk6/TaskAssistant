@@ -78,6 +78,7 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
         }
         return myCategory;
     }
+
     /**
      * Fetch a User that no longer references the Schedule provided. Note
      * that this User is a deep copy and that the UserRepository has not

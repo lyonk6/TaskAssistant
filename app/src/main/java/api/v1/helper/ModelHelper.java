@@ -1,7 +1,10 @@
 package api.v1.helper;
 
+import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
+import api.v1.model.Category;
 import api.v1.model.Cleanable;
+import api.v1.model.Schedule;
 import api.v1.model.TaskAssistantModel;
 import org.slf4j.LoggerFactory;
 import api.v1.error.Error;
@@ -56,6 +59,35 @@ public class ModelHelper {
         }else {
             LOGGER.error("The schedule id {" + scheduleId +"} is not referenced by this object: " + object.toJson());
             throw new CriticalException("Critical error! Cannot clean this Schedule. Task {id=" + object.getId()
+                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
+        }
+    }
+
+    /**
+     * Remove references to the provided Task from the ArrayList of Cleanable objects.
+     * @param taskId
+     * @param modelObjects
+     * @throws CriticalException
+     */
+    public static void dereferenceTask(int taskId, ArrayList<Cleanable> modelObjects) throws CriticalException {
+        if(modelObjects==null || modelObjects.size()==0)
+            return;
+        for(Cleanable object: modelObjects)
+            dereferenceTask(taskId, object);
+    }
+
+    /**
+     * Remove the reference to the provided Task from a Cleanable object.
+     * @param taskId
+     * @param object
+     * @throws CriticalException
+     */
+    public static void dereferenceTask(int taskId, Cleanable object) throws CriticalException {
+        if (object.getTaskIds().contains(taskId)) {
+            object.getTaskIds().remove((Object) taskId);
+        }else {
+            LOGGER.error("The task id {" + taskId +"} is not referenced by this object: " + object.toJson());
+            throw new CriticalException("Critical error! Cannot clean this Task. Task {id=" + object.getId()
                     + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
         }
     }

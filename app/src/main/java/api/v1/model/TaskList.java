@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * This class serves as a container to which tasks must belong.
  * @author kennethlyon
  */
-public class TaskList {
+public class TaskList extends TaskAssistantModel{
     private int id;
     private int userId;
     private String name;
@@ -76,6 +76,8 @@ public class TaskList {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    @Override
     public ArrayList<Integer> getTaskIds() {
         return taskIds;
     }

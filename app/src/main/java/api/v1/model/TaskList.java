@@ -100,6 +100,21 @@ public class TaskList extends TaskAssistantModel{
 
         taskIds.add(task.getId());
     }
+
+    /**
+     * Add a Schedule to this TaskList.
+     * @param schedule
+     */
+    public void addSchedule(Schedule schedule){
+        if(taskIds==null)
+            taskIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: taskIds)
+            if(i==schedule.getId())
+                return;
+
+        taskIds.add(schedule.getId());
+    }
     /**
      * Create a serialized JSON String of this instance
      * using GSON.

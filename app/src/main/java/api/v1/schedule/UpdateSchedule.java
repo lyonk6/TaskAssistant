@@ -6,9 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.error.CriticalException;
-import api.v1.model.Category;
-import api.v1.model.Task;
-import api.v1.model.User;
+import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -18,8 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-
-import api.v1.model.Schedule;
 
 /**
  * This api is used to update a given schedule. Use the class member
@@ -52,6 +48,7 @@ public class UpdateSchedule extends ScheduleRequestHandler {
             // Verify privileges.
 
             verifyCategoryPrivileges(clientSchedule.getUserId(), clientSchedule.getCategoryIds());
+            verifyTaskListPrivileges(clientSchedule.getUserId(), clientSchedule.getTaskListIds());
             verifyTaskPrivileges(clientSchedule.getUserId(), clientSchedule.getTaskIds());
             //Place completed category in the repository.
             serverSchedule=scheduleRepository.get(clientSchedule);
@@ -93,12 +90,16 @@ public class UpdateSchedule extends ScheduleRequestHandler {
     private void cleanReferences(Schedule schedule) throws BusinessException, SystemException, CriticalException
     {
         ArrayList<Category> updatedCategories=getCleanedCategories(schedule);
+        ArrayList<TaskList> updatedTaskLists=getCleanedTaskLists(schedule);
         ArrayList<Task> updatedTasks=getCleanedTasks(schedule);
         User updatedUser=getCleanedUser(schedule);
+
 
         //Commit changes to Tasks, Categories and User:
         for(Task task: updatedTasks)
             taskRepository.update(task);
+        for(TaskList taskList: updatedTaskLists)
+            taskListRepository.update(taskList);
         for(Category category: updatedCategories)
             categoryRepository.update(category);
         userRepository.update(updatedUser);
@@ -114,11 +115,15 @@ public class UpdateSchedule extends ScheduleRequestHandler {
     private void updateReferences(Schedule schedule) throws BusinessException, SystemException, CriticalException
     {
         // Create updated Tasks, Categories and User:
+ 
         ArrayList<Task> updatedTasks=getUpdatedTasks(schedule);
         ArrayList<Category> updatedCategories=getUpdatedCategories(schedule);
+        ArrayList<TaskList> updatedTaskLists=getUpdatedTaskLists(schedule);
         User updatedUser=getUpdatedUser(schedule);
         //Commit changes to Tasks, Categories and User:
 
+        for(TaskList taskList: updatedTaskLists)
+            taskListRepository.update(taskList);
         for(Task task: updatedTasks)
             taskRepository.update(task);
         for(Category category: updatedCategories)

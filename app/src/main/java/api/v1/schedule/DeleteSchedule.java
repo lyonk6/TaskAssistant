@@ -49,11 +49,14 @@ public class DeleteSchedule extends ScheduleRequestHandler {
 
             ArrayList<Category> updatedCategories=getCleanedCategories(schedule);
             ArrayList<Task> updatedTasks=getCleanedTasks(schedule);
+            ArrayList<TaskList> updatedTaskLists=getCleanedTaskLists(schedule);
             User updatedUser=getCleanedUser(schedule);
 
             //Commit changes to Tasks, Categories and User:
             for(Task task: updatedTasks)
                 taskRepository.update(task);
+            for(TaskList taskList: updatedTaskLists)
+                taskListRepository.update(taskList);
             for(Category category: updatedCategories)
                 categoryRepository.update(category);
             userRepository.update(updatedUser);

@@ -5,9 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.model.Category;
-import api.v1.model.Task;
-import api.v1.model.User;
+import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -17,8 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-
-import api.v1.model.Schedule;
 
 /**
  * This api is used to create a new schedule. Use the class member
@@ -50,13 +46,19 @@ public class AddSchedule extends ScheduleRequestHandler {
             // Verify privileges.
             verifyTaskPrivileges(schedule.getUserId(), schedule.getTaskIds());
             verifyCategoryPrivileges(schedule.getUserId(), schedule.getCategoryIds());
+            verifyTaskListPrivileges(schedule.getUserId(), schedule.getTaskListIds());
             //Place completed category in the repository.
             schedule=scheduleRepository.add(schedule);
 
             ArrayList<Task> updatedTasks=getUpdatedTasks(schedule);
+            ArrayList<TaskList> updatedTaskLists=getUpdatedTaskLists(schedule);
             ArrayList<Category> updatedCategories=getUpdatedCategories(schedule);
             User updatedUser=getUpdatedUser(schedule);
+
+
            //Commit changes to Tasks, Schedules and User:
+            for(TaskList taskList: updatedTaskLists)
+                taskListRepository.update(taskList);
             for(Task task: updatedTasks)
                 taskRepository.update(task);
             for(Category category: updatedCategories)

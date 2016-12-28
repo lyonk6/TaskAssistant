@@ -57,6 +57,28 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
     }
 
     /**
+     * Fetch an ArrayList of TaskLists that have had their Schedule ids updated.
+     * Note that these TaskLists are deep copies, and the TaskLists in the repository
+     * have not yet been updated.
+     * @param schedule
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected ArrayList<TaskList> getUpdatedTaskLists(Schedule schedule) throws BusinessException, SystemException{
+        ArrayList<TaskList> myTaskLists = new ArrayList<TaskList>();
+        if(schedule.getTaskListIds()==null)
+            return myTaskLists;
+        for(int i: schedule.getTaskListIds()) {
+            TaskList taskList=new TaskList();
+            taskList.setId(i);
+            taskList=taskListRepository.get(taskList);
+            taskList.addSchedule(schedule);
+            myTaskLists.add(taskList);
+        }
+        return myTaskLists;
+    }
+
+    /**
      * Fetch an ArrayList of Categories that have had their Schedule ids updated.
      * Note that these Categories are deep copies, and the Tasks in the repository
      * have not yet been updated.
@@ -150,4 +172,3 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
         return myTaskLists;
     }
 }
-

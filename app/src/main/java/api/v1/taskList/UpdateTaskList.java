@@ -44,6 +44,9 @@ public class UpdateTaskList extends TaskListRequestHandler {
         try {
             json=request.getParameter("params");
             clientTaskList=(TaskList)getMyObject(json, clientTaskList);
+
+            // TODO Delete tasks if they have been de-referenced.
+            // TODO Clean references to Schedules, then build references to Schedules.
             serverTaskList=taskListRepository.get(clientTaskList);
             serverTaskList.setName(clientTaskList.getName());
             serverTaskList.setDescription(clientTaskList.getDescription());

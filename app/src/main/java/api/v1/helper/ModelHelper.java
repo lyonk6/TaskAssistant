@@ -64,6 +64,64 @@ public class ModelHelper {
     }
 
     /**
+     * Remove references to the provided TaskList from the ArrayList of Cleanable objects.
+     * @param taskListId
+     * @param modelObjects
+     * @throws CriticalException
+     */
+    public static void dereferenceTaskList(int taskListId, ArrayList<Cleanable> modelObjects) throws CriticalException {
+        if(modelObjects==null || modelObjects.size()==0)
+            return;
+        for(Cleanable object: modelObjects)
+            dereferenceTaskList(taskListId, object);
+    }
+
+    /**
+     * Remove the reference to the provided TaskList from a Cleanable object.
+     * @param taskListId
+     * @param object
+     * @throws CriticalException
+     */
+    public static void dereferenceTaskList(int taskListId, Cleanable object) throws CriticalException {
+        if (object.getTaskListIds().contains(taskListId)) {
+            object.getTaskListIds().remove((Object) taskListId);
+        }else {
+            LOGGER.error("The taskList id {" + taskListId +"} is not referenced by this object: " + object.toJson());
+            throw new CriticalException("Critical error! Cannot clean this TaskList. TaskList {id=" + object.getId()
+                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
+        }
+    }
+
+    /**
+     * Remove references to the provided Category from the ArrayList of Cleanable objects.
+     * @param categoryId
+     * @param modelObjects
+     * @throws CriticalException
+     */
+    public static void dereferenceCategory(int categoryId, ArrayList<Cleanable> modelObjects) throws CriticalException {
+        if(modelObjects==null || modelObjects.size()==0)
+            return;
+        for(Cleanable object: modelObjects)
+            dereferenceCategory(categoryId, object);
+    }
+
+    /**
+     * Remove the reference to the provided Category from a Cleanable object.
+     * @param categoryId
+     * @param object
+     * @throws CriticalException
+     */
+    public static void dereferenceCategory(int categoryId, Cleanable object) throws CriticalException {
+        if (object.getCategoryIds().contains(categoryId)) {
+            object.getCategoryIds().remove((Object) categoryId);
+        }else {
+            LOGGER.error("The category id {" + categoryId +"} is not referenced by this object: " + object.toJson());
+            throw new CriticalException("Critical error! Cannot clean this Category. Category {id=" + object.getId()
+                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
+        }
+    }
+
+    /**
      * Remove references to the provided Task from the ArrayList of Cleanable objects.
      * @param taskId
      * @param modelObjects

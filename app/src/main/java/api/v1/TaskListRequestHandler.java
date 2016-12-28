@@ -4,10 +4,10 @@ package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
-import api.v1.model.Category;
-import api.v1.model.Reminder;
-import api.v1.model.Schedule;
-import api.v1.model.Task;
+import api.v1.helper.ModelHelper;
+import api.v1.helper.RepositoryHelper;
+import api.v1.model.*;
+
 import java.util.ArrayList;
 
 import org.slf4j.LoggerFactory;
@@ -43,4 +43,61 @@ public class TaskListRequestHandler extends TaskRequestHandler {
             taskRepository.delete(task);
         }
     }
+
+
+
+    /**
+     * Fetch a User that no longer references the TaskList provided. Note
+     * that this User is a deep copy and that the UserRepository has not
+     * yet been updated.
+     * @param taskList
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected User getCleanedUser(TaskList taskList) throws BusinessException, SystemException, CriticalException{
+        User user=new User();
+        user.setId(taskList.getUserId());
+        user=userRepository.get(user);
+        ModelHelper.dereferenceTaskList(taskList.getId(), user);
+        return user;
+    }
+
+
+    /**
+     * Fetch an ArrayList of Tasks that no longer reference this TaskList.
+     * Note that these Tasks are deep copies, and the Tasks in the repository
+     * have not yet been updated.
+     * @param taskList
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected ArrayList<Task> getCleanedTasks(TaskList taskList) throws BusinessException, SystemException, CriticalException{
+        ArrayList<Task> myTasks;
+        ArrayList<Cleanable> myCleanables=new ArrayList<>();
+        myTasks = RepositoryHelper.fetchTasks(taskRepository, taskList.getTaskIds());
+        for(Task task: myTasks)
+            myCleanables.add(task);
+        ModelHelper.dereferenceTaskList(taskList.getId(), myCleanables);
+        return myTasks;
+    }
+
+    /**
+     * Fetch an ArrayList of Schedules that no longer reference this ScheduleList.
+     * Note that these Schedules are deep copies, and the Schedules in the repository
+     * have not yet been updated.
+     * @param scheduleList
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected ArrayList<Schedule> getCleanedSchedules(TaskList taskList) throws BusinessException, SystemException, CriticalException{
+        ArrayList<Schedule> mySchedules;
+        ArrayList<Cleanable> myCleanables=new ArrayList<>();
+        mySchedules = RepositoryHelper.fetchSchedules(scheduleRepository, taskList.getScheduleIds());
+        for(Schedule schedule: mySchedules)
+            myCleanables.add(schedule);
+        ModelHelper.dereferenceTaskList(taskList.getId(), myCleanables);
+        return mySchedules;
+    }
+
 }

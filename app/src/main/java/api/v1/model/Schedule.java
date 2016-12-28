@@ -15,6 +15,7 @@ public class Schedule extends TaskAssistantModel{
     private RepeatTypes repeatType;
     public enum RepeatTypes {NONE, DAILY, WEEKLY, MONTHLY, YEARLY};
     private ArrayList<Integer> categoryIds;
+    private ArrayList<Integer> taskListIds;
     private ArrayList<Integer> taskIds;
 
     /**
@@ -131,28 +132,34 @@ public class Schedule extends TaskAssistantModel{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Schedule)) return false;
 
         Schedule schedule = (Schedule) o;
 
-        if (id != schedule.id) return false;
-        if (userId != schedule.userId) return false;
-        if (startDate != null ? !startDate.equals(schedule.startDate) : schedule.startDate != null) return false;
-        if (endDate != null ? !endDate.equals(schedule.endDate) : schedule.endDate != null) return false;
-        if (repeatType != schedule.repeatType) return false;
-        if (taskIds != null ? !taskIds.equals(schedule.taskIds) : schedule.taskIds != null) return false;
-        return categoryIds != null ? categoryIds.equals(schedule.categoryIds) : schedule.categoryIds == null;
+        if (getId() != schedule.getId()) return false;
+        if (getUserId() != schedule.getUserId()) return false;
+        if (getStartDate() != null ? !getStartDate().equals(schedule.getStartDate()) : schedule.getStartDate() != null)
+            return false;
+        if (getEndDate() != null ? !getEndDate().equals(schedule.getEndDate()) : schedule.getEndDate() != null)
+            return false;
+        if (getRepeatType() != schedule.getRepeatType()) return false;
+        if (getCategoryIds() != null ? !getCategoryIds().equals(schedule.getCategoryIds()) : schedule.getCategoryIds() != null)
+            return false;
+        if (getTaskListIds() != null ? !getTaskListIds().equals(schedule.getTaskListIds()) : schedule.getTaskListIds() != null)
+            return false;
+        return getTaskIds() != null ? getTaskIds().equals(schedule.getTaskIds()) : schedule.getTaskIds() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + userId;
-        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
-        result = 31 * result + repeatType.hashCode();
-        result = 31 * result + (taskIds != null ? taskIds.hashCode() : 0);
-        result = 31 * result + (categoryIds != null ? categoryIds.hashCode() : 0);
+        int result = getId();
+        result = 31 * result + getUserId();
+        result = 31 * result + (getStartDate() != null ? getStartDate().hashCode() : 0);
+        result = 31 * result + (getEndDate() != null ? getEndDate().hashCode() : 0);
+        result = 31 * result + (getRepeatType() != null ? getRepeatType().hashCode() : 0);
+        result = 31 * result + (getCategoryIds() != null ? getCategoryIds().hashCode() : 0);
+        result = 31 * result + (getTaskListIds() != null ? getTaskListIds().hashCode() : 0);
+        result = 31 * result + (getTaskIds() != null ? getTaskIds().hashCode() : 0);
         return result;
     }
 
@@ -167,5 +174,14 @@ public class Schedule extends TaskAssistantModel{
         this.repeatType=schedule.getRepeatType(); //Pretty sure this is a deep copy.
         this.categoryIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
         this.taskIds= ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
+    }
+
+    @Override
+    public ArrayList<Integer> getTaskListIds() {
+        return taskListIds;
+    }
+
+    public void setTaskListIds(ArrayList<Integer> taskListIds) {
+        this.taskListIds = taskListIds;
     }
 }

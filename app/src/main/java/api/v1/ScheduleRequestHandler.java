@@ -2,7 +2,6 @@ package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
-import api.v1.error.Error;
 import api.v1.helper.ModelHelper;
 import api.v1.helper.RepositoryHelper;
 import api.v1.model.*;

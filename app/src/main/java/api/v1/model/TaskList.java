@@ -17,6 +17,7 @@ public class TaskList extends TaskAssistantModel{
     private String name;
     private String description;
     private ArrayList<Integer> taskIds;
+    private ArrayList<Integer> scheduleIds;
     /**
      * Create a new TaskList w/o a taskList id. TasksLists created without
      * an id are assigned an id of -1.
@@ -109,29 +110,41 @@ public class TaskList extends TaskAssistantModel{
         Gson gson = new GsonBuilder().setDateFormat(format).create();
         return gson.toJson(this);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof TaskList)) return false;
 
         TaskList taskList = (TaskList) o;
 
-        if (id != taskList.id) return false;
-        if (userId != taskList.userId) return false;
-        if (!name.equals(taskList.name)) return false;
-        if (description != null ? !description.equals(taskList.description) : taskList.description != null)
+        if (getId() != taskList.getId()) return false;
+        if (getUserId() != taskList.getUserId()) return false;
+        if (getName() != null ? !getName().equals(taskList.getName()) : taskList.getName() != null) return false;
+        if (getDescription() != null ? !getDescription().equals(taskList.getDescription()) : taskList.getDescription() != null)
             return false;
-        return taskIds != null ? taskIds.equals(taskList.taskIds) : taskList.taskIds == null;
-
+        if (getTaskIds() != null ? !getTaskIds().equals(taskList.getTaskIds()) : taskList.getTaskIds() != null)
+            return false;
+        return getScheduleIds() != null ? getScheduleIds().equals(taskList.getScheduleIds()) : taskList.getScheduleIds() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + userId;
-        result = 31 * result + name.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (taskIds != null ? taskIds.hashCode() : 0);
+        int result = getId();
+        result = 31 * result + getUserId();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
+        result = 31 * result + (getTaskIds() != null ? getTaskIds().hashCode() : 0);
+        result = 31 * result + (getScheduleIds() != null ? getScheduleIds().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public ArrayList<Integer> getScheduleIds() {
+        return scheduleIds;
+    }
+
+    public void setScheduleIds(ArrayList<Integer> scheduleIds) {
+        this.scheduleIds = scheduleIds;
     }
 }

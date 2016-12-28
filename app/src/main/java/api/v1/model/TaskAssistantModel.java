@@ -12,12 +12,7 @@ import java.util.ArrayList;
 public abstract class TaskAssistantModel implements Cleanable{
     public enum Type {USER, TASK, TASKLIST, CALENDAR, CATEGORY, REMINDER, SCHEDULE, TIMEBLOCK};
 
-    // Schedulable
-    // Categorizable
-    // Taskable
-    // TaskListable
-    // Remindable
-
+    // Get object relational model reference arrays.
     @Override
     public ArrayList<Integer> getCategoryIds() throws CriticalException {
         throw new CriticalException("This Type cannot be assigned to Categories.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));

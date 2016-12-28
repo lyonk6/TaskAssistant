@@ -86,7 +86,7 @@ public class TaskListRequestHandler extends TaskRequestHandler {
      * Fetch an ArrayList of Schedules that no longer reference this ScheduleList.
      * Note that these Schedules are deep copies, and the Schedules in the repository
      * have not yet been updated.
-     * @param scheduleList
+     * @param taskList
      * @throws BusinessException
      * @throws SystemException
      */

@@ -10,9 +10,9 @@ import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.Error;
 import api.v1.error.SystemException;
-import api.v1.model.Category;
-import api.v1.model.Task;
-import api.v1.model.User;
+import api.v1.helper.ModelHelper;
+import api.v1.helper.RepositoryHelper;
+import api.v1.model.*;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-
-import api.v1.model.Schedule;
 
 /**
  * This api is used to delete a given schedule. Use the class member

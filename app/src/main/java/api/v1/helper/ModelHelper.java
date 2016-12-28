@@ -1,6 +1,7 @@
 package api.v1.helper;
 
 import api.v1.error.CriticalException;
+import api.v1.model.Cleanable;
 import api.v1.model.TaskAssistantModel;
 import org.slf4j.LoggerFactory;
 import api.v1.error.Error;
@@ -36,10 +37,10 @@ public class ModelHelper {
      * @param modelObjects
      * @throws CriticalException
      */
-    private void dereferenceSchedule(int scheduleId, ArrayList<TaskAssistantModel> modelObjects) throws CriticalException {
+    public static void dereferenceSchedule(int scheduleId, ArrayList<Cleanable> modelObjects) throws CriticalException {
         if(modelObjects==null || modelObjects.size()==0)
             return;
-        for(TaskAssistantModel object: modelObjects)
+        for(Cleanable object: modelObjects)
             if (object.getScheduleIds().contains(scheduleId)) {
                 object.getScheduleIds().remove((Object) scheduleId);
             }else {

@@ -21,7 +21,7 @@ public class RepositoryHelper {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<Category> fetchCategories(CategoryRepository categoryRepository, ArrayList<Integer> categoryIds) throws BusinessException, SystemException {
+    public static ArrayList<Category> fetchCategories(CategoryRepository categoryRepository, ArrayList<Integer> categoryIds) throws BusinessException, SystemException {
         ArrayList<Category> myCategories = new ArrayList<Category>();
         if(categoryIds==null)
             return myCategories;
@@ -46,7 +46,7 @@ public class RepositoryHelper {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<Task> fetchTasks(TaskRepository taskRepository, ArrayList<Integer> taskIds) throws BusinessException, SystemException {
+    public static ArrayList<Task> fetchTasks(TaskRepository taskRepository, ArrayList<Integer> taskIds) throws BusinessException, SystemException {
         ArrayList<Task> myTasks = new ArrayList<Task>();
         if(taskIds==null)
             return myTasks;
@@ -70,7 +70,7 @@ public class RepositoryHelper {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<TaskList> fetchTaskLists(TaskListRepository taskListRepository, ArrayList<Integer> taskListIds) throws BusinessException, SystemException {
+    public static ArrayList<TaskList> fetchTaskLists(TaskListRepository taskListRepository, ArrayList<Integer> taskListIds) throws BusinessException, SystemException {
         ArrayList<TaskList> myTaskLists = new ArrayList<TaskList>();
         if(taskListIds==null)
             return myTaskLists;
@@ -94,7 +94,7 @@ public class RepositoryHelper {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<Schedule> fetchSchedules(ScheduleRepository scheduleRepository, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException {
+    public static ArrayList<Schedule> fetchSchedules(ScheduleRepository scheduleRepository, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException {
         ArrayList<Schedule> mySchedules = new ArrayList<Schedule>();
         if(scheduleIds==null)
             return mySchedules;
@@ -118,7 +118,7 @@ public class RepositoryHelper {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<Reminder> fetchReminders(ReminderRepository reminderRepository, ArrayList<Integer> reminderIds) throws BusinessException, SystemException {
+    public static ArrayList<Reminder> fetchReminders(ReminderRepository reminderRepository, ArrayList<Integer> reminderIds) throws BusinessException, SystemException {
         ArrayList<Reminder> myReminders = new ArrayList<Reminder>();
         if(reminderIds==null)
             return myReminders;
@@ -142,7 +142,7 @@ public class RepositoryHelper {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<Calendar> fetchCalendars(CalendarRepository calendarRepository, ArrayList<Integer> calendarIds) throws BusinessException, SystemException {
+    public static ArrayList<Calendar> fetchCalendars(CalendarRepository calendarRepository, ArrayList<Integer> calendarIds) throws BusinessException, SystemException {
         ArrayList<Calendar> myCalendars = new ArrayList<Calendar>();
         if(calendarIds==null)
             return myCalendars;
@@ -166,7 +166,7 @@ public class RepositoryHelper {
      * @throws BusinessException
      * @throws SystemException
      *
-    protected ArrayList<TimeBlock> fetchTimeBlocks(TimeBlockRepository timeBlockRepository, ArrayList<Integer> timeBlockIds) throws BusinessException, SystemException {
+    public static ArrayList<TimeBlock> fetchTimeBlocks(TimeBlockRepository timeBlockRepository, ArrayList<Integer> timeBlockIds) throws BusinessException, SystemException {
         ArrayList<TimeBlock> myTimeBlocks = new ArrayList<TimeBlock>();
         if(timeBlockIds==null)
             return myTimeBlocks;
@@ -190,7 +190,7 @@ public class RepositoryHelper {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<User> fetchUsers(UserRepository userRepository, ArrayList<Integer> userIds) throws BusinessException, SystemException {
+    public static ArrayList<User> fetchUsers(UserRepository userRepository, ArrayList<Integer> userIds) throws BusinessException, SystemException {
         ArrayList<User> myUsers = new ArrayList<User>();
         if(userIds==null)
             return myUsers;

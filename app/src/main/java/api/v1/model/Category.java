@@ -6,7 +6,7 @@ import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
-public class Category extends TaskAssistantModel{
+public class Category extends TaskAssistantModel implements Cleanable {
     private int id;
     private int userId;
     private String name;

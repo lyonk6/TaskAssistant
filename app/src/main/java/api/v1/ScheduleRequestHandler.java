@@ -3,10 +3,9 @@ import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
 import api.v1.error.Error;
-import api.v1.model.Schedule;
-import api.v1.model.Category;
-import api.v1.model.Task;
-import api.v1.model.User;
+import api.v1.helper.ModelHelper;
+import api.v1.helper.RepositoryHelper;
+import api.v1.model.*;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -18,29 +17,6 @@ import java.util.ArrayList;
  */
 public class ScheduleRequestHandler extends AuthRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleRequestHandler.class);
-
-    /**
-     * Remove references to the supplied schedule id from an ArrayList of Categories.
-     * @param scheduleId
-     * @param categories
-     * @throws BusinessException
-     * @throws SystemException
-     * @throws CriticalException
-     */
-    private void cleanCategories(int scheduleId, ArrayList<Category> categories) throws BusinessException, SystemException, CriticalException {
-        if(categories==null)
-            return;
-        for(Category category: categories) {
-            LOGGER.debug("Here is the Category we are attempting to clean {} ", category.toJson());
-            if (category.getScheduleIds().contains(scheduleId)) {
-                category.getScheduleIds().remove((Object) scheduleId);
-            }else {
-                LOGGER.error("The schedule id {" + scheduleId +"} is not referenced by the Category: " + category.toJson());
-                throw new CriticalException("Critical error! Cannot clean this Schedule. Task {id=" + category.getId()
-                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
-            }
-        }
-    }
 
     /**
      * * Remove references to the supplied schedule id from an ArrayList of Tasks.
@@ -191,16 +167,12 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      * @throws SystemException
      */
     protected ArrayList<Category> getCleanedCategories(Schedule schedule) throws BusinessException, SystemException, CriticalException{
-        ArrayList<Category> myCategories = new ArrayList<Category>();
-        if(schedule.getCategoryIds()==null)
-            return myCategories;
-
-        for(int i: schedule.getCategoryIds()) {
-            Category category=new Category();
-            category.setId(i);
-            myCategories.add(categoryRepository.get(category));
-        }
-        cleanCategories(schedule.getId(), myCategories);
+        ArrayList<Category> myCategories;
+        ArrayList<Cleanable> myCleanables=new ArrayList<>();
+        myCategories = RepositoryHelper.fetchCategories(categoryRepository, schedule.getCategoryIds());
+        for(Category category: myCategories)
+            myCleanables.add(category);
+        ModelHelper.dereferenceSchedule(schedule.getId(), myCleanables);
         return myCategories;
     }
 }

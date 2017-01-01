@@ -22,6 +22,7 @@ import org.slf4j.Logger;
  * doPut(HttpServletRequest, HttpServletResponse) to update this
  * schedule.
  *
+ * TODO currently this api does not update TimeBlocks that have been added or deleted on the client side.
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/schedule/PutSchedule")
@@ -47,6 +48,7 @@ public class UpdateSchedule extends ScheduleRequestHandler {
             clientSchedule=(Schedule) getMyObject(json, clientSchedule);
             // Verify privileges.
 
+            // TODO Delete timeBlocks if they have been de-referenced.
             verifyCategoryPrivileges(clientSchedule.getUserId(), clientSchedule.getCategoryIds());
             verifyTaskListPrivileges(clientSchedule.getUserId(), clientSchedule.getTaskListIds());
             verifyTaskPrivileges(clientSchedule.getUserId(), clientSchedule.getTaskIds());

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Schedule extends TaskAssistantModel{
     private int id;
     private int userId;
+    private String name;
     private ArrayList<Integer> categoryIds;
     private ArrayList<Integer> taskListIds;
     private ArrayList<Integer> timeBlockIds;
@@ -19,6 +20,14 @@ public class Schedule extends TaskAssistantModel{
     public Schedule(){
         this.id=-1;
         this.userId=-1;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -124,6 +133,7 @@ public class Schedule extends TaskAssistantModel{
 
         if (getId() != schedule.getId()) return false;
         if (getUserId() != schedule.getUserId()) return false;
+        if (getName() != null ? !getName().equals(schedule.getName()) : schedule.getName() != null) return false;
         if (getCategoryIds() != null ? !getCategoryIds().equals(schedule.getCategoryIds()) : schedule.getCategoryIds() != null)
             return false;
         if (getTaskListIds() != null ? !getTaskListIds().equals(schedule.getTaskListIds()) : schedule.getTaskListIds() != null)
@@ -137,6 +147,7 @@ public class Schedule extends TaskAssistantModel{
     public int hashCode() {
         int result = getId();
         result = 31 * result + getUserId();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + (getCategoryIds() != null ? getCategoryIds().hashCode() : 0);
         result = 31 * result + (getTaskListIds() != null ? getTaskListIds().hashCode() : 0);
         result = 31 * result + (getTimeBlockIds() != null ? getTimeBlockIds().hashCode() : 0);
@@ -149,6 +160,8 @@ public class Schedule extends TaskAssistantModel{
      */
     public Schedule(Schedule schedule){
         this.id=schedule.getId();
+        this.userId=schedule.getUserId();
+        this.name=new String(schedule.getName());
         this.categoryIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
         this.taskListIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
         this.timeBlockIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());

@@ -12,6 +12,7 @@ public class Schedule extends TaskAssistantModel{
     private int userId;
     private ArrayList<Integer> categoryIds;
     private ArrayList<Integer> taskListIds;
+    private ArrayList<Integer> timeBlockIds;
     private ArrayList<Integer> taskIds;
 
     /**
@@ -22,7 +23,26 @@ public class Schedule extends TaskAssistantModel{
         this.id=-1;
         this.userId=-1;
     }
-    
+
+    @Override
+    public ArrayList<Integer> getTimeBlockIds() {
+        return timeBlockIds;
+    }
+
+    public void setTimeBlockIds(ArrayList<Integer> timeBlockIds) {
+        this.timeBlockIds = timeBlockIds;
+    }
+
+    public void addTimeBlock(TimeBlock timeBlock){
+        if(this.timeBlockIds==null)
+            timeBlockIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: timeBlockIds )
+            if(i==timeBlock.getId())
+                return;
+        timeBlockIds.add(timeBlock.getId());
+    }
+
     public int getId() {
         return id;
     }
@@ -94,9 +114,7 @@ public class Schedule extends TaskAssistantModel{
      * @return
      */
     public String toJson(){
-        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-        Gson gson = new GsonBuilder().setDateFormat(format).create();
-        //Gson gson=new Gson();
+        Gson gson=new Gson();
         return gson.toJson(this);
     }
 
@@ -108,10 +126,12 @@ public class Schedule extends TaskAssistantModel{
         Schedule schedule = (Schedule) o;
 
         if (getId() != schedule.getId()) return false;
-        if (userId != schedule.userId) return false;
+        if (getUserId() != schedule.getUserId()) return false;
         if (getCategoryIds() != null ? !getCategoryIds().equals(schedule.getCategoryIds()) : schedule.getCategoryIds() != null)
             return false;
         if (getTaskListIds() != null ? !getTaskListIds().equals(schedule.getTaskListIds()) : schedule.getTaskListIds() != null)
+            return false;
+        if (getTimeBlockIds() != null ? !getTimeBlockIds().equals(schedule.getTimeBlockIds()) : schedule.getTimeBlockIds() != null)
             return false;
         return getTaskIds() != null ? getTaskIds().equals(schedule.getTaskIds()) : schedule.getTaskIds() == null;
     }
@@ -119,9 +139,10 @@ public class Schedule extends TaskAssistantModel{
     @Override
     public int hashCode() {
         int result = getId();
-        result = 31 * result + userId;
+        result = 31 * result + getUserId();
         result = 31 * result + (getCategoryIds() != null ? getCategoryIds().hashCode() : 0);
         result = 31 * result + (getTaskListIds() != null ? getTaskListIds().hashCode() : 0);
+        result = 31 * result + (getTimeBlockIds() != null ? getTimeBlockIds().hashCode() : 0);
         result = 31 * result + (getTaskIds() != null ? getTaskIds().hashCode() : 0);
         return result;
     }
@@ -132,6 +153,8 @@ public class Schedule extends TaskAssistantModel{
     public Schedule(Schedule schedule){
         this.id=schedule.getId();
         this.categoryIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
+        this.taskListIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
+        this.timeBlockIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
         this.taskIds= ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
     }
 

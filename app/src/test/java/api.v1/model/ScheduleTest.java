@@ -24,19 +24,25 @@ public class ScheduleTest extends UnitTestHelper{
     @Before
     public void setUp() throws Exception {
 
-        validSchedules.add("0`0`2016-06-28T18:00:00.000Z`2016-06-28T19:00:00.123Z`DAILY `[0,1]`[0]");  //exercize
-        validSchedules.add("1`0`2016-07-03T09:00:00.000Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[0]");  //church
-        validSchedules.add("2`0`2016-06-28T09:00:00.000Z`2016-06-28T17:00:00.123Z`DAILY `[2,3]`[0]");  //workdays
-        validSchedules.add("3`1`2016-06-30T18:00:00.000Z`2016-06-28T19:00:00.123Z`WEEKLY`[4,5]`[5]");  //date night.
-        validSchedules.add("4`1`2016-07-03T16:00:00.000Z`2016-07-03T15:00:00.123Z`WEEKLY`[6,7]`[5]");  //Tacos!
-        validSchedules.add("4`1`2016-07-03T16:00:00.000Z`2016-07-01T15:00:00.123Z`WEEKLY`[6,7]`[5]");  //Wings!
+        // id, 
+        // userId, 
+        // name, 
+        // categoryIds, 
+        // taskIds, 
+        // taskListIds, 
+        // timeBlockIds,
 
-        validUpdates.add("0`0`2016-06-28T18:00:00.000Z`2016-06-28T19:00:00.123Z`DAILY `[]`[0]");     //exercize
-        validUpdates.add("1`0`2016-07-03T09:00:00.000Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[1]");  //church
-        validUpdates.add("2`0`2016-06-28T09:00:00.000Z`2016-06-28T17:00:00.123Z`DAILY `[3,2]`[0]");  //workdays
-        validUpdates.add("3`1`2016-06-30T18:00:00.000Z`2016-06-28T19:00:00.123Z`NONE`[4,5]`[5]");    //date night.
-        validUpdates.add("4`1`2016-07-03T16:00:00.000Z`2016-07-05T15:00:00.123Z`WEEKLY`[6,7]`[5]");  //Tacos!
-        validUpdates.add("4`1`2016-07-02T16:00:00.000Z`2016-07-01T15:00:00.123Z`WEEKLY`[6,7]`[5]");  //Wings!
+        validSchedules.add("0`0`exercize `[0,1]`[0]`[1]`[0]");  // 
+        validSchedules.add("1`0`church   `[2,3]`[0]`[1]`[1]");  // 
+        validSchedules.add("2`0`work     `[2,3]`[0]`[1]`[2]");  // 
+        validSchedules.add("3`1`shopping `[4,5]`[5]`[1]`[3]");  // 
+        validSchedules.add("4`1`Home     `[6,7]`[5]`[0]`[4]");  // 
+
+        validUpdates.add("0`0`exercize `   []`[0]`[1]`[0]");   // exercize
+        validUpdates.add("1`0`church   `[2,3]`[1]`[1]`[1]");   // church
+        validUpdates.add("2`0`work     `[3,2]`[0]`[1]`[2]");   // workdays
+        validUpdates.add("3`1`shopping `[4,5]`[5]`[1]`[93]");  // shopping
+        validUpdates.add("4`1`Home     `[6,7]`[5]`[90]`[4]");  // Home
     }
 
   /**
@@ -52,11 +58,11 @@ public class ScheduleTest extends UnitTestHelper{
             Schedule schedule = new Schedule();
             schedule.setId(Integer.parseInt(elements[0]));
             schedule.setUserId(Integer.parseInt(elements[1]));
-            //schedule.setStartDate(parseJsonDateAsDate(elements[2]));
-            //schedule.setEndDate(parseJsonDateAsDate(elements[3]));
-            //schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
-            schedule.setCategoryIds(toIntegerArrayList(elements[5]));
-            schedule.setTaskIds(toIntegerArrayList(elements[6]));
+            schedule.setName(elements[2]);
+            schedule.setCategoryIds(toIntegerArrayList(elements[3]));
+            schedule.setTaskIds(toIntegerArrayList(elements[4]));
+            schedule.setTaskListIds(toIntegerArrayList(elements[5]));
+            schedule.setTimeBlockIds(toIntegerArrayList(elements[6]));
             mySchedules.add(schedule);
         }
         return mySchedules;
@@ -168,7 +174,5 @@ public class ScheduleTest extends UnitTestHelper{
                     scheduleTask.toJson());
             fail("Error! These objects should be not equal!");
         }
-
     }
-
 }

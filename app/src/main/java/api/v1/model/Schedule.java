@@ -8,9 +8,9 @@ public class Schedule extends TaskAssistantModel{
     private int id;
     private int userId;
     private String name;
+    private ArrayList<Integer> timeBlockIds;
     private ArrayList<Integer> categoryIds;
     private ArrayList<Integer> taskListIds;
-    private ArrayList<Integer> timeBlockIds;
     private ArrayList<Integer> taskIds;
 
     /**
@@ -163,9 +163,9 @@ public class Schedule extends TaskAssistantModel{
         this.userId=schedule.getUserId();
         this.name=new String(schedule.getName());
         this.categoryIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
-        this.taskListIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
-        this.timeBlockIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
-        this.taskIds= ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
+        this.taskListIds=ModelHelper.copyIntegerArrayList(schedule.getTaskListIds());
+        this.timeBlockIds=ModelHelper.copyIntegerArrayList(schedule.getTimeBlockIds());
+        this.taskIds=ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
     }
 
     @Override

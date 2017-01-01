@@ -38,6 +38,7 @@ public class BaseRequestHandler extends HttpServlet{
     protected static ReminderRepository reminderRepository;
     protected static CategoryRepository categoryRepository;
     protected static ScheduleRepository scheduleRepository;
+    protected static TimeBlockRepository timeBlockRepository;
 
     static {
         taskRepository = new TaskRepository();
@@ -46,6 +47,7 @@ public class BaseRequestHandler extends HttpServlet{
         reminderRepository = new ReminderRepository();
         categoryRepository = new CategoryRepository();
         scheduleRepository = new ScheduleRepository();
+        timeBlockRepository= new TimeBlockRepository();
     }
 
     public static TaskRepository getTaskRepository(){ return taskRepository; }
@@ -54,7 +56,9 @@ public class BaseRequestHandler extends HttpServlet{
     public static ReminderRepository getReminderRepository() { return reminderRepository; }
     public static CategoryRepository getCategoryRepository() { return categoryRepository; }
     public static ScheduleRepository getScheduleRepository() { return scheduleRepository; }
-
+    public static TimeBlockRepository getTimeBlockRepository() {
+        return timeBlockRepository;
+    }
 
     /**
      *

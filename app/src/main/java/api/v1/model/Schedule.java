@@ -20,6 +20,7 @@ public class Schedule extends TaskAssistantModel{
     public Schedule(){
         this.id=-1;
         this.userId=-1;
+        this.name="";
     }
 
     public String getName() {

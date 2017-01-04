@@ -25,7 +25,7 @@ import org.slf4j.Logger;
  * TODO currently this api does not update TimeBlocks that have been added or deleted on the client side.
  * @author Ken Lyon
  */
-@WebServlet("/api/v1/schedule/PutSchedule")
+@WebServlet("/api/v1/schedule/UpdateSchedule")
 public class UpdateSchedule extends ScheduleRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateSchedule.class);
     /**

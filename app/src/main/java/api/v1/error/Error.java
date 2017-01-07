@@ -50,9 +50,6 @@ public enum Error{
 
     private int code;
 
-
-
-
     /**
      *
      * @param code

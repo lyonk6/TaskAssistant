@@ -25,7 +25,7 @@ import api.v1.model.User;
  */
 @WebServlet("/api/v1/auth/ValidateUser")
 public class ValidateUser extends AuthRequestHandler{
-    private static final Logger LOGGER = LoggerFactory.getLogger(ValidateUser.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ValidateUser.class);
 	/**
 	 * POST
 	 * request 

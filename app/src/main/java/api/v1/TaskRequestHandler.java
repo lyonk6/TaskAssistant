@@ -19,25 +19,6 @@ import java.util.ArrayList;
 public class TaskRequestHandler extends AuthRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRequestHandler.class);
 
-    /**
-     * Return an ArrayList of Reminders that belong to this Task.
-     * @param task
-     * @return
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    protected ArrayList<Reminder> getReminders(Task task) throws BusinessException, SystemException {
-        ArrayList<Reminder> reminders=new ArrayList<>();
-        if(task.getReminderIds()==null || task.getReminderIds().size()==0)
-            return reminders;
-        for(int i: task.getReminderIds()){
-           Reminder reminder=new Reminder();
-            reminder.setId(i);
-            reminder = reminderRepository.get(reminder);
-            reminders.add(reminder);
-        }
-        return reminders;
-    }
 
     /**
      * Fetch and update a TaskList object so that it now points to the specified

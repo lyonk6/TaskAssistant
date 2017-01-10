@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.error.CriticalException;
+import api.v1.helper.RepositoryHelper;
 import api.v1.model.*;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -49,7 +50,7 @@ public class DeleteTask extends TaskRequestHandler {
             TaskList taskList=getCleanedTaskList(task);
             ArrayList<Category> updatedCategories=getCleanedCategories(task);
             ArrayList<Schedule> updatedSchedules=getCleanedSchedules(task);
-            ArrayList<Reminder> reminders=getReminders(task);
+            ArrayList<Reminder> reminders= RepositoryHelper.fetchReminders(reminderRepository, task.getReminderIds());
             //Commit changes to Schedules, Categories and TaskList:
             for(Schedule schedule: updatedSchedules)
                 scheduleRepository.update(schedule);

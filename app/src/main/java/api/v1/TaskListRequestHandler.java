@@ -31,7 +31,7 @@ public class TaskListRequestHandler extends TaskRequestHandler {
             task=taskRepository.get(task);
             ArrayList<Category> updatedCategories = getCleanedCategories(task);
             ArrayList<Schedule> updatedSchedules = getCleanedSchedules(task);
-            ArrayList<Reminder> updatedReminders = getReminders(task);
+            ArrayList<Reminder> updatedReminders = RepositoryHelper.fetchReminders(reminderRepository, task.getReminderIds());
             for(Schedule schedule: updatedSchedules)
                 scheduleRepository.update(schedule);
             for(Category category: updatedCategories)

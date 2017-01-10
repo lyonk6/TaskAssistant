@@ -76,20 +76,6 @@ public class RepositoryHelper {
     }
 
     /**
-     * Fetch an ArrayList of Calendars from the provided repository.
-     *
-     * @param calendarRepository
-     * @param calendarIds
-     * @return
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    public static ArrayList<Calendar> fetchCalendars(CalendarRepository calendarRepository, ArrayList<Integer> calendarIds) throws BusinessException, SystemException {
-        ArrayList<TaskAssistantModel> modelObjects= fetchObjects(calendarRepository, calendarIds, TaskAssistantModel.Type.CALENDAR);
-        return (ArrayList<Calendar>)(ArrayList<?>) modelObjects;
-    }
-
-    /**
      * Fetch an ArrayList of TimeBlocks from the provided repository.
      *
      * @param timeBlockRepository
@@ -101,20 +87,6 @@ public class RepositoryHelper {
     public static ArrayList<TimeBlock> fetchTimeBlocks(TimeBlockRepository timeBlockRepository, ArrayList<Integer> timeBlockIds) throws BusinessException, SystemException {
         return (ArrayList<TimeBlock>)(ArrayList<?>) fetchObjects(timeBlockRepository, timeBlockIds, TaskAssistantModel.Type.TIMEBLOCK);
     }
-
-    /**
-     * Fetch an ArrayList of Users from the provided repository.
-     *
-     * @param userRepository
-     * @param userIds
-     * @return
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    public static ArrayList<User> fetchUsers(UserRepository userRepository, ArrayList<Integer> userIds) throws BusinessException, SystemException {
-        return (ArrayList<User>)(ArrayList<?>) fetchObjects(userRepository, userIds, TaskAssistantModel.Type.USER);
-    }
-
 
     /**
      * Fetch an ArrayList of Objects from the provided repository. Note that these

@@ -3,7 +3,7 @@ import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
 import api.v1.error.Error;
-import api.v1.helper.ModelHelper;
+import api.v1.helper.DereferenceHelper;
 import api.v1.helper.RepositoryHelper;
 import api.v1.model.*;
 import org.slf4j.LoggerFactory;
@@ -93,7 +93,7 @@ public class CategoryRequestHandler extends AuthRequestHandler {
         mySchedules = RepositoryHelper.fetchSchedules(scheduleRepository, category.getScheduleIds());
         for(Schedule schedule: mySchedules)
             myCleanables.add(schedule);
-        ModelHelper.dereferenceCategory(category.getId(), myCleanables);
+        DereferenceHelper.dereferenceCategory(category.getId(), myCleanables);
         return mySchedules;
     }//*/
 
@@ -110,7 +110,7 @@ public class CategoryRequestHandler extends AuthRequestHandler {
         User user=new User();
         user.setId(category.getUserId());
         user=userRepository.get(user);
-        ModelHelper.dereferenceCategory(category.getId(), user);
+        DereferenceHelper.dereferenceCategory(category.getId(), user);
         return user;
     }
 
@@ -128,7 +128,7 @@ public class CategoryRequestHandler extends AuthRequestHandler {
         myTasks = RepositoryHelper.fetchTasks(taskRepository, category.getTaskIds());
         for(Task task: myTasks)
             myCleanables.add(task);
-        ModelHelper.dereferenceCategory(category.getId(), myCleanables);
+        DereferenceHelper.dereferenceCategory(category.getId(), myCleanables);
         return myTasks;
     }
 }

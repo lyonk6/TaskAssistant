@@ -3,10 +3,9 @@ import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.Error;
 import api.v1.error.SystemException;
-import api.v1.helper.ModelHelper;
+import api.v1.helper.DereferenceHelper;
 import api.v1.helper.RepositoryHelper;
 import api.v1.model.*;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -94,7 +93,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
         myCategories = RepositoryHelper.fetchCategories(categoryRepository, task.getCategoryIds());
         for(Category category: myCategories)
             myCleanables.add(category);
-        ModelHelper.dereferenceTask(task.getId(), myCleanables);
+        DereferenceHelper.dereferenceTask(task.getId(), myCleanables);
         return myCategories;
     }//*/
 
@@ -113,7 +112,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
         mySchedules = RepositoryHelper.fetchSchedules(scheduleRepository, task.getScheduleIds());
         for(Schedule schedule: mySchedules)
             myCleanables.add(schedule);
-        ModelHelper.dereferenceTask(task.getId(), myCleanables);
+        DereferenceHelper.dereferenceTask(task.getId(), myCleanables);
         return mySchedules;
     }//*/
 
@@ -130,7 +129,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
         TaskList taskList=new TaskList();
         taskList.setId(task.getTaskListId());
         taskList=taskListRepository.get(taskList);
-        ModelHelper.dereferenceTask(task.getId(), taskList);
+        DereferenceHelper.dereferenceTask(task.getId(), taskList);
         return taskList;
     }
 }

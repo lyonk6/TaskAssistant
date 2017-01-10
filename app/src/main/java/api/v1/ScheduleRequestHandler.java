@@ -2,7 +2,7 @@ package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
-import api.v1.helper.ModelHelper;
+import api.v1.helper.DereferenceHelper;
 import api.v1.helper.RepositoryHelper;
 import api.v1.model.*;
 import org.slf4j.LoggerFactory;
@@ -113,7 +113,7 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
         User user=new User();
         user.setId(schedule.getUserId());
         user=userRepository.get(user);
-        ModelHelper.dereferenceSchedule(schedule.getId(), user);
+        DereferenceHelper.dereferenceSchedule(schedule.getId(), user);
         return user;
     }
 
@@ -132,7 +132,7 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
         myCategories = RepositoryHelper.fetchCategories(categoryRepository, schedule.getCategoryIds());
         for(Category category: myCategories)
             myCleanables.add(category);
-        ModelHelper.dereferenceSchedule(schedule.getId(), myCleanables);
+        DereferenceHelper.dereferenceSchedule(schedule.getId(), myCleanables);
         return myCategories;
     }
 
@@ -150,7 +150,7 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
         myTasks = RepositoryHelper.fetchTasks(taskRepository, schedule.getTaskIds());
         for(Task task: myTasks)
             myCleanables.add(task);
-        ModelHelper.dereferenceSchedule(schedule.getId(), myCleanables);
+        DereferenceHelper.dereferenceSchedule(schedule.getId(), myCleanables);
         return myTasks;
     }
 
@@ -168,7 +168,7 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
         myTaskLists = RepositoryHelper.fetchTaskLists(taskListRepository, schedule.getTaskListIds());
         for(TaskList taskList: myTaskLists)
             myCleanables.add(taskList);
-        ModelHelper.dereferenceSchedule(schedule.getId(), myCleanables);
+        DereferenceHelper.dereferenceSchedule(schedule.getId(), myCleanables);
         return myTaskLists;
     }
 }

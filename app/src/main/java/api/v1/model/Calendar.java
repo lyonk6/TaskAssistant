@@ -14,7 +14,7 @@ import com.google.appengine.repackaged.com.google.gson.Gson;
  * @author kennethlyon
  *
  */
-public class Calendar {
+public class Calendar extends TaskAssistantModel{
 	private int id;
 	private String name;
 	public enum CalendarTypes{};

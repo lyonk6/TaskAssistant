@@ -9,7 +9,7 @@ import java.util.Date;
  * @author kennethlyon
  *
  */
-public class Reminder {
+public class Reminder extends TaskAssistantModel{
     private int id;
     private int taskId;
     private Date reminderTime;

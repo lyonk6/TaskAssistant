@@ -11,9 +11,7 @@ import java.util.ArrayList;
  */
 public class RepositoryHelper {
     /**
-     * Fetch an ArrayList of Categories from the provided repository. Note that these
-     * Categories are deep copies and changes to these will not directly affect the
-     * current model.
+     * Fetch an ArrayList of Categories from the provided repository.
      *
      * @param categoryRepository
      * @param categoryIds
@@ -22,23 +20,11 @@ public class RepositoryHelper {
      * @throws SystemException
      */
     public static ArrayList<Category> fetchCategories(CategoryRepository categoryRepository, ArrayList<Integer> categoryIds) throws BusinessException, SystemException {
-        ArrayList<Category> myCategories = new ArrayList<Category>();
-        if(categoryIds==null)
-            return myCategories;
-        for(int i: categoryIds) {
-            Category category=new Category();
-            category.setId(i);
-            category=categoryRepository.get(category);
-            myCategories.add(category);
-        }
-        return myCategories;
+        return  (ArrayList<Category>)(ArrayList<?>) fetchObjects(categoryRepository, categoryIds, TaskAssistantModel.Type.CATEGORY);
     }
 
-
     /**
-     * Fetch an ArrayList of Tasks from the provided repository. Note that these
-     * Tasks are deep copies and changes to these will not directly affect the
-     * current model.
+     * Fetch an ArrayList of Tasks from the provided repository.
      *
      * @param taskRepository
      * @param taskIds
@@ -47,22 +33,11 @@ public class RepositoryHelper {
      * @throws SystemException
      */
     public static ArrayList<Task> fetchTasks(TaskRepository taskRepository, ArrayList<Integer> taskIds) throws BusinessException, SystemException {
-        ArrayList<Task> myTasks = new ArrayList<Task>();
-        if(taskIds==null)
-            return myTasks;
-        for(int i: taskIds) {
-            Task task=new Task();
-            task.setId(i);
-            task=taskRepository.get(task);
-            myTasks.add(task);
-        }
-        return myTasks;
+        return (ArrayList<Task>)(ArrayList<?>) fetchObjects(taskRepository, taskIds, TaskAssistantModel.Type.TASK);
     }
 
     /**
-     * Fetch an ArrayList of TaskLists from the provided repository. Note that these
-     * TaskLists are deep copies and changes to these will not directly affect the
-     * current model.
+     * Fetch an ArrayList of TaskLists from the provided repository.
      *
      * @param taskListRepository
      * @param taskListIds
@@ -71,22 +46,11 @@ public class RepositoryHelper {
      * @throws SystemException
      */
     public static ArrayList<TaskList> fetchTaskLists(TaskListRepository taskListRepository, ArrayList<Integer> taskListIds) throws BusinessException, SystemException {
-        ArrayList<TaskList> myTaskLists = new ArrayList<TaskList>();
-        if(taskListIds==null)
-            return myTaskLists;
-        for(int i: taskListIds) {
-            TaskList taskList=new TaskList();
-            taskList.setId(i);
-            taskList=taskListRepository.get(taskList);
-            myTaskLists.add(taskList);
-        }
-        return myTaskLists;
+        return (ArrayList<TaskList>)(ArrayList<?>) fetchObjects(taskListRepository, taskListIds, TaskAssistantModel.Type.TASKLIST);
     }
 
     /**
-     * Fetch an ArrayList of Schedules from the provided repository. Note that these
-     * Schedules are deep copies and changes to these will not directly affect the
-     * current model.
+     * Fetch an ArrayList of Schedules from the provided repository.
      *
      * @param scheduleRepository
      * @param scheduleIds
@@ -95,22 +59,11 @@ public class RepositoryHelper {
      * @throws SystemException
      */
     public static ArrayList<Schedule> fetchSchedules(ScheduleRepository scheduleRepository, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException {
-        ArrayList<Schedule> mySchedules = new ArrayList<Schedule>();
-        if(scheduleIds==null)
-            return mySchedules;
-        for(int i: scheduleIds) {
-            Schedule schedule=new Schedule();
-            schedule.setId(i);
-            schedule=scheduleRepository.get(schedule);
-            mySchedules.add(schedule);
-        }
-        return mySchedules;
+        return (ArrayList<Schedule>)(ArrayList<?>) fetchObjects(scheduleRepository, scheduleIds, TaskAssistantModel.Type.SCHEDULE);
     }
 
     /**
-     * Fetch an ArrayList of Reminders from the provided repository. Note that these
-     * Reminders are deep copies and changes to these will not directly affect the
-     * current model.
+     * Fetch an ArrayList of Reminders from the provided repository.
      *
      * @param reminderRepository
      * @param reminderIds
@@ -119,22 +72,11 @@ public class RepositoryHelper {
      * @throws SystemException
      */
     public static ArrayList<Reminder> fetchReminders(ReminderRepository reminderRepository, ArrayList<Integer> reminderIds) throws BusinessException, SystemException {
-        ArrayList<Reminder> myReminders = new ArrayList<Reminder>();
-        if(reminderIds==null)
-            return myReminders;
-        for(int i: reminderIds) {
-            Reminder reminder=new Reminder();
-            reminder.setId(i);
-            reminder=reminderRepository.get(reminder);
-            myReminders.add(reminder);
-        }
-        return myReminders;
+        return (ArrayList<Reminder>)(ArrayList<?>) fetchObjects(reminderRepository, reminderIds, TaskAssistantModel.Type.REMINDER);
     }
 
     /**
-     * Fetch an ArrayList of Calendars from the provided repository. Note that these
-     * Calendars are deep copies and changes to these will not directly affect the
-     * current model.
+     * Fetch an ArrayList of Calendars from the provided repository.
      *
      * @param calendarRepository
      * @param calendarIds
@@ -143,46 +85,25 @@ public class RepositoryHelper {
      * @throws SystemException
      */
     public static ArrayList<Calendar> fetchCalendars(CalendarRepository calendarRepository, ArrayList<Integer> calendarIds) throws BusinessException, SystemException {
-        ArrayList<Calendar> myCalendars = new ArrayList<Calendar>();
-        if(calendarIds==null)
-            return myCalendars;
-        for(int i: calendarIds) {
-            Calendar calendar=new Calendar();
-            calendar.setId(i);
-            calendar=calendarRepository.get(calendar);
-            myCalendars.add(calendar);
-        }
-        return myCalendars;
+        ArrayList<TaskAssistantModel> modelObjects= fetchObjects(calendarRepository, calendarIds, TaskAssistantModel.Type.CALENDAR);
+        return (ArrayList<Calendar>)(ArrayList<?>) modelObjects;
     }
 
     /**
-     * Fetch an ArrayList of TimeBlocks from the provided repository. Note that these
-     * TimeBlocks are deep copies and changes to these will not directly affect the
-     * current model.
+     * Fetch an ArrayList of TimeBlocks from the provided repository.
      *
      * @param timeBlockRepository
      * @param timeBlockIds
      * @return
      * @throws BusinessException
      * @throws SystemException
-     *
+     */
     public static ArrayList<TimeBlock> fetchTimeBlocks(TimeBlockRepository timeBlockRepository, ArrayList<Integer> timeBlockIds) throws BusinessException, SystemException {
-        ArrayList<TimeBlock> myTimeBlocks = new ArrayList<TimeBlock>();
-        if(timeBlockIds==null)
-            return myTimeBlocks;
-        for(int i: timeBlockIds) {
-            TimeBlock timeBlock=new TimeBlock();
-            timeBlock.setId(i);
-            timeBlock=timeBlockRepository.get(timeBlock);
-            myTimeBlocks.add(timeBlock);
-        }
-        return myTimeBlocks;
-    }//*/
+        return (ArrayList<TimeBlock>)(ArrayList<?>) fetchObjects(timeBlockRepository, timeBlockIds, TaskAssistantModel.Type.TIMEBLOCK);
+    }
 
     /**
-     * Fetch an ArrayList of Users from the provided repository. Note that these
-     * Users are deep copies and changes to these will not directly affect the
-     * current model.
+     * Fetch an ArrayList of Users from the provided repository.
      *
      * @param userRepository
      * @param userIds
@@ -191,15 +112,32 @@ public class RepositoryHelper {
      * @throws SystemException
      */
     public static ArrayList<User> fetchUsers(UserRepository userRepository, ArrayList<Integer> userIds) throws BusinessException, SystemException {
-        ArrayList<User> myUsers = new ArrayList<User>();
-        if(userIds==null)
-            return myUsers;
-        for(int i: userIds) {
-            User user=new User();
-            user.setId(i);
-            user=userRepository.get(user);
-            myUsers.add(user);
-        }
-        return myUsers;
+        return (ArrayList<User>)(ArrayList<?>) fetchObjects(userRepository, userIds, TaskAssistantModel.Type.USER);
     }
+
+
+    /**
+     * Fetch an ArrayList of Objects from the provided repository. Note that these
+     * Objects are deep copies and changes to these will not directly affect the
+     * current model.
+     *
+     * @param repository
+     * @param objectIds
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    public static ArrayList<TaskAssistantModel> fetchObjects(Repository repository, ArrayList<Integer> objectIds, TaskAssistantModel.Type type) throws BusinessException, SystemException {
+        ArrayList<TaskAssistantModel> myObjects = new ArrayList<>();
+        if(objectIds==null)
+            return myObjects;
+        for(int i: objectIds) {
+            TaskAssistantModel modelObject = TaskAssistantModel.createNewModelObject(type);
+            modelObject.setId(i);
+            modelObject= (TaskAssistantModel) repository.get(modelObject);
+            myObjects.add(modelObject);
+        }
+        return myObjects;
+    }//*/
+
 }

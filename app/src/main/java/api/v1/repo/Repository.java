@@ -3,12 +3,12 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 
 
-public interface Repository<T> {
+public interface Repository<TaskAssistantModel> {
 
 
-	public T add(final T t) throws BusinessException, SystemException;
-	public T get(final T t) throws BusinessException, SystemException;
-	public void update(final T t) throws BusinessException, SystemException;
-	public void delete(final T t) throws BusinessException, SystemException;
+	TaskAssistantModel add(final TaskAssistantModel t) throws BusinessException, SystemException;
+	TaskAssistantModel get(final TaskAssistantModel t) throws BusinessException, SystemException;
+	void update(final TaskAssistantModel t) throws BusinessException, SystemException;
+	void delete(final TaskAssistantModel t) throws BusinessException, SystemException;
 
 }

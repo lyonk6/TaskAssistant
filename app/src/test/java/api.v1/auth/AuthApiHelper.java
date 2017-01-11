@@ -15,13 +15,13 @@ public class AuthApiHelper extends UnitTestHelper {
 
     /**
      * Accept an ArrayList of backtick delimited strings and return an ArrayList of JSONObjects.
-     * @param backtickCategories
+     * @param backtickUsers
      * @return
      * @throws Exception
      */
-    protected static ArrayList<JSONObject> toJSONObject(ArrayList<String> backtickCategories) throws Exception{
+    protected static ArrayList<JSONObject> toJSONObjects(ArrayList<String> backtickUsers) throws Exception{
         ArrayList<JSONObject> myJSONObjects = new ArrayList<JSONObject>();
-        for(String s: backtickCategories) {
+        for(String s: backtickUsers) {
             String[] categoryElementArray = s.split("`");
             JSONObject jsonObj = new JSONObject();
 

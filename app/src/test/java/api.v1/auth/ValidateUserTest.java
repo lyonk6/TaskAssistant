@@ -82,11 +82,11 @@ public class ValidateUserTest extends AuthApiHelper {
 
 
         // Validate valid mock users.
-        for(JSONObject jsonObj: AuthApiHelper.toJSONObject(validUsers))
+        for(JSONObject jsonObj: AuthApiHelper.toJSONObjects(validUsers))
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
         // Validate invalid mock users.
-        for(JSONObject jsonObj: AuthApiHelper.toJSONObject(errorUsers))
+        for(JSONObject jsonObj: AuthApiHelper.toJSONObjects(errorUsers))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 

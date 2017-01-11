@@ -3,8 +3,11 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.error.Error;
 import java.util.HashMap;
+
+import api.v1.helper.RepositoryHelper;
 import api.v1.model.Reminder;
 
+import api.v1.model.TaskAssistantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
@@ -81,5 +84,10 @@ public class ReminderRepository implements Repository<Reminder>{
         }
         else
             throw new BusinessException(" Reminder not found. ID=" + r.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
+
+    @Override
+    public void dump(long timestamp) throws SystemException {
+        RepositoryHelper.dumpMap(timestamp, TaskAssistantModel.Type.REMINDER, (HashMap<Integer, TaskAssistantModel>) (HashMap<Integer,?>)reminderMap);
     }
 }

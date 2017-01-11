@@ -3,6 +3,9 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.error.Error;
 import java.util.HashMap;
+
+import api.v1.helper.RepositoryHelper;
+import api.v1.model.TaskAssistantModel;
 import api.v1.model.TimeBlock;
 
 import org.slf4j.Logger;
@@ -81,5 +84,11 @@ public class TimeBlockRepository implements Repository<TimeBlock>{
         }
         else
             throw new BusinessException(" TimeBlock not found. ID=" + r.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
+
+
+    @Override
+    public void dump(long timestamp) throws SystemException {
+        RepositoryHelper.dumpMap(timestamp, TaskAssistantModel.Type.TIMEBLOCK, (HashMap<Integer, TaskAssistantModel>) (HashMap<Integer,?>)timeBlockMap);
     }
 }

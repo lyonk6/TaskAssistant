@@ -4,12 +4,21 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.model.*;
 import api.v1.repo.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import org.slf4j.LoggerFactory;
+import api.v1.error.Error;
+import org.slf4j.Logger;
 
 /**
  * Created by kennethlyon on 12/27/16.
  */
 public class RepositoryHelper {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryHelper.class);
     /**
      * Fetch an ArrayList of Categories from the provided repository.
      *
@@ -111,5 +120,23 @@ public class RepositoryHelper {
         }
         return myObjects;
     }//*/
+
+    /**
+     * Dumps a given HashMap to a specified file.
+     * @param map
+     */
+    public static void dumpMap(long timestamp, TaskAssistantModel.Type type, HashMap<Integer, TaskAssistantModel> map) throws SystemException {
+        String fileName= type.name() + "_" + timestamp;
+        try{
+            BufferedWriter writer=new BufferedWriter(new FileWriter(fileName));
+            for(Integer i: map.keySet())
+                writer.write(i+"`"+map.get(i).toJson());
+        }catch (IOException ioe){
+            LOGGER.error("Error! Dump failed. Could not write to file: " + fileName);
+            LOGGER.error(ioe.getMessage());
+            throw new SystemException("Error! " + type.name() + " dump failed. Could not write to file. ", Error.valueOf("REPOSITORY_DUMP_FAILURE"));
+            //throw new BusinessException(" Schedule not found. ID=" + s.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+        }
+    }
 
 }

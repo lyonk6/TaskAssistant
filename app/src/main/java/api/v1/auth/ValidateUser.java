@@ -51,8 +51,8 @@ public class ValidateUser extends AuthRequestHandler{
 		User serverUser=null;
         Gson gson=new Gson();
 		try{
-            json=request.getParameter("params");
-            clientUser = gson.fromJson(json, User.class);
+			json=request.getParameter("params");
+			clientUser = gson.fromJson(json, User.class);
             verifyEmailIsValid(clientUser.getEmail());
             verifyPasswordIsValid(clientUser.getPassword());
 			serverUser=userRepository.get(clientUser);

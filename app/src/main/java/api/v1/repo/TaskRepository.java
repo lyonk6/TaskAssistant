@@ -5,8 +5,11 @@ import api.v1.error.Error;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import api.v1.helper.RepositoryHelper;
 import api.v1.model.Task;
 
+import api.v1.model.TaskAssistantModel;
 import api.v1.model.TaskList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +89,7 @@ public class TaskRepository implements Repository<Task>{
     }
 
     /**
-     * TODO: Return an arrayList of Tasks that belong to the provided TaskList.
+     * Return an arrayList of Tasks that belong to the provided TaskList.
      * @return
      */
     public ArrayList<Task> getListOfTasks(TaskList taskList) throws BusinessException, SystemException{
@@ -100,5 +103,10 @@ public class TaskRepository implements Repository<Task>{
                     + taskList.getId() + ")."
                     , Error.valueOf("NO_SUCH_OBJECT_ERROR"));
         return listOfTaskIds;
+    }
+
+    @Override
+    public void dump(long timestamp) throws SystemException {
+        RepositoryHelper.dumpMap(timestamp, TaskAssistantModel.Type.TASK, (HashMap<Integer, TaskAssistantModel>) (HashMap<Integer,?>)taskMap);
     }
 }

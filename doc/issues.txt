@@ -18,8 +18,8 @@
 
 1.  Implement a deleteUser method.
 
-2.  The UpdateTaskList API should delete Tasks that are de-referenced. Currently any 
-    changes to the taskIds list is just ignored.
+2.  The UpdateTaskList API should throw an exception when Tasks are de-referenced. Right
+    now, any changes to the taskIds list is just ignored.
 
 *** Miscellaneous issues:
 0.  An api should be made that verifies a User's object tree is valid.

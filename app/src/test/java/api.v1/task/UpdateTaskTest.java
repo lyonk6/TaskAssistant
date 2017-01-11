@@ -50,8 +50,8 @@ public class UpdateTaskTest extends TaskApiHelper{
         taskRepository=updateTaskInstance.getTaskRepository();
         userRepository=updateTaskInstance.getUserRepository();
 
-       sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo");
-       sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo");
+        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo");
+        sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo");
         for(User user: TaskApiHelper.toUsers(sampleUsers))
             userRepository.add(user);
 
@@ -59,8 +59,8 @@ public class UpdateTaskTest extends TaskApiHelper{
         sampleTaskLists.add("1`1`Ken's TaskList 1`This is Kenny's TaskList.`[4,5,6,7]");
         sampleTaskLists.add("2`1`Ken's TaskList 2`This is Kens other TaskList.`[]");
         LOGGER.debug("Starting at the very beginning. These are the TaskLists as they are when they are put in the repository:");
-            for(TaskList taskList: TaskApiHelper.toTaskLists(sampleTaskLists))
-                taskListRepository.add(taskList);
+        for(TaskList taskList: TaskApiHelper.toTaskLists(sampleTaskLists))
+            taskListRepository.add(taskList);
 
         sampleSchedules.add("0`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY  `[0,3]      ");
         sampleSchedules.add("1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY `[0,1,2]    ");
@@ -86,7 +86,7 @@ public class UpdateTaskTest extends TaskApiHelper{
         errorUpdates.add(  "1`0`Mike's work task D`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[1]`[1,5]");   // Lacks permission to access Schedule.
         errorUpdates.add(  "3`0`Mike's home task F`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[200]");   // Schedule DNE.
 
-                                                                                                                         // Category`Schedule
+        // Category`Schedule
         validTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[0,1,2]");
         validTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[1]`[1,2]");
         validTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[2]`[1,2]");

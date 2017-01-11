@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import api.v1.helper.RepositoryHelper;
+import api.v1.model.TaskAssistantModel;
 import api.v1.model.User;
 
 import org.slf4j.Logger;
@@ -173,5 +175,10 @@ public class UserRepository implements Repository<User> {
                 iterator.remove();
             }
         }
+    }
+
+    @Override
+    public void dump(long timestamp) throws SystemException {
+        RepositoryHelper.dumpMap(timestamp, TaskAssistantModel.Type.USER, (HashMap<Integer, TaskAssistantModel>) (HashMap<Integer,?>) userMap);
     }
 }

@@ -8,4 +8,5 @@ public interface Repository<TaskAssistantModel> {
 	TaskAssistantModel get(final TaskAssistantModel t) throws BusinessException, SystemException;
 	void update(final TaskAssistantModel t) throws BusinessException, SystemException;
 	void delete(final TaskAssistantModel t) throws BusinessException, SystemException;
+	void dump(long timestamp) throws SystemException;
 }

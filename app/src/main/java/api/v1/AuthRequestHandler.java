@@ -20,42 +20,6 @@ public class AuthRequestHandler extends BaseRequestHandler{
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthRequestHandler.class);
 
     /**
-     *
-     * @param email
-     * @throws BusinessException
-     */
-    protected void verifyEmailIsValid(String email) throws BusinessException{
-        try {
-            InternetAddress emailAddr = new InternetAddress(email);
-            emailAddr.validate();
-        } catch (AddressException ex) {
-            LOGGER.error("Supplied email address: {} is not valid.", email);
-            throw  new BusinessException("Email address: " + email + " is invalid.", Error.valueOf("INVALID_EMAIL_ERROR"));
-        }
-    }
-
-    protected void verifyPasswordIsValid(String password) throws BusinessException{
-        if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
-            throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
-    }
-
-    /**
-     * Use to validate the supplied password from a GetUser request.
-     * @param fromClient
-     * @param fromRepository
-     * @return
-     */
-    protected void validatePassword(User fromClient, User fromRepository) throws BusinessException, SystemException {
-        if(fromClient.getPassword().equals(fromRepository.getPassword()))
-            return;
-        else{
-            LOGGER.error(fromClient.toJson());
-            LOGGER.error(fromRepository.toJson());
-            throw new BusinessException("Incorrect password.", Error.valueOf("INCORRECT_PASSWORD_ERROR"));
-        }
-    }
-
-    /**
      * Verify that each taskId supplied belongs to a TaskList that belongs to the
      * supplied User id.
      * @param userId
@@ -87,15 +51,6 @@ public class AuthRequestHandler extends BaseRequestHandler{
             }
         }
     }
-
-    private void throwObjectOwnershipError(int userId, String message) throws BusinessException, SystemException{
-        User user = new User();
-        user.setId(userId);
-        user=userRepository.get(user);
-        message+=" {id: " + userId +", email: " + user.getEmail() + "}";
-        throw new BusinessException(message, Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
-    }
-
     /**
      * Verify that the User with the specified ID has permission to access these
      * schedules.
@@ -170,5 +125,13 @@ public class AuthRequestHandler extends BaseRequestHandler{
             }
         }
     }
-}
 
+    private void throwObjectOwnershipError(int userId, String message) throws BusinessException, SystemException{
+        User user = new User();
+        user.setId(userId);
+        user=userRepository.get(user);
+        message+=" {id: " + userId +", email: " + user.getEmail() + "}";
+        throw new BusinessException(message, Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
+    }
+
+}

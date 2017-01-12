@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
+import api.v1.helper.CreateUserHelper;
 import api.v1.helper.ErrorHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
@@ -54,8 +55,8 @@ public class CreateUser extends AuthRequestHandler{
         try{
             json=request.getParameter("params");
             user = gson.fromJson(json, User.class);
-            verifyEmailIsValid(user.getEmail());
-            verifyPasswordIsValid(user.getPassword());
+            CreateUserHelper.verifyEmailIsValid(user.getEmail());
+            CreateUserHelper.verifyPasswordIsValid(user.getPassword());
             user=userRepository.add(user);
         }catch(BusinessException b) {
             LOGGER.error("An error occurred while handling a CreateUser Request: {}.", json, b);

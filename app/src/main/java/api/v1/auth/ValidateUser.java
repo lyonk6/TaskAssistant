@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
+import api.v1.helper.CreateUserHelper;
 import api.v1.helper.ErrorHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
@@ -53,10 +54,10 @@ public class ValidateUser extends AuthRequestHandler{
 		try{
 			json=request.getParameter("params");
 			clientUser = gson.fromJson(json, User.class);
-            verifyEmailIsValid(clientUser.getEmail());
-            verifyPasswordIsValid(clientUser.getPassword());
+			CreateUserHelper.verifyEmailIsValid(clientUser.getEmail());
+			CreateUserHelper.verifyPasswordIsValid(clientUser.getPassword());
 			serverUser=userRepository.get(clientUser);
-			validatePassword(clientUser, serverUser);
+			CreateUserHelper.validatePassword(clientUser, serverUser);
             serverUser.setPassword(null);
 		}catch(BusinessException e){
 			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", json, e);

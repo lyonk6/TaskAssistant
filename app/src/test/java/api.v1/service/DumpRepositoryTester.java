@@ -1,6 +1,7 @@
 package api.v1.service;
 
 import api.v1.UnitTestHelper;
+import api.v1.helper.InsecurityHelper;
 import api.v1.model.*;
 import api.v1.repo.*;
 import api.v1.task.TaskApiHelper;
@@ -34,8 +35,6 @@ public class DumpRepositoryTester extends UnitTestHelper {
     private static ArrayList<String> sampleSchedules=new ArrayList<String>();
     private static ArrayList<String> sampleCategories=new ArrayList<String>();
     private static ArrayList<String> validTasks=new ArrayList<String>();
-    private static ArrayList<String> validUpdates=new ArrayList<String>();
-    private static ArrayList<String> errorUpdates=new ArrayList<String>();
     private static ArrayList<String> validCredentials=new ArrayList<>();
     private static ArrayList<String> errorCredentials=new ArrayList<>();
     /**
@@ -53,17 +52,23 @@ public class DumpRepositoryTester extends UnitTestHelper {
         taskRepository = dumpRepositoryInstance.getTaskRepository();
         userRepository = dumpRepositoryInstance.getUserRepository();
 
-        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo");
-        sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo");
-        for (User user : TaskApiHelper.toUsers(sampleUsers))
-            userRepository.add(user);
-
         sampleTaskLists.add("0`0`Mike's TaskList.`This is Mike's  TaskList.`[0,1,2,3]");
         sampleTaskLists.add("1`1`Ken's TaskList 1`This is Kenny's TaskList.`[4,5,6,7]");
         sampleTaskLists.add("2`1`Ken's TaskList 2`This is Kens other TaskList.`[]");
-        LOGGER.debug("Starting at the very beginning. These are the TaskLists as they are when they are put in the repository:");
         for (TaskList taskList : toTaskLists(sampleTaskLists))
             taskListRepository.add(taskList);
+
+        sampleUsers.add(     "0`mikehedden@gmail.com`a681wo$dKo` [1,2,3,5,8] ` [10,20,30,40,50]` [11,22,33,44,55]` [2,1,0]");
+        sampleUsers.add(       "1`kenlyon@gmail.com`Mouwkl87%qo` [2,1,3,4,7] ` [20,30,40,50,60]` [95,96,97,98,99]` [0,1,2]");
+        sampleUsers.add(           "2`kenlyon@test.com`e-W^2VmQ` [0,1,2,3,5] ` [100,101,102,103]`[11,22,33,44,55]` [0,1,2]");
+        sampleUsers.add(        "3`fatsteaks@gmail.com`+%D5|x%b` [9,8,7,6,5] ` [40,50,60,70,80]` [11,22,33,44,55]` [0,1,2]");
+        sampleUsers.add(      "4`yannisgreek@gmail.com`e-W^2VmQ` [1,2,3,5,8] ` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
+        sampleUsers.add(    "5`rustypuppy123@gmail.com`3Z^V$xkE` [2,1,3,4,7] ` [20,30,40,50,60]` [11,22,33,44,55]` [0,1,2]");
+        sampleUsers.add(  "0`yo.momma.so.fat@gmail.com`6PnCK/?8` [0,1,2,3,5] ` [30,40,50,60,70]` [11,22,33,44,55]` [0,1,2]");
+        sampleUsers.add("1`under_scores_rule@gmail.com`6~Zas2R*` [0,2,1,3,4] ` [40,50,60,70,80]` [11,22,33,44,55]` [0,1,2]");
+        sampleUsers.add(  "2`test@mikehedden.gmail.com`i2@<uMtJ` [1,2,3,5,8] ` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
+        for (User user : TaskApiHelper.toUsers(sampleUsers))
+            userRepository.add(user);
 
         /*
         sampleSchedules.add("0`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY  `[0,3]      ");
@@ -97,18 +102,18 @@ public class DumpRepositoryTester extends UnitTestHelper {
             taskRepository.add(task);
 
         validCredentials.add("0`mikehedden@gmail.com`a681wo$dKo");
-        validCredentials.add("0`mikehedden@gmail.com`a681wo$dKo");
+        validCredentials.add(  "1`kenlyon@gmail.com`Mouwkl87%qo");
 
-        errorCredentials.add("1`kenlyon@gmail.com`Mouwkl87%qo");
-        errorCredentials.add("1`kenlyon@gmail.com`Mouwkl87%qo");
+        sampleUsers.add(           "2`kenlyon@test.com`badpsswd");
+        sampleUsers.add(        "3`fatsteaks@gmail.com`rongpswd");
 
         // Create invalid mock tasks.
-        for (JSONObject jsonObj : DumpRepositoryTester.toJSONObjects(validCredentials))
-            errorRequestList.add(createDoPostMockRequest(jsonObj));
+        for (JSONObject jsonObj : DumpRepositoryTester.toJSONObjects(errorCredentials))
+            errorRequestList.add(createInsecuredDoPostMockRequest(jsonObj));
 
         // Create valid mock tasks.
-        for (JSONObject jsonObj : toJSONObjects(validUpdates))
-            validRequestList.add(createDoPostMockRequest(jsonObj));
+        for (JSONObject jsonObj : toJSONObjects(validCredentials))
+            validRequestList.add(createEncryptedDoPostMockRequest(jsonObj));
     }
 
     @After
@@ -119,6 +124,47 @@ public class DumpRepositoryTester extends UnitTestHelper {
     @Test
     public void doPost() throws Exception {
 
+
+        for (MockHttpServletRequest request : validRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            dumpRepositoryInstance.doPost(request, response);
+            validateDoPostValidResponse(response);
+        }
+
+        for (MockHttpServletRequest request : errorRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            dumpRepositoryInstance.doPost(request, response);
+            validateDoPostErrorResponse(response);
+        }//*/
+        
+    }
+
+
+    /**
+     * Pass this method a json object to return a MockHttpServletRequest.
+     * @param jsonObj
+     * @return MockHttpServletRequest
+     */
+    protected MockHttpServletRequest createEncryptedDoPostMockRequest(JSONObject jsonObj){
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        String credential= InsecurityHelper.encryptString((jsonObj.toJSONString()));
+        LOGGER.info("Created request {}", credential);
+        request.addParameter("params", jsonObj.toJSONString());
+        return request;
+    }
+
+
+    /**
+     * Pass this method a json object to return a MockHttpServletRequest.
+     * @param jsonObj
+     * @return MockHttpServletRequest
+     */
+    protected MockHttpServletRequest createInsecuredDoPostMockRequest(JSONObject jsonObj){
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        String credential= (jsonObj.toJSONString());
+        LOGGER.info("Created request {}", credential);
+        request.addParameter("params", jsonObj.toJSONString());
+        return request;
     }
 
 
@@ -147,5 +193,4 @@ public class DumpRepositoryTester extends UnitTestHelper {
         }
         return myJSONObjects;
     }
-
 }

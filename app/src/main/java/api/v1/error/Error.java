@@ -43,6 +43,7 @@ public enum Error{
 
     /*** System Errors ***/
     CREATE_USER_SQL_ERROR(2001),
+    REPOSITORY_DUMP_FAILURE(2002),
 
     /*** Critical Errors ***/
     API_DELETE_OBJECT_FAILURE(3001),

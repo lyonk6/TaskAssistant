@@ -1,5 +1,7 @@
 package api.v1.helper;
 
+import api.v1.error.BusinessException;
+import api.v1.error.Error;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -37,13 +39,18 @@ public class InsecurityHelper {
     }
 
 
-    public static String decryptString(String s){
-        if (require_symmetric_authorization==true)
-            return textEncryptor.decrypt(s);
-        else
-            return s;
-    }
+    public static String decryptString(String s) throws BusinessException{
+        try {
+            if (require_symmetric_authorization == true)
+                return textEncryptor.decrypt(s);
+            else
+                return s;
+        }catch (Exception e){
+            LOGGER.error("Error. Could not decrypt string. Did you forget to encrypt the input? {}", s);
+            throw new BusinessException("The String provided could not be decrypted.", Error.valueOf("DESERIALIZATION_NOT_A_NUMBER_ERROR"));
+        }
 
+    }
     public static String encryptString(String s){
         if (require_symmetric_authorization==true)
             return textEncryptor.encrypt(s);
@@ -55,7 +62,7 @@ public class InsecurityHelper {
         BasicTextEncryptor myEncryptor = new BasicTextEncryptor();
         myEncryptor.setPassword("9359C723BB756");
 
-        String message="Hi! My name is... (What?)  My name is... (who?) My name is... [tzichy-ichy] Slim Shady.";
+        String message="Hi! My name is... (What?)  My name is... (who?) My name is... [tichy-ichy] Slim Shady.";
         String myEncryptedText = myEncryptor.encrypt(message);
         String myPlainText =     myEncryptor.decrypt(myEncryptedText);
         LOGGER.info("Here is the original message : " + message);

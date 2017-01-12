@@ -126,17 +126,21 @@ public class RepositoryHelper {
      * @param map
      */
     public static void dumpMap(long timestamp, TaskAssistantModel.Type type, HashMap<Integer, TaskAssistantModel> map) throws SystemException {
-        String fileName= type.name() + "_" + timestamp;
+        String fileName= "data/"+ type.name() + "_" + timestamp;
+        LOGGER.debug("Here we are at the start of the dump function. Writing to file: " + System.getProperty("user.dir") + fileName + ".");
+
         try{
             BufferedWriter writer=new BufferedWriter(new FileWriter(fileName));
             for(Integer i: map.keySet())
-                writer.write(i+"`"+map.get(i).toJson());
+                writer.write(i+"`"+map.get(i).toJson() + "\n");
+            writer.close();
         }catch (IOException ioe){
             LOGGER.error("Error! Dump failed. Could not write to file: " + fileName);
             LOGGER.error(ioe.getMessage());
             throw new SystemException("Error! " + type.name() + " dump failed. Could not write to file. ", Error.valueOf("REPOSITORY_DUMP_FAILURE"));
             //throw new BusinessException(" Schedule not found. ID=" + s.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
         }
+
     }
 
 }

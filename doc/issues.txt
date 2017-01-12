@@ -77,6 +77,8 @@ Task          User          TaskList
 ****** Questions for Mike ****** 
 1. How should I start the DumpRepository method.
 2. How What should be done with the security tokens?
-3. 
+3. Changes were made to the Schedule class. Mike needs to hear about this.
+4. If the a TaskList dereferences a Task, how should that be handled?
+5. What about the User permission pattern I am using? Is that a good idea?
 
 

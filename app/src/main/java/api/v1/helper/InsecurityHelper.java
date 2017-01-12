@@ -47,7 +47,8 @@ public class InsecurityHelper {
                 return s;
         }catch (Exception e){
             LOGGER.error("Error. Could not decrypt string. Did you forget to encrypt the input? {}", s);
-            throw new BusinessException("The String provided could not be decrypted.", Error.valueOf("DESERIALIZATION_NOT_A_NUMBER_ERROR"));
+            LOGGER.debug("Here is the string that broke it: {}", s);
+            throw new BusinessException("The String provided could not be decrypted.", Error.valueOf("DECRYPTION_FAILURE_ERROR"));
         }
 
     }

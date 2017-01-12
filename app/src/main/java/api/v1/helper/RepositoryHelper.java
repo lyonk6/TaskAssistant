@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 /**
  * This API dumps the contents of the repository to a working directory on the
  * system this API runs on. At present any user can initiate a repository dump.
- * //TODO This is an obvious point of attack. Find another way to initiate Dumps.
+ * //TODO Find another way to initiate Dumps.
  * Created by kennethlyon on 12/27/16.
  */
 public class RepositoryHelper {

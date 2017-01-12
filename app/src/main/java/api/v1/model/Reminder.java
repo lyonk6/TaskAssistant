@@ -88,4 +88,9 @@ public class Reminder extends TaskAssistantModel{
         result = 31 * result + (reminderTime != null ? reminderTime.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public int getParent(){
+        return getTaskId();
+    }
 }

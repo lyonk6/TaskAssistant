@@ -16,6 +16,7 @@ import com.google.appengine.repackaged.com.google.gson.Gson;
  */
 public class Calendar extends TaskAssistantModel{
 	private int id;
+	private int userId;
 	private String name;
 	public enum CalendarTypes{};
 	private CalendarTypes calendarType;
@@ -28,6 +29,7 @@ public class Calendar extends TaskAssistantModel{
 	 */
 	public Calendar(){
         this.id = -1;
+        userId=-1;
     }
 
     public void setId(int id){
@@ -70,5 +72,10 @@ public class Calendar extends TaskAssistantModel{
     public String toJson(){
         Gson gson=new Gson();
         return gson.toJson(this);
+    }
+
+    @Override
+    public int getParent() {
+        return userId;
     }
 }

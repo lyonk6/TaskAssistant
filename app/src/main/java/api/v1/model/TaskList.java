@@ -162,4 +162,9 @@ public class TaskList extends TaskAssistantModel{
     public void setScheduleIds(ArrayList<Integer> scheduleIds) {
         this.scheduleIds = scheduleIds;
     }
+
+    @Override
+    public int getParent() {
+        return getUserId();
+    }
 }

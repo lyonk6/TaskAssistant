@@ -206,6 +206,12 @@ public class User extends TaskAssistantModel{
         result = 31 * result + (taskListIds != null ? taskListIds.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public int getParent(){
+        return id;
+    }
+
 }
 
 

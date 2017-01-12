@@ -142,4 +142,9 @@ public class Category extends TaskAssistantModel implements Cleanable {
         result = 31 * result + (scheduleIds != null ? scheduleIds.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public int getParent(){
+        return getUserId();
+    }
 }

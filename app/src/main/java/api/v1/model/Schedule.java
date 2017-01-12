@@ -177,4 +177,10 @@ public class Schedule extends TaskAssistantModel{
     public void setTaskListIds(ArrayList<Integer> taskListIds) {
         this.taskListIds = taskListIds;
     }
+
+    @Override
+    public int getParent(){
+        return getUserId();
+    }
 }
+

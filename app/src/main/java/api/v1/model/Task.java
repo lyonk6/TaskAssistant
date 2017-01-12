@@ -259,4 +259,9 @@ public class Task extends TaskAssistantModel {
     public ArrayList<Integer> getScheduleIds() {
         return scheduleIds;
     }
+
+    @Override
+    public int getParent(){
+        return getTaskListId();
+    }
 }

@@ -15,6 +15,8 @@ public abstract class TaskAssistantModel implements Cleanable, Bindable{
     public abstract int getId();
     public abstract void setId(int i);
     public abstract String toJson();
+    public abstract int getParent();
+
 
     // Get object relational model reference arrays.
     @Override

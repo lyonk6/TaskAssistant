@@ -165,4 +165,9 @@ public class TimeBlock extends TaskAssistantModel {
         result = 31 * result + (onSunday ? 1 : 0);
         return result;
     }
+
+    @Override
+    public int getParent(){
+        return getScheduleId();
+    }
 }

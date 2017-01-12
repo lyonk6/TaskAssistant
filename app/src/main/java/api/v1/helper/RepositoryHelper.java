@@ -15,6 +15,9 @@ import api.v1.error.Error;
 import org.slf4j.Logger;
 
 /**
+ * This API dumps the contents of the repository to a working directory on the
+ * system this API runs on. At present any user can initiate a repository dump.
+ * //TODO This is an obvious point of attack. Find another way to initiate Dumps.
  * Created by kennethlyon on 12/27/16.
  */
 public class RepositoryHelper {
@@ -127,7 +130,7 @@ public class RepositoryHelper {
      */
     public static void dumpMap(long timestamp, TaskAssistantModel.Type type, HashMap<Integer, TaskAssistantModel> map) throws SystemException {
         String fileName= "data/"+ type.name() + "_" + timestamp;
-        LOGGER.debug("Here we are at the start of the dump function. Writing to file: " + System.getProperty("user.dir") + fileName + ".");
+        LOGGER.debug(type + " dump initiated. Writing to file: " + System.getProperty("user.dir") + fileName + ".");
 
         try{
             BufferedWriter writer=new BufferedWriter(new FileWriter(fileName));
@@ -136,7 +139,6 @@ public class RepositoryHelper {
             writer.close();
         }catch (IOException ioe){
             LOGGER.error("Error! Dump failed. Could not write to file: " + fileName);
-            LOGGER.error(ioe.getMessage());
             throw new SystemException("Error! " + type.name() + " dump failed. Could not write to file. ", Error.valueOf("REPOSITORY_DUMP_FAILURE"));
             //throw new BusinessException(" Schedule not found. ID=" + s.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
         }

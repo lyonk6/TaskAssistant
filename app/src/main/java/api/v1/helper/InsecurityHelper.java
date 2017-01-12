@@ -28,7 +28,7 @@ public class InsecurityHelper {
         try{
             BufferedReader reader=new BufferedReader(new FileReader("/security/token"));
             securityToken= reader.readLine().trim();
-            LOGGER.info("Here is the security token: " + securityToken);
+            //LOGGER.info("Here is the security token: " + securityToken);
             textEncryptor.setPassword(securityToken);
             require_symmetric_authorization=true;
         }catch (IOException ioe){

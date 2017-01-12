@@ -104,8 +104,9 @@ public class DumpRepositoryTester extends UnitTestHelper {
         validCredentials.add("0`mikehedden@gmail.com`a681wo$dKo");
         validCredentials.add(  "1`kenlyon@gmail.com`Mouwkl87%qo");
 
-        sampleUsers.add(           "2`kenlyon@test.com`badpsswd");
-        sampleUsers.add(        "3`fatsteaks@gmail.com`rongpswd");
+        errorCredentials.add(      "2`kenlyon@test.com`badpsswd");
+        errorCredentials.add(   "3`fatsteaks@gmail.com`rongpswd");
+        errorCredentials.add(  "1000`Not@ValidUser.com`rongpswd");
 
         // Create invalid mock tasks.
         for (JSONObject jsonObj : DumpRepositoryTester.toJSONObjects(errorCredentials))
@@ -136,7 +137,7 @@ public class DumpRepositoryTester extends UnitTestHelper {
             dumpRepositoryInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }//*/
-        
+
     }
 
 
@@ -147,9 +148,11 @@ public class DumpRepositoryTester extends UnitTestHelper {
      */
     protected MockHttpServletRequest createEncryptedDoPostMockRequest(JSONObject jsonObj){
         MockHttpServletRequest request = new MockHttpServletRequest();
+        LOGGER.info("Here is the credential as it exists before encryption: {}", jsonObj.toJSONString());
         String credential= InsecurityHelper.encryptString((jsonObj.toJSONString()));
+        LOGGER.info("Here is the credential as it exists after encryption: {}", credential);
         LOGGER.info("Created request {}", credential);
-        request.addParameter("params", jsonObj.toJSONString());
+        request.addParameter("credentials", credential);
         return request;
     }
 
@@ -163,7 +166,7 @@ public class DumpRepositoryTester extends UnitTestHelper {
         MockHttpServletRequest request = new MockHttpServletRequest();
         String credential= (jsonObj.toJSONString());
         LOGGER.info("Created request {}", credential);
-        request.addParameter("params", jsonObj.toJSONString());
+        request.addParameter("credentials", jsonObj.toJSONString());
         return request;
     }
 

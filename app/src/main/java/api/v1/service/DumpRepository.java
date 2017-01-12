@@ -22,6 +22,7 @@ import org.slf4j.Logger;
  * doPost(HttpServletRequest, HttpServletResponse) to create a new
  * category.
  *
+ * TODO Find another way to start the repository dump.
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/category/AddCategory")
@@ -51,7 +52,6 @@ public class DumpRepository extends BaseRequestHandler {
             credentials= InsecurityHelper.decryptString(credentials);
             LOGGER.debug("****Here is the credential inside the API, after decryption:{}", credentials);
             user= new Gson().fromJson(credentials, User.class);
-            // TODO DumpRepository needs to verify that A User actually exists. Seriously.
             user=userRepository.get(user);
             userRepository.dump(timstamp);
             taskRepository.dump(timstamp);

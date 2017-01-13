@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
+import api.v1.helper.InsecurityHelper;
 import api.v1.repo.*;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
@@ -80,6 +81,7 @@ public class BaseRequestHandler extends HttpServlet{
      protected Object getMyObject(String json, Object obj) throws BusinessException{
          LOGGER.info("Here is the Json object {} ", json);
          String message="An error occurred while deserializing the JSON object.";
+         json=InsecurityHelper.decryptString(json);
          GsonBuilder gsonBuilder = new GsonBuilder();
          Gson gson = gsonBuilder.setDateFormat(DATE_FORMAT_KEY).create();
          try {

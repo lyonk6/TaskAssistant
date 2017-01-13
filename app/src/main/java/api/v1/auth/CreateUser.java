@@ -54,7 +54,7 @@ public class CreateUser extends AuthRequestHandler{
         Gson gson=new Gson();
         try{
             json=request.getParameter("params");
-            user = gson.fromJson(json, User.class);
+            user = (User)  getMyObject(json, user);
             CreateUserHelper.verifyEmailIsValid(user.getEmail());
             CreateUserHelper.verifyPasswordIsValid(user.getPassword());
             user=userRepository.add(user);

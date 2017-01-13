@@ -3,6 +3,7 @@ package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.Error;
 import api.v1.error.SystemException;
+import api.v1.helper.InsecurityHelper;
 import api.v1.model.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -277,9 +278,11 @@ public class UnitTestHelper {
     protected MockHttpServletRequest createDoPostMockRequest(JSONObject jsonObj){
         MockHttpServletRequest request = new MockHttpServletRequest();
         LOGGER.info("Created request {}",jsonObj.toJSONString());
-        request.addParameter("params", jsonObj.toJSONString());
+        String params= InsecurityHelper.encryptString(jsonObj.toJSONString());
+        request.addParameter("params", params);
         return request;
     }
+
 
     /**
      * Verify that there are no remaining objects in any repository.

@@ -44,13 +44,8 @@ public class DumpRepository extends BaseRequestHandler {
         int errorCode=0;
         long timstamp=System.currentTimeMillis();
         try{
-
-           // Should throw exception if the input is encrypted.
-           credentials=request.getParameter("credentials");
-           //user= new Gson().fromJson(credentials, User.class);
-            LOGGER.debug("****Here is the credential inside the API, before decryption:{}", credentials);
+            credentials=request.getParameter("credentials");
             credentials= InsecurityHelper.decryptString(credentials);
-            LOGGER.debug("****Here is the credential inside the API, after decryption:{}", credentials);
             user= new Gson().fromJson(credentials, User.class);
             user=userRepository.get(user);
             userRepository.dump(timstamp);

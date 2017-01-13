@@ -3,8 +3,6 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.model.*;
 import api.v1.error.Error;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -68,7 +66,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
             schedule = scheduleRepository.get(schedule);
             //LOGGER.debug("Here is the Schedule we are verifying {}", schedule.toJson());
             if (schedule.getUserId() == userId)
-                continue;	    
+                continue;
             else {
                 String message = "This schedule cannot be accessed by the specified user. ";
                 throwObjectOwnershipError(userId, message);
@@ -93,7 +91,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
             taskList = taskListRepository.get(taskList);
             //LOGGER.debug("Here is the TaskList we are verifying {}", taskList.toJson());
             if (taskList.getUserId() == userId)
-                continue;	    
+                continue;
             else {
                 String message = "This taskList cannot be accessed by the specified user. ";
                 throwObjectOwnershipError(userId, message);

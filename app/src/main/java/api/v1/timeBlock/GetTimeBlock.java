@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 import api.v1.TimeBlockRequestHandler;
+import api.v1.model.TaskAssistantModel;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -55,14 +56,7 @@ public class GetTimeBlock extends TimeBlockRequestHandler {
             errorCode = s.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-            jsonResponse.put("TimeBlock", timeBlock.toJson());
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, timeBlock, TaskAssistantModel.Type.TIMEBLOCK);
         sendMessage(jsonResponse, response);
     }
 }

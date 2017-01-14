@@ -63,13 +63,9 @@ public class GetTasks extends TaskListRequestHandler {
             errorCode = s.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-            jsonResponse.put("listOfTaskIdsAsJson", listOfTasksAsJson);
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg);
+        if (!error) {
+            jsonResponse.put("LIST_OF_TASKS", listOfTasksAsJson);
         }
         sendMessage(jsonResponse, response);
     }

@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import api.v1.model.TaskAssistantModel;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -54,14 +55,7 @@ public class GetSchedule extends ScheduleRequestHandler {
             errorCode = s.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-            jsonResponse.put("schedule", schedule.toJson());
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, schedule, TaskAssistantModel.Type.SCHEDULE);
         sendMessage(jsonResponse, response);
     }
 }

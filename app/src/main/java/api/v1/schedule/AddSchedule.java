@@ -76,17 +76,12 @@ public class AddSchedule extends ScheduleRequestHandler {
             errorCode = s.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, schedule, TaskAssistantModel.Type.SCHEDULE);
+        if (error)
             cleanUp(schedule);
-        } else {
-            jsonResponse.put("success", true);
-            jsonResponse.put("Schedule", schedule.toJson());
-        }
         sendMessage(jsonResponse, response);
     }
+
 
     /**
      * Here we attempt to remove a schedule from the repository that

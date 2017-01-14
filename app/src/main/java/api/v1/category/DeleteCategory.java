@@ -9,16 +9,12 @@ import api.v1.CategoryRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
-import api.v1.model.Schedule;
-import api.v1.model.Task;
-import api.v1.model.User;
+import api.v1.model.*;
 import org.json.simple.JSONObject;
-import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import api.v1.model.Category;
 
 /**
  * This api is used to delete a given category. Use the class member
@@ -79,13 +75,7 @@ public class DeleteCategory extends CategoryRequestHandler {
             error = true;
         }
 
-
-        JSONObject jsonResponse = new JSONObject();
-		if (error) {
-			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-		} else {
-			jsonResponse.put("success", true);
-		}
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg);
 		sendMessage(jsonResponse, response);
 	}
 }

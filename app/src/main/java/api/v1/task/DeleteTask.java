@@ -11,7 +11,6 @@ import api.v1.model.*;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.TaskRequestHandler;
-import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -77,13 +76,7 @@ public class DeleteTask extends TaskRequestHandler {
             errorCode = c.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg);
         sendMessage(jsonResponse, response);
     }
 }

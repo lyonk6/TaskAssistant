@@ -6,19 +6,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.error.CriticalException;
-import api.v1.model.Category;
-import api.v1.model.Schedule;
-import api.v1.model.TaskList;
+import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.TaskRequestHandler;
-import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import api.v1.model.Task;
 
 /**
  * This api is used to update an existing task.
@@ -77,13 +73,7 @@ public class UpdateTask extends TaskRequestHandler {
             errorCode = c.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, null, TaskAssistantModel.Type.TASK);
         sendMessage(jsonResponse, response);
     }
 

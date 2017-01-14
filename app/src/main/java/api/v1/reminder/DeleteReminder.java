@@ -9,6 +9,7 @@ import api.v1.ReminderRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
+import api.v1.model.TaskAssistantModel;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
@@ -64,13 +65,7 @@ public class DeleteReminder extends ReminderRequestHandler {
             errorCode = c.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg);
         sendMessage(jsonResponse, response);
     }
 }

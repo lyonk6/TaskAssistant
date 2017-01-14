@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskListRequestHandler;
+import api.v1.model.TaskAssistantModel;
 import api.v1.model.User;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
@@ -61,14 +62,7 @@ public class AddTaskList extends TaskListRequestHandler {
             errorCode = s.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-            jsonResponse.put("TaskList", taskList.toJson());
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, taskList, TaskAssistantModel.Type.TASKLIST);
         sendMessage(jsonResponse, response);
     }
 }

@@ -5,12 +5,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.appengine.repackaged.com.google.gson.Gson;
+import api.v1.model.TaskAssistantModel;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.TaskRequestHandler;
-import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -57,14 +56,7 @@ public class GetTask extends TaskRequestHandler {
             errorCode = s.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-            jsonResponse.put("task", task.toJson());
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, task, TaskAssistantModel.Type.TASK);
         sendMessage(jsonResponse, response);
     }
 }

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.CategoryRequestHandler;
+import api.v1.model.TaskAssistantModel;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -33,7 +34,7 @@ public class GetCategory extends CategoryRequestHandler {
 	 * @throws IOException
      */
 	public void doPost(HttpServletRequest request,
-				HttpServletResponse response)throws ServletException, IOException {
+					   HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
 		Category category=new Category();
@@ -54,14 +55,7 @@ public class GetCategory extends CategoryRequestHandler {
 			errorCode = s.getError().getCode();
 			error = true;
 		}
-
-		JSONObject jsonResponse = new JSONObject();
-		if (error) {
-			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-		} else {
-			jsonResponse.put("success", true);
-            jsonResponse.put("Category",category.toJson());
-		}
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, category, TaskAssistantModel.Type.CATEGORY);
 		sendMessage(jsonResponse, response);
 	}
 }

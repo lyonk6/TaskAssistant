@@ -11,6 +11,7 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.CreateUserHelper;
 import api.v1.helper.ErrorHelper;
+import api.v1.model.TaskAssistantModel;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
@@ -70,13 +71,7 @@ public class CreateUser extends AuthRequestHandler{
             error = true;
         }
 
-        JSONObject jsonResponse = new JSONObject();
-        if (error){
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        }else {
-            jsonResponse.put("success", true);
-            jsonResponse.put("User", user.toJson());
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, user, TaskAssistantModel.Type.USER);
         sendMessage(jsonResponse, response);
     }
 }

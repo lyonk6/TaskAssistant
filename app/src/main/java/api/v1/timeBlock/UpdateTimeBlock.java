@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import api.v1.TimeBlockRequestHandler;
 
 import api.v1.error.CriticalException;
+import api.v1.model.TaskAssistantModel;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -71,13 +72,7 @@ public class UpdateTimeBlock extends TimeBlockRequestHandler {
             errorCode = c.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, null, TaskAssistantModel.Type.TIMEBLOCK);
         sendMessage(jsonResponse, response);
     }
 }

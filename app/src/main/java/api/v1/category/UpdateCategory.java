@@ -6,9 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.CategoryRequestHandler;
-import api.v1.model.Schedule;
-import api.v1.model.Task;
-import api.v1.model.User;
+import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.error.CriticalException;
 import api.v1.error.BusinessException;
@@ -19,8 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-
-import api.v1.model.Category;
 
 /**
  * This api is used to update a given category. Use the class member
@@ -77,13 +73,7 @@ public class UpdateCategory extends CategoryRequestHandler {
             errorCode = c.getError().getCode();
             error = true;
         }
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, null, TaskAssistantModel.Type.CATEGORY);
         sendMessage(jsonResponse, response);
     }
 

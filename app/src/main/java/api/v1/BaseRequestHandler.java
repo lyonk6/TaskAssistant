@@ -10,7 +10,9 @@ import java.util.Date;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
+import api.v1.helper.ErrorHelper;
 import api.v1.helper.InsecurityHelper;
+import api.v1.model.TaskAssistantModel;
 import api.v1.repo.*;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
@@ -62,7 +64,6 @@ public class BaseRequestHandler extends HttpServlet{
     }
 
     /**
-     *
      * @param response
      * @param httpResponse
      * @throws IOException
@@ -70,6 +71,39 @@ public class BaseRequestHandler extends HttpServlet{
     protected static void sendMessage(JSONObject response, HttpServletResponse httpResponse) throws IOException{
         PrintWriter out = httpResponse.getWriter();
         out.println(response);
+    }
+
+    /**
+     *
+     * @param error
+     * @param errorCode
+     * @param errorMsg
+     * @param object
+     * @param type
+     * @return
+     */
+    protected static JSONObject createResponse(boolean error, int errorCode, String errorMsg, TaskAssistantModel object, TaskAssistantModel.Type type){
+        JSONObject jsonResponse = new JSONObject();
+        if (error) {
+            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+        } else {
+            jsonResponse.put("success", true);
+            if(object!=null)
+                jsonResponse.put(type.name(), object.toJson());
+        }
+        return jsonResponse;
+    }
+
+
+    /**
+     * Return a JSONObject with the desired response.
+     * @param error
+     * @param errorCode
+     * @param errorMsg
+     * @return
+     */
+    protected static JSONObject createResponse(boolean error, int errorCode, String errorMsg){
+        return createResponse(error, errorCode, errorMsg, null, null);
     }
 
     /**

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskListRequestHandler;
+import api.v1.helper.InsecurityHelper;
 import api.v1.model.Task;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
@@ -65,7 +66,7 @@ public class GetTasks extends TaskListRequestHandler {
         }
         JSONObject jsonResponse = createResponse(error, errorCode, errorMsg);
         if (!error) {
-            jsonResponse.put("LIST_OF_TASKS", listOfTasksAsJson);
+            jsonResponse.put("LIST_OF_TASKS", InsecurityHelper.encryptString(listOfTasksAsJson));
         }
         sendMessage(jsonResponse, response);
     }

@@ -2,10 +2,6 @@ package api.v1;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +14,6 @@ import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import com.google.appengine.repackaged.com.google.gson.JsonSyntaxException;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import api.v1.error.BusinessException;
 import org.slf4j.LoggerFactory;
 import api.v1.error.Error;
@@ -89,7 +83,7 @@ public class BaseRequestHandler extends HttpServlet{
         } else {
             jsonResponse.put("success", true);
             if(object!=null)
-                jsonResponse.put(type.name(), object.toJson());
+                jsonResponse.put(type.name(), InsecurityHelper.encryptString(object.toJson()));
         }
         return jsonResponse;
     }

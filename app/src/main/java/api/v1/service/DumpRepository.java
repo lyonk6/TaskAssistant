@@ -67,13 +67,7 @@ public class DumpRepository extends BaseRequestHandler {
             errorCode = s.getError().getCode();
             error = true;
         }//*/
-
-        JSONObject jsonResponse = new JSONObject();
-        if (error) {
-            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-        } else {
-            jsonResponse.put("success", true);
-        }
+        JSONObject jsonResponse = createResponse(error, errorCode, errorMsg);
         sendMessage(jsonResponse, response);
     }
 }

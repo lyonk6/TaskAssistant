@@ -39,6 +39,7 @@ public class UnitTestHelper {
             responseString = response.getContentAsString();
         } catch (UnsupportedEncodingException e) {
             LOGGER.error("Error recorded while reading response", e);
+            fail("Error recorded while reading response.");
             return;
         }
         LOGGER.info("response={}", responseString);
@@ -80,6 +81,7 @@ public class UnitTestHelper {
             responseString = response.getContentAsString();
         } catch (UnsupportedEncodingException e) {
             LOGGER.error("Error recorded while reading response", e);
+            fail("Error recorded while reading response.");
             return;
         }
         LOGGER.info("response={}", responseString);
@@ -337,7 +339,7 @@ public class UnitTestHelper {
             }catch(BusinessException e){error=true;}
 
             /*try{
-	      calendar=BaseRequestHandler.getCalendarRepository().get(calendar);
+                calendar=BaseRequestHandler.getCalendarRepository().get(calendar);
                 message="Error. This Calendar was not removed from the repository " + calendar.toJson();
             }catch(BusinessException e){error=true;}//*/
         }

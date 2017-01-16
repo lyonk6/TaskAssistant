@@ -6,7 +6,6 @@ import api.v1.helper.DereferenceHelper;
 import api.v1.helper.ModelHelper;
 import api.v1.helper.RepositoryHelper;
 import api.v1.model.*;
-import api.v1.repo.TaskListRepository;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -64,6 +63,8 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<Integer> getCombinedIds(Schedule schedule) throws BusinessException, SystemException{
         ArrayList<Integer> returnList=ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
+        if(schedule.getTaskListIds()==null)
+            return returnList;
         for(Integer i: schedule.getTaskListIds()){
             TaskList tl = new TaskList();
             tl.setId(i);

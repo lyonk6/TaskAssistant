@@ -44,7 +44,7 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      * @throws SystemException
      */
     protected ArrayList<Task> getUpdatedTasks(Schedule schedule) throws BusinessException, SystemException{
-        ArrayList<Integer>allTaskIds= getCombinedIds(schedule);
+        ArrayList<Integer>allTaskIds= getCombinedTaskIds(schedule);
         ArrayList<Task> myTasks = new ArrayList<Task>();
         if(schedule.getTaskIds()==null)
             return myTasks;
@@ -61,7 +61,7 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
     /**
      * This method creates a combined array of Task ids to be added to this Schedule.
      */
-    protected ArrayList<Integer> getCombinedIds(Schedule schedule) throws BusinessException, SystemException{
+    protected ArrayList<Integer> getCombinedTaskIds(Schedule schedule) throws BusinessException, SystemException{
         ArrayList<Integer> returnList=ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
         if(schedule.getTaskListIds()==null)
             return returnList;

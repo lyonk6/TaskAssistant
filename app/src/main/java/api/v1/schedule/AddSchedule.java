@@ -5,7 +5,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import api.v1.error.CriticalException;
+import api.v1.helper.BinderHelper;
+import api.v1.helper.RepositoryHelper;
 import api.v1.model.*;
+import api.v1.repo.Repository;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -48,22 +52,29 @@ public class AddSchedule extends ScheduleRequestHandler {
             verifyCategoryPrivileges(schedule.getUserId(), schedule.getCategoryIds());
             verifyTaskListPrivileges(schedule.getUserId(), schedule.getTaskListIds());
             //Place completed category in the repository.
+
+            // Get a ScheduleId for this Schedule.
             schedule=scheduleRepository.add(schedule);
 
-            ArrayList<Task> updatedTasks=getUpdatedTasks(schedule);
-            ArrayList<TaskList> updatedTaskLists=getUpdatedTaskLists(schedule);
-            ArrayList<Category> updatedCategories=getUpdatedCategories(schedule);
-            User updatedUser=getUpdatedUser(schedule);
+
+            ArrayList<Task> tasks= RepositoryHelper.fetchTasks(taskRepository, this.getCombinedTaskIds(schedule));
+            ArrayList<TaskList> taskLists=RepositoryHelper.fetchTaskLists(taskListRepository, schedule.getTaskListIds());
+            ArrayList<Category> categories=RepositoryHelper.fetchCategories(categoryRepository, schedule.getCategoryIds());
+            User user = getUpdatedUser(schedule);
+
+            BinderHelper.bindObjects(schedule, (ArrayList<Bindable>)(ArrayList<?>)tasks, TaskAssistantModel.Type.TASK);
+            BinderHelper.bindObjects(schedule, (ArrayList<Bindable>)(ArrayList<?>)taskLists, TaskAssistantModel.Type.TASKLIST);
+            BinderHelper.bindObjects(schedule, (ArrayList<Bindable>)(ArrayList<?>)categories, TaskAssistantModel.Type.CATEGORY);
 
 
            //Commit changes to Tasks, Schedules and User:
-            for(TaskList taskList: updatedTaskLists)
+            for(TaskList taskList: taskLists)
                 taskListRepository.update(taskList);
-            for(Task task: updatedTasks)
+            for(Task task: tasks)
                 taskRepository.update(task);
-            for(Category category: updatedCategories)
+            for(Category category: categories)
                 categoryRepository.update(category);
-            userRepository.update(updatedUser);
+            userRepository.update(user);
 
         } catch (BusinessException b) {
             LOGGER.error("An error occurred while handling an AddSchedule  Request: {}.", json, b);
@@ -74,6 +85,11 @@ public class AddSchedule extends ScheduleRequestHandler {
             LOGGER.error("An error occurred while handling an AddSchedule Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
+            error = true;
+        }catch (CriticalException c){
+            LOGGER.error("An error occurred while handling an AddSchedule Request: {}.", json, c);
+            errorMsg = "Error. " + c.getMessage();
+            errorCode = c.getError().getCode();
             error = true;
         }
         JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, schedule, TaskAssistantModel.Type.SCHEDULE);

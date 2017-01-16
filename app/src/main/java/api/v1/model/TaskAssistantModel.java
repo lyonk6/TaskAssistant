@@ -97,35 +97,35 @@ public abstract class TaskAssistantModel implements Cleanable, Bindable{
      */
     public static TaskAssistantModel createNewModelObject(TaskAssistantModel.Type objectType)
     {
-	TaskAssistantModel object=null;
+        TaskAssistantModel object=null;
         try {
             switch (objectType) {
                 case TASK:
-		    object = new Task();
+                    object = new Task();
                     break;
 
                 case TASKLIST:
-		    object = new TaskList();
+                    object = new TaskList();
                     break;
 
                 case CALENDAR:
-		    object = new Calendar();
+                    object = new Calendar();
                     break;
 
                 case CATEGORY:
-		    object = new Category();
+                    object = new Category();
                     break;
 
                 case REMINDER:
-		    object = new Reminder();
+                    object = new Reminder();
                     break;
 
                 case SCHEDULE:
-		    object = new Schedule();
+                    object = new Schedule();
                     break;
 
                 case USER:
-		    object = new User();
+                    object = new User();
                     break;
             }
         }catch (NullPointerException npe){

@@ -26,4 +26,16 @@ public class ModelHelper {
             return copyOf_integerArrayList;
         }
     }
+
+    public static ArrayList<Integer> mergeIntegerArrayList(ArrayList<Integer> arrayList1, ArrayList<Integer> arrayList2){
+        if(arrayList1==null && arrayList2==null)
+            return null;
+        //First make a copy of arrayList1.
+        arrayList1=copyIntegerArrayList(arrayList1);
+        //Second, remove duplicates:
+        arrayList1.removeAll(arrayList2);
+        //Finally merge the two arrayList:
+        arrayList1.addAll(arrayList2);
+        return arrayList1;
+    }
 }

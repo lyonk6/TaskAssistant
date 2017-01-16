@@ -3,8 +3,10 @@ import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
 import api.v1.helper.DereferenceHelper;
+import api.v1.helper.ModelHelper;
 import api.v1.helper.RepositoryHelper;
 import api.v1.model.*;
+import api.v1.repo.TaskListRepository;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -43,10 +45,11 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      * @throws SystemException
      */
     protected ArrayList<Task> getUpdatedTasks(Schedule schedule) throws BusinessException, SystemException{
+        ArrayList<Integer>allTaskIds= getCombinedIds(schedule);
         ArrayList<Task> myTasks = new ArrayList<Task>();
         if(schedule.getTaskIds()==null)
             return myTasks;
-        for(int i: schedule.getTaskIds()) {
+        for(int i: allTaskIds) {
             Task task=new Task();
             task.setId(i);
             task=taskRepository.get(task);
@@ -55,6 +58,23 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
         }
         return myTasks;
     }
+
+    /**
+     * This method creates a combined array of Task ids to be added to this Schedule.
+     */
+    protected ArrayList<Integer> getCombinedIds(Schedule schedule) throws BusinessException, SystemException{
+        ArrayList<Integer> returnList=ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
+        for(Integer i: schedule.getTaskListIds()){
+            TaskList tl = new TaskList();
+            tl.setId(i);
+            tl= taskListRepository.get(tl);
+            ModelHelper.mergeIntegerArrayList(returnList, tl.getTaskIds());
+        }
+        return returnList;
+    }
+
+
+
 
     /**
      * Fetch an ArrayList of TaskLists that have had their Schedule ids updated.

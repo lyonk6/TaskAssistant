@@ -48,7 +48,7 @@ public class UpdateTask extends TaskRequestHandler {
             serverTask=taskRepository.get(clientTask);
             // Fetch an updated TaskList.
 
-            TaskList taskList=getUpdatedTaskList(clientTask);
+            TaskList taskList=BinderHelper.getUpdatedTaskList(serverTask, TaskAssistantModel.Type.TASK);
             //Verify privileges to modify Schedules and Categories.
             verifySchedulePrivileges(taskList.getUserId(), clientTask.getScheduleIds());
             verifyCategoryPrivileges(taskList.getUserId(), clientTask.getCategoryIds());
@@ -91,7 +91,7 @@ public class UpdateTask extends TaskRequestHandler {
             categoryRepository.update(category);
     }
 
-    private void cleanReferences(Task task) throws BusinessException, SystemException, CriticalException{
+    private  void cleanReferences(Task task) throws BusinessException, SystemException, CriticalException{
         ArrayList<Schedule> updatedSchedules=getCleanedSchedules(task);
         ArrayList<Category> updatedCategories=getCleanedCategories(task);
         TaskList taskList=getCleanedTaskList(task);

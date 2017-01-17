@@ -62,9 +62,9 @@ public class AddSchedule extends ScheduleRequestHandler {
             ArrayList<Category> categories=RepositoryHelper.fetchCategories(categoryRepository, schedule.getCategoryIds());
             User user = getUpdatedUser(schedule);
 
-            BinderHelper.bindObjects(schedule, (ArrayList<Bindable>)(ArrayList<?>)tasks, TaskAssistantModel.Type.TASK);
-            BinderHelper.bindObjects(schedule, (ArrayList<Bindable>)(ArrayList<?>)taskLists, TaskAssistantModel.Type.TASKLIST);
-            BinderHelper.bindObjects(schedule, (ArrayList<Bindable>)(ArrayList<?>)categories, TaskAssistantModel.Type.CATEGORY);
+            BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)tasks);
+            BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)taskLists);
+            BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)categories);
 
 
            //Commit changes to Tasks, Schedules and User:

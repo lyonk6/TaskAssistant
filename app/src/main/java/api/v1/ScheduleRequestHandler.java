@@ -2,6 +2,7 @@ package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
+import api.v1.helper.BinderHelper;
 import api.v1.helper.DereferenceHelper;
 import api.v1.helper.ModelHelper;
 import api.v1.helper.RepositoryHelper;
@@ -43,39 +44,11 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<Task> getUpdatedTasks(Schedule schedule) throws BusinessException, SystemException{
-        ArrayList<Integer>allTaskIds= getCombinedTaskIds(schedule);
-        ArrayList<Task> myTasks = new ArrayList<Task>();
-        if(schedule.getTaskIds()==null)
-            return myTasks;
-        for(int i: allTaskIds) {
-            Task task=new Task();
-            task.setId(i);
-            task=taskRepository.get(task);
-            task.addSchedule(schedule);
-            myTasks.add(task);
-        }
-        return myTasks;
+    protected ArrayList<Task> getUpdatedTasks(Schedule schedule) throws BusinessException, SystemException, CriticalException {
+        ArrayList<Task> tasks= RepositoryHelper.fetchTasks(taskRepository, this.getCombinedTaskIds(schedule));
+        BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)tasks);
+        return tasks;
     }
-
-    /**
-     * This method creates a combined array of Task ids to be added to this Schedule.
-     */
-    protected ArrayList<Integer> getCombinedTaskIds(Schedule schedule) throws BusinessException, SystemException{
-        ArrayList<Integer> returnList=ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
-        if(schedule.getTaskListIds()==null)
-            return returnList;
-        for(Integer i: schedule.getTaskListIds()){
-            TaskList tl = new TaskList();
-            tl.setId(i);
-            tl= taskListRepository.get(tl);
-            ModelHelper.mergeIntegerArrayList(returnList, tl.getTaskIds());
-        }
-        return returnList;
-    }
-
-
-
 
     /**
      * Fetch an ArrayList of TaskLists that have had their Schedule ids updated.
@@ -85,18 +58,10 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<TaskList> getUpdatedTaskLists(Schedule schedule) throws BusinessException, SystemException{
-        ArrayList<TaskList> myTaskLists = new ArrayList<TaskList>();
-        if(schedule.getTaskListIds()==null)
-            return myTaskLists;
-        for(int i: schedule.getTaskListIds()) {
-            TaskList taskList=new TaskList();
-            taskList.setId(i);
-            taskList=taskListRepository.get(taskList);
-            taskList.addSchedule(schedule);
-            myTaskLists.add(taskList);
-        }
-        return myTaskLists;
+    protected ArrayList<TaskList> getUpdatedTaskLists(Schedule schedule) throws BusinessException, SystemException, CriticalException {
+        ArrayList<TaskList> taskLists=RepositoryHelper.fetchTaskLists(taskListRepository, schedule.getTaskListIds());
+        BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)taskLists);
+        return taskLists;
     }
 
     /**
@@ -107,18 +72,10 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      * @throws BusinessException
      * @throws SystemException
      */
-    protected ArrayList<Category> getUpdatedCategories(Schedule schedule) throws BusinessException, SystemException{
-        ArrayList<Category> myCategory = new ArrayList<Category>();
-        if(schedule.getCategoryIds()==null)
-            return myCategory;
-        for(int i: schedule.getCategoryIds()) {
-            Category category=new Category();
-            category.setId(i);
-            category=categoryRepository.get(category);
-            category.addSchedule(schedule);
-            myCategory.add(category);
-        }
-        return myCategory;
+    protected ArrayList<Category> getUpdatedCategories(Schedule schedule) throws BusinessException, SystemException, CriticalException {
+        ArrayList<Category> categories=RepositoryHelper.fetchCategories(categoryRepository, schedule.getCategoryIds());
+        BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)categories);
+        return categories;
     }
 
     /**
@@ -149,11 +106,8 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<Category> getCleanedCategories(Schedule schedule) throws BusinessException, SystemException, CriticalException{
         ArrayList<Category> myCategories;
-        ArrayList<Cleanable> myCleanables=new ArrayList<>();
         myCategories = RepositoryHelper.fetchCategories(categoryRepository, schedule.getCategoryIds());
-        for(Category category: myCategories)
-            myCleanables.add(category);
-        DereferenceHelper.dereferenceSchedule(schedule.getId(), myCleanables);
+        DereferenceHelper.dereferenceSchedule(schedule.getId(), (ArrayList<Cleanable>)(ArrayList<?>) myCategories);
         return myCategories;
     }
 
@@ -167,11 +121,8 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<Task> getCleanedTasks(Schedule schedule) throws BusinessException, SystemException, CriticalException{
         ArrayList<Task> myTasks;
-        ArrayList<Cleanable> myCleanables=new ArrayList<>();
         myTasks = RepositoryHelper.fetchTasks(taskRepository, schedule.getTaskIds());
-        for(Task task: myTasks)
-            myCleanables.add(task);
-        DereferenceHelper.dereferenceSchedule(schedule.getId(), myCleanables);
+        DereferenceHelper.dereferenceSchedule(schedule.getId(), (ArrayList<Cleanable>)(ArrayList<?>) myTasks);
         return myTasks;
     }
 
@@ -185,11 +136,24 @@ public class ScheduleRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<TaskList> getCleanedTaskLists(Schedule schedule) throws BusinessException, SystemException, CriticalException{
         ArrayList<TaskList> myTaskLists;
-        ArrayList<Cleanable> myCleanables=new ArrayList<>();
         myTaskLists = RepositoryHelper.fetchTaskLists(taskListRepository, schedule.getTaskListIds());
-        for(TaskList taskList: myTaskLists)
-            myCleanables.add(taskList);
-        DereferenceHelper.dereferenceSchedule(schedule.getId(), myCleanables);
+        DereferenceHelper.dereferenceSchedule(schedule.getId(), (ArrayList<Cleanable>)(ArrayList<?>) myTaskLists);
         return myTaskLists;
+    }
+
+    /**
+     * This method creates a combined array of Task ids to be added to this Schedule.
+     */
+    protected ArrayList<Integer> getCombinedTaskIds(Schedule schedule) throws BusinessException, SystemException{
+        ArrayList<Integer> returnList=ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
+        if(schedule.getTaskListIds()==null)
+            return returnList;
+        for(Integer i: schedule.getTaskListIds()){
+            TaskList tl = new TaskList();
+            tl.setId(i);
+            tl= taskListRepository.get(tl);
+            ModelHelper.mergeIntegerArrayList(returnList, tl.getTaskIds());
+        }
+        return returnList;
     }
 }

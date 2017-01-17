@@ -156,14 +156,14 @@ public class AddScheduleTest extends ScheduleApiHelper {
         // Verify that the User has been updated.
         for(User user: toUsers(sampleUsers))
             if(user.equals(userRepository.get(user))) {
-                LOGGER.error("This user failed to update {}", user);
+                LOGGER.error("This user failed to update {}", user.toJson());
                 fail("This user was not updated!");
             }
 
         // Verify that the Tasks have been updated.
         for(Task task: toTasks(sampleTasks))
             if(task.equals(taskRepository.get(task))){
-                LOGGER.error("This task failed to update {}", task);
+                LOGGER.error("This task failed to update {}", task.toJson());
                 fail("This task was not updated!");
             }
 
@@ -171,7 +171,7 @@ public class AddScheduleTest extends ScheduleApiHelper {
         for(Category category: toCategories(sampleCategories))
             if(category.equals(categoryRepository.get(category))){
                 LOGGER.error("This Category failed to update {}", category.toJson());
-                fail("This task was not updated!");
+                fail("This category was not updated!");
             }
     }
 }

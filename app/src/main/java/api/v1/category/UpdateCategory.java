@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.CategoryRequestHandler;
+import api.v1.helper.BinderHelper;
 import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.error.CriticalException;
@@ -109,9 +110,9 @@ public class UpdateCategory extends CategoryRequestHandler {
     private void updateReferences(Category category) throws BusinessException, SystemException, CriticalException
     {
         // Create updated Tasks, Schedules and User:
-        ArrayList<Task> updatedTasks=getUpdatedTasks(category);
-        ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(category);
-        User updatedUser=getUpdatedUser(category);
+        ArrayList<Task> updatedTasks=BinderHelper.getUpdatedTasks(category, TaskAssistantModel.Type.CATEGORY);
+        ArrayList<Schedule> updatedSchedules=BinderHelper.getUpdatedSchedules(category, TaskAssistantModel.Type.CATEGORY);
+        User updatedUser=BinderHelper.getUpdatedUser(category, TaskAssistantModel.Type.CATEGORY);
         //Commit changes to Tasks, Schedules and User:
 
         for(Task task: updatedTasks)

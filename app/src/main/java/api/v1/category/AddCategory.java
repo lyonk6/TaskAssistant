@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.CategoryRequestHandler;
+import api.v1.error.CriticalException;
+import api.v1.helper.BinderHelper;
 import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
@@ -58,9 +60,9 @@ public class AddCategory extends CategoryRequestHandler {
             cleanCategory=true;
 
             // Create updated Tasks, Schedules and User:
-            ArrayList<Task> updatedTasks=getUpdatedTasks(category);
-            ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(category);
-            User updatedUser=getUpdatedUser(category);
+            ArrayList<Task> updatedTasks=BinderHelper.getUpdatedTasks(category, TaskAssistantModel.Type.CATEGORY);
+            ArrayList<Schedule> updatedSchedules=BinderHelper.getUpdatedSchedules(category, TaskAssistantModel.Type.CATEGORY);
+            User updatedUser=BinderHelper.getUpdatedUser(category, TaskAssistantModel.Type.CATEGORY);
 
             //Commit changes to Tasks, Schedules and User:
             for(Task task: updatedTasks)
@@ -77,6 +79,11 @@ public class AddCategory extends CategoryRequestHandler {
             LOGGER.error("An error occurred while handling an AddCategory Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
+            error = true;
+        } catch (CriticalException c) {
+            LOGGER.error("An error occurred while handling an AddCategory Request: {}.", json, c);
+            errorMsg = "Error. " + c.getMessage();
+            errorCode = c.getError().getCode();
             error = true;
         }
 

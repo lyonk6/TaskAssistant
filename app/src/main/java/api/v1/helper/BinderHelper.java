@@ -181,4 +181,26 @@ public class BinderHelper extends BaseRequestHandler{
         bindObjects(object, type, (ArrayList<Bindable>)(ArrayList<?>) myTimeBlocks);
         return myTimeBlocks;
     }
+
+    /**
+     * Fetch a User that now references the model object provided. Note that this
+     * User is a deep copy and that the UserRepository has not yet been updated.
+     *
+     * @param object
+     * @param type
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     * @throws CriticalException
+     */
+    public static User getUpdatedUser(TaskAssistantModel object, TaskAssistantModel.Type type)
+            throws BusinessException, SystemException, CriticalException {
+        User user=new User();
+        user.setId(object.getParent());
+        if(type!= TaskAssistantModel.Type.SCHEDULE && type!= TaskAssistantModel.Type.TASKLIST && type!= TaskAssistantModel.Type.CATEGORY)
+            throw new CriticalException("The Type: " + type + " does not directly reference a User!", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+        user=userRepository.get(user);
+        bindIndividual(object, type, (Bindable) user);
+        return user;
+    }
 }

@@ -18,23 +18,6 @@ import java.util.ArrayList;
 public class TaskRequestHandler extends AuthRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRequestHandler.class);
 
-
-    /**
-     * Fetch and update a TaskList object so that it now points to the specified
-     * task.
-     * @param task
-     * @throws BusinessException
-     * @throws SystemException
-     * @throws CriticalException
-     */
-    protected TaskList getUpdatedTaskList(Task task) throws BusinessException, SystemException {
-        TaskList taskList=new TaskList();
-        taskList.setId(task.getTaskListId());
-        taskList=taskListRepository.get(taskList);
-        taskList.addTask(task);
-        return taskList;
-    }
-
     /**
      * Fetch an ArrayList of Categories that no longer reference this Task.
      * Note that these Categories are deep copies, and the Categories in the

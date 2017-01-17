@@ -2,7 +2,6 @@ package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
-import api.v1.helper.BinderHelper;
 import api.v1.helper.DereferenceHelper;
 import api.v1.helper.ModelHelper;
 import api.v1.helper.RepositoryHelper;
@@ -18,65 +17,6 @@ import java.util.ArrayList;
  */
 public class ScheduleRequestHandler extends AuthRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleRequestHandler.class);
-
-    /**
-     * Fetch a User that now references the Schedule provided. Note that
-     * this User is a deep copy and that the UserRepository has not yet
-     * been updated.
-     * @param schedule
-     * @return
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    protected User getUpdatedUser(Schedule schedule) throws BusinessException, SystemException{
-        User user=new User();
-        user.setId(schedule.getUserId());
-        user=userRepository.get(user);
-        user.addSchedule(schedule);
-        return user;
-    }
-
-    /**
-     * Fetch an ArrayList of Tasks that have had their Schedule ids updated.
-     * Note that these Tasks are deep copies, and the Tasks in the repository
-     * have not yet been updated.
-     * @param schedule
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    protected ArrayList<Task> getUpdatedTasks(Schedule schedule) throws BusinessException, SystemException, CriticalException {
-        ArrayList<Task> tasks= RepositoryHelper.fetchTasks(taskRepository, this.getCombinedTaskIds(schedule));
-        BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)tasks);
-        return tasks;
-    }
-
-    /**
-     * Fetch an ArrayList of TaskLists that have had their Schedule ids updated.
-     * Note that these TaskLists are deep copies, and the TaskLists in the repository
-     * have not yet been updated.
-     * @param schedule
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    protected ArrayList<TaskList> getUpdatedTaskLists(Schedule schedule) throws BusinessException, SystemException, CriticalException {
-        ArrayList<TaskList> taskLists=RepositoryHelper.fetchTaskLists(taskListRepository, schedule.getTaskListIds());
-        BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)taskLists);
-        return taskLists;
-    }
-
-    /**
-     * Fetch an ArrayList of Categories that have had their Schedule ids updated.
-     * Note that these Categories are deep copies, and the Tasks in the repository
-     * have not yet been updated.
-     * @param schedule
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    protected ArrayList<Category> getUpdatedCategories(Schedule schedule) throws BusinessException, SystemException, CriticalException {
-        ArrayList<Category> categories=RepositoryHelper.fetchCategories(categoryRepository, schedule.getCategoryIds());
-        BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)categories);
-        return categories;
-    }
 
     /**
      * Fetch a User that no longer references the Schedule provided. Note

@@ -54,12 +54,25 @@ public class TaskListRequestHandler extends TaskRequestHandler {
      */
     protected ArrayList<Schedule> getCleanedSchedules(TaskList taskList) throws BusinessException, SystemException, CriticalException{
         ArrayList<Schedule> mySchedules;
-        ArrayList<Cleanable> myCleanables=new ArrayList<>();
         mySchedules = RepositoryHelper.fetchSchedules(scheduleRepository, taskList.getScheduleIds());
-        for(Schedule schedule: mySchedules)
-            myCleanables.add(schedule);
-        DereferenceHelper.dereferenceTaskList(taskList.getId(), myCleanables);
+        DereferenceHelper.dereferenceTaskList(taskList.getId(), (ArrayList<Cleanable>)(ArrayList<?>) mySchedules);
         return mySchedules;
     }
 
+    /**
+     * Fetch a User that no longer references the Schedule provided. Note that this
+     * User is a deep copy and that the UserRepository has not yet been updated.
+     *
+     * @param taskList
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected User getCleanedUser(TaskList taskList) throws BusinessException, SystemException, CriticalException{
+        User user=new User();
+        user.setId(taskList.getUserId());
+        user=userRepository.get(user);
+        DereferenceHelper.dereferenceSchedule(taskList.getId(), user);
+        return user;
+    }
 }

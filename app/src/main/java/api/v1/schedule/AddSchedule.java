@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 @WebServlet("/api/v1/schedule/AddSchedule")
 public class AddSchedule extends ScheduleRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(AddSchedule.class);
+
     /**
      *
      * @param request
@@ -60,7 +61,7 @@ public class AddSchedule extends ScheduleRequestHandler {
             ArrayList<Task> tasks= RepositoryHelper.fetchTasks(taskRepository, this.getCombinedTaskIds(schedule));
             ArrayList<TaskList> taskLists=RepositoryHelper.fetchTaskLists(taskListRepository, schedule.getTaskListIds());
             ArrayList<Category> categories=RepositoryHelper.fetchCategories(categoryRepository, schedule.getCategoryIds());
-            User user = getUpdatedUser(schedule);
+            User user = BinderHelper.getUpdatedUser(schedule, TaskAssistantModel.Type.SCHEDULE);
 
             BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)tasks);
             BinderHelper.bindObjects(schedule, TaskAssistantModel.Type.SCHEDULE, (ArrayList<Bindable>)(ArrayList<?>)taskLists);

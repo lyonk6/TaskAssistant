@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.error.CriticalException;
+import api.v1.helper.BinderHelper;
 import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
@@ -112,10 +113,10 @@ public class UpdateSchedule extends ScheduleRequestHandler {
     {
         // Create updated Tasks, Categories and User:
  
-        ArrayList<Task> updatedTasks=getUpdatedTasks(schedule);
-        ArrayList<Category> updatedCategories=getUpdatedCategories(schedule);
-        ArrayList<TaskList> updatedTaskLists=getUpdatedTaskLists(schedule);
-        User updatedUser=getUpdatedUser(schedule);
+        ArrayList<Task> updatedTasks=BinderHelper.getUpdatedTasks(schedule, TaskAssistantModel.Type.SCHEDULE);
+        ArrayList<Category> updatedCategories=BinderHelper.getUpdatedCategories(schedule, TaskAssistantModel.Type.SCHEDULE);
+        ArrayList<TaskList> updatedTaskLists=BinderHelper.getUpdatedTaskLists(schedule, TaskAssistantModel.Type.SCHEDULE);
+        User updatedUser= BinderHelper.getUpdatedUser(schedule, TaskAssistantModel.Type.SCHEDULE);
         //Commit changes to Tasks, Categories and User:
 
         for(TaskList taskList: updatedTaskLists)

@@ -29,11 +29,8 @@ public class CategoryRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<Schedule> getCleanedSchedules(Category category) throws BusinessException, SystemException, CriticalException{
         ArrayList<Schedule> mySchedules;
-        ArrayList<Cleanable> myCleanables=new ArrayList<>();
         mySchedules = RepositoryHelper.fetchSchedules(scheduleRepository, category.getScheduleIds());
-        for(Schedule schedule: mySchedules)
-            myCleanables.add(schedule);
-        DereferenceHelper.dereferenceCategory(category.getId(), myCleanables);
+        DereferenceHelper.dereferenceCategory(category.getId(),  (ArrayList<Cleanable>)(ArrayList<?>) mySchedules);
         return mySchedules;
     }//*/
 
@@ -64,11 +61,8 @@ public class CategoryRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<Task> getCleanedTasks(Category category) throws BusinessException, SystemException, CriticalException{
         ArrayList<Task> myTasks;
-        ArrayList<Cleanable> myCleanables=new ArrayList<>();
         myTasks = RepositoryHelper.fetchTasks(taskRepository, category.getTaskIds());
-        for(Task task: myTasks)
-            myCleanables.add(task);
-        DereferenceHelper.dereferenceCategory(category.getId(), myCleanables);
+        DereferenceHelper.dereferenceCategory(category.getId(), (ArrayList<Cleanable>)(ArrayList<?>) myTasks);
         return myTasks;
     }
 }

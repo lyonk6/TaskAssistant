@@ -36,49 +36,6 @@ public class TaskRequestHandler extends AuthRequestHandler {
     }
 
     /**
-     * Fetch an ArrayList of Schedules that have had their Task ids updated.
-     * Note that these Schedules are deep copies, and the Tasks in the repository
-     * have not yet been updated.
-     * @param task
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    protected ArrayList<Schedule> getUpdatedSchedules(Task task) throws BusinessException, SystemException{
-        ArrayList<Schedule> mySchedule = new ArrayList<Schedule>();
-        if(task.getScheduleIds()==null)
-            return mySchedule;
-        for(int i: task.getScheduleIds()) {
-            Schedule schedule=new Schedule();
-            schedule.setId(i);
-            schedule=scheduleRepository.get(schedule);
-            schedule.addTask(task);
-            mySchedule.add(schedule);
-        }
-        return mySchedule;
-    }
-    /**
-     * Fetch an ArrayList of Categories that have had their Task ids updated. Note
-     * that these Categoroes are deep copies, and the Tasks in the repository have
-     * not yet been updated.
-     * @param task
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    protected ArrayList<Category> getUpdatedCategories(Task task) throws BusinessException, SystemException{
-        ArrayList<Category> myCategories = new ArrayList<Category>();
-        if(task.getCategoryIds()==null)
-            return myCategories;
-        for(int i: task.getCategoryIds()) {
-            Category category=new Category();
-            category.setId(i);
-            category=categoryRepository.get(category);
-            category.addTask(task);
-            myCategories.add(category);
-        }
-        return myCategories;
-    }
-
-    /**
      * Fetch an ArrayList of Categories that no longer reference this Task.
      * Note that these Categories are deep copies, and the Categories in the
      * repository have not yet been updated.
@@ -89,11 +46,8 @@ public class TaskRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<Category> getCleanedCategories(Task task) throws BusinessException, SystemException, CriticalException{
         ArrayList<Category> myCategories;
-        ArrayList<Cleanable> myCleanables=new ArrayList<>();
         myCategories = RepositoryHelper.fetchCategories(categoryRepository, task.getCategoryIds());
-        for(Category category: myCategories)
-            myCleanables.add(category);
-        DereferenceHelper.dereferenceTask(task.getId(), myCleanables);
+        DereferenceHelper.dereferenceTask(task.getId(),(ArrayList<Cleanable>)(ArrayList<?>) myCategories);
         return myCategories;
     }//*/
 
@@ -108,11 +62,8 @@ public class TaskRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<Schedule> getCleanedSchedules(Task task) throws BusinessException, SystemException, CriticalException{
         ArrayList<Schedule> mySchedules;
-        ArrayList<Cleanable> myCleanables=new ArrayList<>();
         mySchedules = RepositoryHelper.fetchSchedules(scheduleRepository, task.getScheduleIds());
-        for(Schedule schedule: mySchedules)
-            myCleanables.add(schedule);
-        DereferenceHelper.dereferenceTask(task.getId(), myCleanables);
+        DereferenceHelper.dereferenceTask(task.getId(), (ArrayList<Cleanable>)(ArrayList<?>) mySchedules);
         return mySchedules;
     }//*/
 

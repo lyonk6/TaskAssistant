@@ -140,48 +140,6 @@ public class BinderHelper extends BaseRequestHandler{
         return myTaskLists;
     }
 
-
-    /**
-     * Fetch an ArrayList of Reminders that have had their reference ids updated. Note
-     * that these Reminders are deep copies, and the Reminders in the repository have
-     * not yet been updated.
-     *
-     * @param object
-     * @param type
-     * @return
-     * @throws BusinessException
-     * @throws SystemException
-     * @throws CriticalException
-     */
-    public static ArrayList<Reminder> getUpdatedReminders(TaskAssistantModel object, TaskAssistantModel.Type type)
-            throws BusinessException, SystemException, CriticalException {
-        ArrayList<Reminder> myReminders;
-        myReminders= RepositoryHelper.fetchReminders(reminderRepository, object.getReminderIds());
-        bindObjects(object, type, (ArrayList<Bindable>)(ArrayList<?>) myReminders);
-        return myReminders;
-    }
-
-
-    /**
-     * Fetch an ArrayList of TimeBlocks that have had their reference ids updated. Note
-     * that these TimeBlocks are deep copies, and the TimeBlocks in the repository have
-     * not yet been updated.
-     *
-     * @param object
-     * @param type
-     * @return
-     * @throws BusinessException
-     * @throws SystemException
-     * @throws CriticalException
-     */
-    public static ArrayList<TimeBlock> getUpdatedTimeBlocks(TaskAssistantModel object, TaskAssistantModel.Type type)
-            throws BusinessException, SystemException, CriticalException {
-        ArrayList<TimeBlock> myTimeBlocks;
-        myTimeBlocks= RepositoryHelper.fetchTimeBlocks(timeBlockRepository, object.getTimeBlockIds());
-        bindObjects(object, type, (ArrayList<Bindable>)(ArrayList<?>) myTimeBlocks);
-        return myTimeBlocks;
-    }
-
     /**
      * Fetch a User that now references the model object provided. Note that this
      * User is a deep copy and that the UserRepository has not yet been updated.
@@ -203,4 +161,52 @@ public class BinderHelper extends BaseRequestHandler{
         bindIndividual(object, type, (Bindable) user);
         return user;
     }
+
+
+
+    /**
+     * Fetch a TaskList that now references the model object provided. Note that this
+     * TaskList is a deep copy and that the TaskListRepository has not yet been updated.
+     *
+     * @param object
+     * @param type
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     * @throws CriticalException
+     */
+    public static TaskList getUpdatedTaskList(TaskAssistantModel object, TaskAssistantModel.Type type)
+            throws BusinessException, SystemException, CriticalException {
+        TaskList taskList=new TaskList();
+        taskList.setId(object.getParent());
+        if(type!= TaskAssistantModel.Type.TASK)
+            throw new CriticalException("The Type: " + type + " does not directly reference a TaskList!", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+        taskList=taskListRepository.get(taskList);
+        bindIndividual(object, type, (Bindable) taskList);
+        return taskList;
+    }
+
+
+    /**
+     * Fetch a Schedule that now references the model object provided. Note that this
+     * TaskList is a deep copy and that the ScheduleRepository has not yet been updated.
+     *
+     * @param object
+     * @param type
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     * @throws CriticalException
+     */
+    public static Schedule getUpdatedSchedule(TaskAssistantModel object, TaskAssistantModel.Type type)
+            throws BusinessException, SystemException, CriticalException {
+        Schedule schedule=new Schedule();
+        schedule.setId(object.getParent());
+        if(type!= TaskAssistantModel.Type.TIMEBLOCK)
+            throw new CriticalException("The Type: " + type + " does not directly reference a Schedule!", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+        schedule=scheduleRepository.get(schedule);
+        bindIndividual(object, type, (Bindable) schedule);
+        return schedule;
+    }
+
 }

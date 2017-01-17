@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.error.CriticalException;
+import api.v1.helper.BinderHelper;
 import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
@@ -78,9 +79,9 @@ public class UpdateTask extends TaskRequestHandler {
     }
 
     private void updateReferences(Task task) throws BusinessException, SystemException, CriticalException{
-        TaskList taskList=getUpdatedTaskList(task);
-        ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(task);
-        ArrayList<Category> updatedCategories=getUpdatedCategories(task);
+        TaskList taskList=BinderHelper.getUpdatedTaskList(task, TaskAssistantModel.Type.TASK);
+        ArrayList<Schedule> updatedSchedules= BinderHelper.getUpdatedSchedules(task, TaskAssistantModel.Type.TASK);
+        ArrayList<Category> updatedCategories=BinderHelper.getUpdatedCategories(task, TaskAssistantModel.Type.TASK);
 
         taskListRepository.update(taskList);
         taskRepository.update(task);

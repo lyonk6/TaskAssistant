@@ -5,6 +5,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import api.v1.error.CriticalException;
+import api.v1.helper.BinderHelper;
 import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
@@ -46,14 +48,14 @@ public class AddTask extends TaskRequestHandler {
 
             task=taskRepository.add(task);
             // Fetch an updated TaskList.
-            TaskList taskList=getUpdatedTaskList(task);
-
+            TaskList taskList=BinderHelper.getUpdatedTaskList(task, TaskAssistantModel.Type.TASK);
             //Verify privileges to modify Schedules and Categories.
             verifySchedulePrivileges(taskList.getUserId(), task.getScheduleIds());
             verifyCategoryPrivileges(taskList.getUserId(), task.getCategoryIds());
 
-            ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(task);
-            ArrayList<Category> updatedCategories=getUpdatedCategories(task);
+            ArrayList<Schedule> updatedSchedules= BinderHelper.getUpdatedSchedules(task, TaskAssistantModel.Type.TASK);
+            ArrayList<Category> updatedCategories=BinderHelper.getUpdatedCategories(task, TaskAssistantModel.Type.TASK);
+
 
             taskListRepository.update(taskList);
             for(Schedule schedule: updatedSchedules)
@@ -71,6 +73,11 @@ public class AddTask extends TaskRequestHandler {
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
+        } catch (CriticalException c) {
+            LOGGER.error("An error occurred while handling an AddTask Request: {}.", json, c);
+            errorMsg = "Error. " + c.getMessage();
+            errorCode = c.getError().getCode();
+            error = true;
         }
         JSONObject jsonResponse = createResponse(error, errorCode, errorMsg, task, TaskAssistantModel.Type.TASK);
         if (error)
@@ -87,9 +94,9 @@ public class AddTask extends TaskRequestHandler {
         try{
             taskRepository.delete(task);
         } catch (BusinessException b) {
-            LOGGER.error("Could not remove this Task from the TaskRepository. ",b);
+            LOGGER.error("Could not remove this Task from the TaskRepository. ", b);
         } catch (SystemException s) {
-            LOGGER.error("Could not remove this Task from the TaskRepository. ",s);
+            LOGGER.error("Could not remove this Task from the TaskRepository. ", s);
         }
     }
 }

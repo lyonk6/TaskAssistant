@@ -72,7 +72,7 @@ public class TaskListRequestHandler extends TaskRequestHandler {
         User user=new User();
         user.setId(taskList.getUserId());
         user=userRepository.get(user);
-        DereferenceHelper.dereferenceSchedule(taskList.getId(), user);
+        DereferenceHelper.dereferenceTaskList(taskList.getId(), user);
         return user;
     }
 }

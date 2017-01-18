@@ -32,6 +32,8 @@ public class TaskListApiHelper extends UnitTestHelper {
             jsonObj.put("userId", taskElementArray[1]);
             jsonObj.put("name", taskElementArray[2]);
             jsonObj.put("description", taskElementArray[3]);
+            jsonObj.put("taskIds",     toIntegerArrayList(taskElementArray[4]));
+            jsonObj.put("scheduleIds", toIntegerArrayList(taskElementArray[5]));
             LOGGER.info("Created request {}", jsonObj.toJSONString());
             myJSONObjects.add(jsonObj);
         }
@@ -56,6 +58,9 @@ public class TaskListApiHelper extends UnitTestHelper {
             taskList.setDescription(elements[3]);
             if(elements.length>4)
                 taskList.setTaskIds(toIntegerArrayList(elements[4].trim()));
+            if(elements.length>5)
+                taskList.setScheduleIds(toIntegerArrayList(elements[5].trim()));
+
             myTaskLists.add(taskList);
         }
         return myTaskLists;
@@ -100,7 +105,7 @@ public class TaskListApiHelper extends UnitTestHelper {
             //schedule.setEndDate(parseJsonDateAsDate(elements[3]));
             //schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
             if(elements.length>5)
-                schedule.setTaskIds(toIntegerArrayList(elements[5].trim()));
+                schedule.setTaskListIds(toIntegerArrayList(elements[5].trim()));
             mySchedules.add(schedule);
         }
         return mySchedules;
@@ -133,7 +138,6 @@ public class TaskListApiHelper extends UnitTestHelper {
                 if (elements.length > 12)
                     task.setReminderIds(toIntegerArrayList(elements[12]));
             }
-
             myTasks.add(task);
         }
         return myTasks;

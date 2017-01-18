@@ -107,9 +107,9 @@ public class BaseRequestHandler extends HttpServlet{
      * @return
      */
      protected Object getMyObject(String json, Object obj) throws BusinessException{
-         LOGGER.info("Here is the Json object {} ", json);
          String message="An error occurred while deserializing the JSON object.";
          json=InsecurityHelper.decryptString(json);
+         //LOGGER.info("Here is the Json object {} ", json);
          GsonBuilder gsonBuilder = new GsonBuilder();
          Gson gson = gsonBuilder.setDateFormat(DATE_FORMAT_KEY).create();
          try {

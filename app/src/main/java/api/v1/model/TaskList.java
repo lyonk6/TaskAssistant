@@ -37,6 +37,7 @@ public class TaskList extends TaskAssistantModel{
         this.name=new String(taskList.getName());
         this.description=new String(taskList.getDescription());
         this.taskIds= ModelHelper.copyIntegerArrayList(taskList.getTaskIds());
+        this.scheduleIds=ModelHelper.copyIntegerArrayList(taskList.getScheduleIds());
     }
 
     public String getName() {

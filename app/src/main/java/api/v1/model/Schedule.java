@@ -75,6 +75,15 @@ public class Schedule extends TaskAssistantModel{
         this.taskIds = taskIds;
     }
 
+    @Override
+    public ArrayList<Integer> getTaskListIds() {
+        return taskListIds;
+    }
+
+    public void setTaskListIds(ArrayList<Integer> taskListIds) {
+        this.taskListIds = taskListIds;
+    }
+
     /**
      * Add a Task to this Schedule.
      * @param task
@@ -113,6 +122,22 @@ public class Schedule extends TaskAssistantModel{
 
         categoryIds.add(category.getId());
 
+    }
+
+
+
+    /**
+     * Add a taskList id to this ArrayList.
+     * @param taskList
+     */
+    public void addTaskList(TaskList taskList){
+        if(taskListIds==null)
+            taskListIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: taskListIds)
+            if(i==taskList.getId())
+                return;
+        taskListIds.add(taskList.getId());
     }
 
     /**
@@ -170,17 +195,11 @@ public class Schedule extends TaskAssistantModel{
     }
 
     @Override
-    public ArrayList<Integer> getTaskListIds() {
-        return taskListIds;
-    }
-
-    public void setTaskListIds(ArrayList<Integer> taskListIds) {
-        this.taskListIds = taskListIds;
-    }
-
-    @Override
     public int getParent(){
         return getUserId();
     }
 }
+
+
+
 

@@ -4,6 +4,8 @@ import api.v1.error.SystemException;
 import api.v1.model.*;
 import api.v1.error.Error;
 import java.util.ArrayList;
+
+import com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -57,7 +59,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
      * @param scheduleIds
      */
     protected void verifySchedulePrivileges(int userId, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException{
-        //LOGGER.debug("Here inside verifySchedulePrivileges. These are our schedule ids {}", new Gson().toJson(scheduleIds));
+        //LOGGER.debug(" Here inside verifySchedulePrivileges. These are our schedule ids {}", new Gson().toJson(scheduleIds));
         if(scheduleIds==null || scheduleIds.size()==0)
             return;
         Schedule schedule=new Schedule();

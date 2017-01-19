@@ -55,11 +55,12 @@ public class UpdateTaskList extends TaskListRequestHandler {
             serverTaskList=taskListRepository.get(clientTaskList);
             // TODO Delete tasks if they have been de-referenced.
             // TODO Clean references to Schedules, then build references to Schedules.
-
             // Verify privileges to modify Schedules.
             verifySchedulePrivileges(clientTaskList.getUserId(), clientTaskList.getScheduleIds());
 
             // Clean the serverTaskList
+            LOGGER.debug("**********The client TaskList {}", clientTaskList.toJson());
+            LOGGER.debug("**********The server TaskList {}", serverTaskList.toJson());
             cleanReferences(serverTaskList);
 
             // Update objects with the new TaskList
@@ -98,7 +99,6 @@ public class UpdateTaskList extends TaskListRequestHandler {
 
 
     private void cleanReferences(TaskList taskList) throws BusinessException, SystemException, CriticalException{
-        // TODO Delete tasks if they have been de-referenced.
         ArrayList<Schedule> updatedSchedules=getCleanedSchedules(taskList);
         User user=getCleanedUser(taskList);
         //Commit changes to Tasks, Schedules and User:

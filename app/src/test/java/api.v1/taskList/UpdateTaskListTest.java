@@ -119,7 +119,7 @@ public class UpdateTaskListTest extends TaskListApiHelper {
      * @throws Exception
      */
     @After
-    public void tearDown() throws Exception {/*
+    public void tearDown() throws Exception {
         for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.delete(taskList);
         updateTaskListInstance = null;

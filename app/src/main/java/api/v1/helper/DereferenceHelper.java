@@ -108,6 +108,7 @@ public class DereferenceHelper {
      * @throws CriticalException
      */
     public static void dereferenceTask(int taskId, ArrayList<Cleanable> modelObjects) throws CriticalException {
+        LOGGER.debug("Here is the taskId: " + taskId + " and here is the array of objects we are trying to clean {}", modelObjects);
         if(modelObjects==null || modelObjects.size()==0)
             return;
         for(Cleanable object: modelObjects)
@@ -121,6 +122,7 @@ public class DereferenceHelper {
      * @throws CriticalException
      */
     public static void dereferenceTask(int taskId, Cleanable object) throws CriticalException {
+        LOGGER.debug("Here is the taskId: " + taskId + " and here is the object we are trying to clean {}", object.toJson());
         if (object.getTaskIds().contains(taskId)) {
             object.getTaskIds().remove((Object) taskId);
         }else {

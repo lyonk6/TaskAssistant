@@ -108,6 +108,8 @@ public class TaskListApiHelper extends UnitTestHelper {
             //schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
             if(elements.length>5)
                 schedule.setTaskListIds(toIntegerArrayList(elements[5].trim()));
+            if(elements.length>6)
+                schedule.setTaskIds(toIntegerArrayList(elements[6].trim()));
             mySchedules.add(schedule);
         }
         return mySchedules;

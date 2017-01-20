@@ -32,8 +32,10 @@ public class TaskListApiHelper extends UnitTestHelper {
             jsonObj.put("userId", taskElementArray[1]);
             jsonObj.put("name", taskElementArray[2]);
             jsonObj.put("description", taskElementArray[3]);
-            jsonObj.put("taskIds",     toIntegerArrayList(taskElementArray[4]));
-            jsonObj.put("scheduleIds", toIntegerArrayList(taskElementArray[5]));
+            if(taskElementArray.length > 5) {
+                jsonObj.put("taskIds", toIntegerArrayList(taskElementArray[4]));
+                jsonObj.put("scheduleIds", toIntegerArrayList(taskElementArray[5]));
+            }
             LOGGER.info("Created request {}", jsonObj.toJSONString());
             myJSONObjects.add(jsonObj);
         }

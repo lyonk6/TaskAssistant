@@ -30,8 +30,6 @@ public class UpdateTaskListTest extends TaskListApiHelper {
     private static UserRepository userRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
-    private static ArrayList<String> validUpdates=new ArrayList<String>();
-    private static ArrayList<String> errorUpdates=new ArrayList<String>();
     private static ArrayList<String> sampleTasks=new ArrayList<String>();
     private static ArrayList<String> sampleUsers=new ArrayList<String>();
     private static ArrayList<String> sampleSchedules=new ArrayList<String>();
@@ -62,14 +60,14 @@ public class UpdateTaskListTest extends TaskListApiHelper {
         sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[]`[]`[0,1,2]`[0]");
         sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo  `[]`[]`[3,4]`[1,2]");
 
-        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[0]");  //   [0]
-        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[0]");  //   [0]
-        sampleTasks.add("2`0`Mike's work task 03`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[1,2]");//   [1,2]
-        sampleTasks.add("3`0`Mike's work task 04`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[1,2]");//   [1,2]
-        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[3]");  //   [3]
-        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[3]");  //   [3]
-        sampleTasks.add("6`2`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[4,5]");//   [4,5]
-        sampleTasks.add("7`2`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[4,5]");//   [4,5]
+        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[]`[0]");  //   [0]
+        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[]`[0]");  //   [0]
+        sampleTasks.add("2`0`Mike's work task 03`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[]`[1,2]");//   [1,2]
+        sampleTasks.add("3`0`Mike's work task 04`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[]`[1,2]");//   [1,2]
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[]`[3]");  //   [3]
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[]`[3]");  //   [3]
+        sampleTasks.add("6`2`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[]`[4,5]");//   [4,5]
+        sampleTasks.add("7`2`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[]`[4,5]");//   [4,5]
 
 
         sampleSchedules.add("0`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY `[0]");
@@ -93,7 +91,10 @@ public class UpdateTaskListTest extends TaskListApiHelper {
         errorTaskListUpdates=new ArrayList<String>();
         errorTaskListUpdates.add("0`3`TaskList 0 `This is Mike's BESTEST TaskList.`[0,1,2,3]`[0,1]"); // User DNE
         errorTaskListUpdates.add("1`0`TaskList 1 `This is Ken's work TaskList.    `[4,5]`[4]");       // Bad Owner owener
-        errorTaskListUpdates.add("2`1`TaskList 2 `What the fuck is going on here? `[6,7]`[3]");       // Reference Schedule not owned.
+        errorTaskListUpdates.add("2`1`TaskList 2 `What the heck is going on here? `[6,7]`[0]");       // Reference Schedule not owned.
+
+        for(Task task: toTasks(sampleTasks))
+            taskRepository.add(task);
 
         for(Schedule schedule: toSchedules(sampleSchedules))
             scheduleRepository.add(schedule);
@@ -122,6 +123,17 @@ public class UpdateTaskListTest extends TaskListApiHelper {
     public void tearDown() throws Exception {
         for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.delete(taskList);
+
+        for(Schedule schedule: toSchedules(sampleSchedules))
+            scheduleRepository.delete(schedule);
+
+        for(User user: toUsers(sampleUsers))
+            userRepository.delete(user);
+
+
+        for(Task task: toTasks(sampleTasks))
+            taskRepository.delete(task);
+
         updateTaskListInstance = null;
         validRequestList = null;
         errorRequestList = null;

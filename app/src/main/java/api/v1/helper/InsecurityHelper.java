@@ -61,9 +61,9 @@ public class InsecurityHelper {
 
     public static void basicTest(){
         BasicTextEncryptor myEncryptor = new BasicTextEncryptor();
-        myEncryptor.setPassword("9359C723BB756");
+        myEncryptor.setPassword("yAx`Q2eNCEOe:QQmWXLI3|21(>gLe9lJX<83C");
 
-        String message="Hi! My name is... (What?)  My name is... (who?) My name is... [tichy-ichy] Slim Shady.";
+        String message = "In a world with only 8 Jan Michael Vincents ...";
         String myEncryptedText = myEncryptor.encrypt(message);
         String myPlainText =     myEncryptor.decrypt(myEncryptedText);
         LOGGER.info("Here is the original message : " + message);

@@ -13,6 +13,7 @@ import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -56,6 +57,9 @@ public class DeleteTaskList extends TaskListRequestHandler {
 
             taskList=taskListRepository.get(taskList);
             cleanTasks(taskList.getTaskIds());
+            ArrayList<Schedule> cleanedSchedules=getCleanedSchedules(taskList);
+            for(Schedule schedule: cleanedSchedules)
+                scheduleRepository.update(schedule);
             taskListRepository.delete(taskList);
 
         } catch (BusinessException b) {

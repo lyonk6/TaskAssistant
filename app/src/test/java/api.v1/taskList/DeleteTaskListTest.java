@@ -90,6 +90,7 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         sampleSchedules.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY `[]`[4]      ");
         sampleSchedules.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY `[]`[4]      ");
         sampleSchedules.add("5`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY `[]`[4]      ");
+        sampleSchedules.add("6`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY `[2]`[]      ");
         for (Schedule schedule : TaskListApiHelper.toSchedules(sampleSchedules))
             scheduleRepository.add(schedule);
 
@@ -98,12 +99,13 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         sampleCategories.add("2`0`Mikes play`This is for Mike's recreational stuff        `[2]  ");
         sampleCategories.add("3`1`Ken's work`This is for all of the work Ken never does.  `[7,4]");
         sampleCategories.add("4`1`ken's home`This is for all of the chores Ken does.      `[5]  ");
-        sampleCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does. `[6]  ");
+        sampleCategories.add("5`1`Ken's play`This is for the *puff* *puff* stuff Ken does.`[6]  ");
         for (Category category : TaskListApiHelper.toCategories(sampleCategories))
             categoryRepository.add(category);
 
         validTaskLists.add("0`0`TaskList 0`This is a valid TaskList.`[0,1,2,3]");
         validTaskLists.add("1`1`TaskList 1`This is a valid TaskList.`[4,5,6,7]");
+        validTaskLists.add("2`1`TaskList 1`This is a valid TaskList.`[]`[6]");
         // Populate the TaskListRepository with valid TaskLists.
         for (TaskList taskList : TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.add(taskList);

@@ -54,7 +54,7 @@ public abstract class TaskAssistantModel implements Cleanable, Bindable{
         throw new CriticalException("This Type cannot be assigned Tasks", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
     }
 
-    // Add object relational model reference arrays.
+    // Add object to relational model reference arrays.
     @Override
     public void addCategory(Category category) throws CriticalException {
         throw new CriticalException("Categories cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
@@ -88,49 +88,5 @@ public abstract class TaskAssistantModel implements Cleanable, Bindable{
     @Override
     public void addTask(Task task) throws CriticalException {
         throw new CriticalException("Tasks cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
-    }
-
-    /**
-     * Return an appropriate Object for the provided TaskAssistantModel Object.
-     * @param objectType
-     * @return
-     */
-    public static TaskAssistantModel createNewModelObject(TaskAssistantModel.Type objectType)
-    {
-        TaskAssistantModel object=null;
-        try {
-            switch (objectType) {
-                case TASK:
-                    object = new Task();
-                    break;
-
-                case TASKLIST:
-                    object = new TaskList();
-                    break;
-
-                case CALENDAR:
-                    object = new Calendar();
-                    break;
-
-                case CATEGORY:
-                    object = new Category();
-                    break;
-
-                case REMINDER:
-                    object = new Reminder();
-                    break;
-
-                case SCHEDULE:
-                    object = new Schedule();
-                    break;
-
-                case USER:
-                    object = new User();
-                    break;
-            }
-        }catch (NullPointerException npe){
-
-        }
-        return object;
     }
 }

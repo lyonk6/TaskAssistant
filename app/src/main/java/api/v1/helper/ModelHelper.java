@@ -1,5 +1,6 @@
 package api.v1.helper;
 
+import api.v1.model.*;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -37,5 +38,49 @@ public class ModelHelper {
         //Finally merge the two arrayList:
         arrayList1.addAll(arrayList2);
         return arrayList1;
+    }
+
+    /**
+     * Return an appropriate Object for the provided TaskAssistantModel Object.
+     * @param objectType
+     * @return
+     */
+    public static TaskAssistantModel createNewModelObject(TaskAssistantModel.Type objectType)
+    {
+        TaskAssistantModel object=null;
+        try {
+            switch (objectType) {
+                case TASK:
+                    object = new Task();
+                    break;
+
+                case TASKLIST:
+                    object = new TaskList();
+                    break;
+
+                case CALENDAR:
+                    object = new Calendar();
+                    break;
+
+                case CATEGORY:
+                    object = new Category();
+                    break;
+
+                case REMINDER:
+                    object = new Reminder();
+                    break;
+
+                case SCHEDULE:
+                    object = new Schedule();
+                    break;
+
+                case USER:
+                    object = new User();
+                    break;
+            }
+        }catch (NullPointerException npe){
+
+        }
+        return object;
     }
 }

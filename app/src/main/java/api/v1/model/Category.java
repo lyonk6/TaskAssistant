@@ -106,13 +106,15 @@ public class Category extends TaskAssistantModel implements Cleanable {
     /**
      * Creates and returns a deep copy of this object.
      */
-    public Category(Category originalCategory){
-        this.id=originalCategory.getId();
-        this.userId=originalCategory.getUserId();
-        this.name= new String(originalCategory.getName());
-        this.description=new String(originalCategory.getDescription());
-        this.taskIds= ModelHelper.copyIntegerArrayList(originalCategory.getTaskIds());
-        this.scheduleIds= ModelHelper.copyIntegerArrayList(originalCategory.getScheduleIds());
+    public Category(Category category){
+        this.id=category.getId();
+        this.userId=category.getUserId();
+        if(category.getName()!=null)
+            this.name= new String(category.getName());
+        if(category.getDescription()!=null)
+            this.description=new String(category.getDescription());
+        this.taskIds= ModelHelper.copyIntegerArrayList(category.getTaskIds());
+        this.scheduleIds= ModelHelper.copyIntegerArrayList(category.getScheduleIds());
     }
 
     @Override

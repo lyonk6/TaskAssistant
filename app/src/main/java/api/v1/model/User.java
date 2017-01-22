@@ -37,8 +37,10 @@ public class User extends TaskAssistantModel{
      */
     public User(User user){
         this.id=user.getId();
-        this.email=new String(user.getEmail());
-        this.password=new String(user.getPassword());
+        if(user.getEmail()!=null)
+            this.email=new String(user.getEmail());
+        if(user.getPassword()!=null)
+            this.password=new String(user.getPassword());
         this.calendarIds = ModelHelper.copyIntegerArrayList(user.getCalendarIds());
         this.categoryIds = ModelHelper.copyIntegerArrayList(user.getCategoryIds());
         this.scheduleIds = ModelHelper.copyIntegerArrayList(user.getScheduleIds());

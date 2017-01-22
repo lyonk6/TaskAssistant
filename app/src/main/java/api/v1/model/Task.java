@@ -49,13 +49,16 @@ public class Task extends TaskAssistantModel {
     public Task(Task task){
         this.id=task.getId();
         this.taskListId=task.getTaskListId();
-        this.name=new String(task.getName());
-        this.note=new String(task.getNote());
+        if(task.getName()!=null)
+            this.name=task.getName();
+        if(task.getNote()!=null)
+            this.note=task.getNote();
         this.estimatedTime=task.getEstimatedTime();
         this.investedTime=task.getInvestedTime();
         this.important=task.getImportant();
         this.urgent=task.getUrgent();
-        this.dueDate=new Date(task.getDueDate().getTime());
+        if(task.getDueDate()!=null)
+            this.dueDate=new Date(task.getDueDate().getTime());
         this.status=task.getStatus();
         this.categoryIds = ModelHelper.copyIntegerArrayList(task.getCategoryIds());
         this.scheduleIds = ModelHelper.copyIntegerArrayList(task.getScheduleIds());

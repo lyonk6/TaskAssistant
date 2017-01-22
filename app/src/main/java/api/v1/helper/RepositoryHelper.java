@@ -116,7 +116,7 @@ public class RepositoryHelper {
         if(objectIds==null)
             return myObjects;
         for(int i: objectIds) {
-            TaskAssistantModel modelObject = TaskAssistantModel.createNewModelObject(type);
+            TaskAssistantModel modelObject = ModelHelper.createNewModelObject(type);
             modelObject.setId(i);
             modelObject= (TaskAssistantModel) repository.get(modelObject);
             myObjects.add(modelObject);

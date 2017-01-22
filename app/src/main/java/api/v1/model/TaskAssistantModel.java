@@ -89,4 +89,40 @@ public abstract class TaskAssistantModel implements Cleanable, Bindable{
     public void addTask(Task task) throws CriticalException {
         throw new CriticalException("Tasks cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
     }
+
+    // Add objects to relational model reference arrays.
+    @Override
+    public void setCategoryIds(ArrayList<Integer> categories) throws CriticalException {
+        throw new CriticalException("Categories cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+    }
+
+    @Override
+    public void setScheduleIds(ArrayList<Integer> schedules) throws CriticalException {
+        throw new CriticalException("Schedules cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+    }
+
+    @Override
+    public void setCalendarIds(ArrayList<Integer> calendars) throws CriticalException {
+        throw new CriticalException("Calendars cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+    }
+
+    @Override
+    public void setTaskListIds(ArrayList<Integer> taskLists) throws CriticalException {
+        throw new CriticalException("TaskLists cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+    }
+
+    @Override
+    public void setReminderIds(ArrayList<Integer> reminders) throws CriticalException {
+        throw new CriticalException("Reminders cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+    }
+
+    @Override
+    public void setTimeBlockIds(ArrayList<Integer> timeBlocks) throws CriticalException {
+        throw new CriticalException("TimeBlocks cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+    }
+
+    @Override
+    public void setTaskIds(ArrayList<Integer> tasks) throws CriticalException {
+        throw new CriticalException("Tasks cannot be assigned to this Type.", Error.valueOf("MODEL_RELATIONSHIP_ERROR"));
+    }
 }

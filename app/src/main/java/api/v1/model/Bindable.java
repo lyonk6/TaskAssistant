@@ -14,4 +14,13 @@ public interface Bindable {
     void addTask(Task task) throws CriticalException;
     void addTaskList(TaskList taskList) throws CriticalException;
     void addTimeBlock(TimeBlock timeBlock) throws CriticalException;
+
+    void setCalendarIds(ArrayList<Integer> calendars) throws CriticalException;
+    void setCategoryIds(ArrayList<Integer> categories) throws CriticalException;
+    void setReminderIds(ArrayList<Integer> reminders) throws CriticalException;
+    void setScheduleIds(ArrayList<Integer> schedules) throws CriticalException;
+    void setTaskIds(ArrayList<Integer> tasks) throws CriticalException;
+    void setTaskListIds(ArrayList<Integer> taskLists) throws CriticalException;
+    void setTimeBlockIds(ArrayList<Integer> timeBlocks) throws CriticalException;
+
 }

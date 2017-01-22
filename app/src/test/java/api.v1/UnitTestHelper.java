@@ -260,7 +260,7 @@ public class UnitTestHelper {
      * @param s
      * @return
      */
-    protected static ArrayList<Integer> toIntegerArrayList(String s) {
+    public static ArrayList<Integer> toIntegerArrayList(String s) {
         ArrayList<Integer> myIntegers = new ArrayList<Integer>();
         s=s.trim();
         if(s.equals("[]"))
@@ -337,11 +337,6 @@ public class UnitTestHelper {
                 reminder=BaseRequestHandler.getReminderRepository().get(reminder);
                 fail("Error. This Reminder was not removed from the repository " + reminder.toJson());
             }catch(BusinessException e){error=true;}
-
-            /*try{
-                calendar=BaseRequestHandler.getCalendarRepository().get(calendar);
-                message="Error. This Calendar was not removed from the repository " + calendar.toJson();
-            }catch(BusinessException e){error=true;}//*/
         }
         if(error)
             LOGGER.info("All repositories cleaned successfully.");

@@ -27,7 +27,7 @@ public class BinderHelper extends BaseRequestHandler{
      * Return an appropriate Object for the provided TaskAssistantModel Object.
      */
 
-    public static void bindIndividual(TaskAssistantModel object, TaskAssistantModel.Type type, Bindable bindableItem) throws CriticalException {
+    private static void bindIndividual(TaskAssistantModel object, TaskAssistantModel.Type type, Bindable bindableItem) throws CriticalException {
             switch (type) {
                 case TASK:
                     bindableItem.addTask((Task) object);

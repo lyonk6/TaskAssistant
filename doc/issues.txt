@@ -1,3 +1,11 @@
+2018 revisit
+There are three goals moving forward on this project. 
+1. Remove the security thing I tried to implement.
+   a. What classes are involved with that?
+2. Roll back changes to Schedule class and time block. GEO-location should not be 
+   implemented until later
+3. 
+
 *****************************************************************************************
 ** Pending issues:
 

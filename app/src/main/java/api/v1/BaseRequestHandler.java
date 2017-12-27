@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
 import api.v1.helper.ErrorHelper;
-import api.v1.helper.InsecurityHelper;
+//import api.v1.helper.InsecurityHelper;
 import api.v1.model.TaskAssistantModel;
 import api.v1.repo.*;
 import com.google.appengine.repackaged.com.google.gson.Gson;
@@ -83,7 +83,8 @@ public class BaseRequestHandler extends HttpServlet{
         } else {
             jsonResponse.put("success", true);
             if(object!=null)
-                jsonResponse.put(type.name(), InsecurityHelper.encryptString(object.toJson()));
+                //jsonResponse.put(type.name(), InsecurityHelper.encryptString(object.toJson()));
+                jsonResponse.put(type.name(), object.toJson());
         }
         return jsonResponse;
     }
@@ -108,7 +109,7 @@ public class BaseRequestHandler extends HttpServlet{
      */
      protected Object getMyObject(String json, Object obj) throws BusinessException{
          String message="An error occurred while deserializing the JSON object.";
-         json=InsecurityHelper.decryptString(json);
+         //json=InsecurityHelper.decryptString(json);
          //LOGGER.info("Here is the Json object {} ", json);
          GsonBuilder gsonBuilder = new GsonBuilder();
          Gson gson = gsonBuilder.setDateFormat(DATE_FORMAT_KEY).create();

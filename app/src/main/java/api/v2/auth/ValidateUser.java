@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import api.v2.error.BusinessException;
 import api.v2.error.SystemException;
 import api.v2.model.TaskAssistantModel;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;

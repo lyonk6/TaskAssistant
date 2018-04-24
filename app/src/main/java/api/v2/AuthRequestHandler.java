@@ -5,9 +5,11 @@ import api.v2.model.*;
 import api.v2.error.Error;
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 
 /**
@@ -18,6 +20,43 @@ import org.slf4j.Logger;
  */
 public class AuthRequestHandler extends BaseRequestHandler{
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthRequestHandler.class);
+
+    /**
+     * This method verifies that an email is well formed.
+     * @param email
+     * @throws BusinessException
+     */
+    public static void verifyEmailIsValid(String email) throws BusinessException{
+        try {
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } catch (AddressException ex) {
+            LOGGER.error("Supplied email address: {} is not valid.", email);
+            throw  new BusinessException("Email address: " + email + " is invalid.", Error.valueOf("INVALID_EMAIL_ERROR"));
+        }
+    }
+
+    public static void verifyPasswordIsValid(String password) throws BusinessException{
+        if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
+            throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
+    }
+
+
+    /**
+     * Use to validate the supplied password from a GetUser request.
+     * @param fromClient
+     * @param fromRepository
+     * @return
+     */
+    public static void validatePassword(User fromClient, User fromRepository) throws BusinessException {
+        if(fromClient.getPassword().equals(fromRepository.getPassword()))
+            return;
+        else{
+            LOGGER.error(fromClient.toJson());
+            LOGGER.error(fromRepository.toJson());
+            throw new BusinessException("Incorrect password.", Error.valueOf("INCORRECT_PASSWORD_ERROR"));
+        }
+    }
 
     /**
      * Verify that each taskId supplied belongs to a TaskList that belongs to the

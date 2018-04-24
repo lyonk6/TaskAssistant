@@ -1,10 +1,7 @@
 package api.v2.auth;
 
-import api.v2.UnitTestHelper;
 import api.v2.model.User;
 import api.v2.repo.ModelRepository;
-import api.v2.repo.ModelRepository;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * This class tests the ValidateUser Class. To operate successfully,

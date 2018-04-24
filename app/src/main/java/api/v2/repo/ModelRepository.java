@@ -33,8 +33,8 @@ public class ModelRepository {
     }
 
     /**
-     * First discover a task id that has not been used. Then copy the incoming
-     * task fields into the new task.
+     * First discover an id that has not been used, then store the object.
+     * 
      * @param t
      * @throws BusinessException
      * @throws SystemException
@@ -58,7 +58,7 @@ public class ModelRepository {
         if(modelMap.containsKey(t.getId()))
             return modelMap.get(t.getId());
         else
-            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+            throw new BusinessException(t.getClass() + " Object not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 
     /**
@@ -72,11 +72,11 @@ public class ModelRepository {
             modelMap.remove(t.getId());
             modelMap.put(t.getId(), t);
         } else
-            throw new BusinessException(" Task not found. ID=" + t.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+            throw new BusinessException(t.getClass() + " Object not found. ID=" + t.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
 	}
 
     /**
-     * Deletes the provided task.
+     * Deletes the provided Object.
      *
      * @param t
      * @throws BusinessException
@@ -87,7 +87,7 @@ public class ModelRepository {
             modelMap.remove(t.getId());
         }
         else
-            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+            throw new BusinessException(t.getClass() + " Object not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 
     public void dump(long timestamp) throws SystemException {

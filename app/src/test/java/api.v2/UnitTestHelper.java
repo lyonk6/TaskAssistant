@@ -281,4 +281,11 @@ public class UnitTestHelper {
         request.addParameter("params", params);
         return request;
     }
+
+    /**
+     *
+     */
+    protected void verifyRepositoryIsClean(){
+
+    }
 }

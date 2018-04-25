@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class GetTaskTest extends TaskApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(GetTaskTest.class);
     private static GetTask getTaskInstance;
-    private static ModelRepository taskRepository;
+    private static ModelRepository modelRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
     private static ArrayList<String> validTasks=new ArrayList<String>();
@@ -34,7 +34,7 @@ public class GetTaskTest extends TaskApiHelper {
     @Before
     public void setUp() throws Exception {
         getTaskInstance = new GetTask();
-        taskRepository=getTaskInstance.getModelRepository();
+        modelRepository=getTaskInstance.getModelRepository();
 
         validTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [0]  
         validTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [0]  
@@ -45,7 +45,7 @@ public class GetTaskTest extends TaskApiHelper {
         validTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [4,5] 
         validTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [4,5]
         for(Task task: TaskApiHelper.toTasks(validTasks))
-            taskRepository.add(task);
+            modelRepository.add(task);
 
         errorTasks.add("8`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW");
         errorTasks.add("-10`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW");
@@ -68,7 +68,7 @@ public class GetTaskTest extends TaskApiHelper {
     @After
     public void tearDown() throws Exception {
         for(Task task: toTasks(validTasks))
-            taskRepository.delete(task);
+            modelRepository.delete(task);
 
         verifyRepositoryIsClean();
         getTaskInstance=null;

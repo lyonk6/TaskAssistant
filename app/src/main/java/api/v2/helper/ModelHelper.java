@@ -13,7 +13,7 @@ public class ModelHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelHelper.class);
     /**
      * Create a deep copy of an ArrayList of Integers. This method is used
-     * frequently to copy reference arrays to
+     * frequently to copy reference arrays.
      * @param integerArrayList
      * @return
      */

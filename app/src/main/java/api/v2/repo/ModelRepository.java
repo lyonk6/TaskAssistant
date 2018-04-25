@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import api.v2.helper.ModelHelper;
 import api.v2.model.TaskAssistantModel;
 
 import api.v2.model.TaskAssistantModel;
@@ -49,6 +50,7 @@ public class ModelRepository {
     }
 
     /**
+     * Return a deep copy of the specified Repository object.
      * @param t
      * @return
      * @throws BusinessException
@@ -56,7 +58,7 @@ public class ModelRepository {
      */
 	public TaskAssistantModel get(TaskAssistantModel t)throws BusinessException, SystemException{
         if(modelMap.containsKey(t.getId()))
-            return modelMap.get(t.getId());
+            return (modelMap.get(t.getId())).clone();
         else
             throw new BusinessException(t.getClass() + " Object not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
@@ -103,5 +105,32 @@ public class ModelRepository {
             LOGGER.error("Error! Dump failed. Could not write to file: " + fileName);
             throw new SystemException("Error! repo dump failed. Could not write to file. ", Error.valueOf("REPOSITORY_DUMP_FAILURE"));
         }
+    }
+
+    /**
+     * Fetch an ArrayList of Objects from the provided repository. Note that these
+     * Objects are deep copies and changes to these will not directly affect the
+     * current model.
+     *
+     * Note that this method expects that all objects are of a given type.
+     *
+     * @param objectIds
+     * @param type
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    public ArrayList<TaskAssistantModel> fetchObjects(ArrayList<Integer> objectIds, TaskAssistantModel.Type type)
+            throws BusinessException, SystemException {
+        ArrayList<TaskAssistantModel> myObjects = new ArrayList<>();
+        if(objectIds==null)
+            return myObjects;
+        for(int i: objectIds) {
+            TaskAssistantModel modelObject = ModelHelper.createNewModelObject(type);
+            modelObject.setId(i);
+            modelObject= (TaskAssistantModel) this.get(modelObject);
+            myObjects.add(modelObject);
+        }
+        return myObjects;
     }
 }

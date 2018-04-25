@@ -32,6 +32,22 @@ public class Calendar extends TaskAssistantModel{
         userId=-1;
     }
 
+    public Calendar(Calendar calendar){
+	    this.id=calendar.id;
+	    this.userId=calendar.getUserId();
+	    this.name=calendar.getName();
+	    this.calendarType=calendar.getCalendarType();
+	    this.remoteId=calendar.getRemoteId();
+	    this.remoteToken=calendar.getRemoteToken();
+    }
+
+    @Override
+    public TaskAssistantModel clone(){
+	    return new Calendar(this);
+    }
+
+
+
     public void setId(int id){
         this.id=id;
     }
@@ -39,7 +55,7 @@ public class Calendar extends TaskAssistantModel{
 	public int getId() {
 		return id;
 	}
-
+    public int getUserId(){return userId;}
 	public String getName() {
 		return name;
 	}

@@ -33,6 +33,11 @@ public class Reminder extends TaskAssistantModel{
         this.reminderTime=new Date(reminder.getReminderTime().getTime());
     }
 
+    @Override
+    public TaskAssistantModel clone() {
+        return new Reminder(this);
+    }
+
     public int getId() {
         return id;
     }

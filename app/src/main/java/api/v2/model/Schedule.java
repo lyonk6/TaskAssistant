@@ -195,6 +195,11 @@ public class Schedule extends TaskAssistantModel{
     }
 
     @Override
+    public TaskAssistantModel clone(){
+        return new Schedule(this);
+    }
+
+    @Override
     public int getParent(){
         return getUserId();
     }

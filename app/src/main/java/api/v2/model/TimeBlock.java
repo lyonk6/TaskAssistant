@@ -28,6 +28,25 @@ public class TimeBlock extends TaskAssistantModel {
         this.id=-1;
     }
 
+    public TimeBlock(TimeBlock timeBlock){
+        this.id=timeBlock.id;
+        this.stopTime=timeBlock.stopTime;
+        this.scheduleId=timeBlock.scheduleId;
+        this.startTime=timeBlock.startTime;
+        this.onMonday=timeBlock.onMonday;
+        this.onTuesday=timeBlock.onTuesday;
+        this.onWednesday=timeBlock.onWednesday;
+        this.onThursday=timeBlock.onThursday;
+        this.onFriday=timeBlock.onFriday;
+        this.onSaturday=timeBlock.onSaturday;
+        this.onSunday=timeBlock.onSunday;
+    }
+
+    @Override
+    public TaskAssistantModel clone(){
+        return new TimeBlock(this);
+    }
+
     public int getId() {
         return id;
     }

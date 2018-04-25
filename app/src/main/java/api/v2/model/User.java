@@ -46,6 +46,12 @@ public class User extends TaskAssistantModel{
         this.scheduleIds = ModelHelper.copyIntegerArrayList(user.getScheduleIds());
         this.taskListIds = ModelHelper.copyIntegerArrayList(user.getTaskListIds());
     }
+
+    @Override
+    public TaskAssistantModel clone(){
+        return new User(this);
+    }
+
 	public int getId() {return id;}
 	public void setId(int id){
 		this.id=id;

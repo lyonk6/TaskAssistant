@@ -42,6 +42,11 @@ public class TaskList extends TaskAssistantModel{
         this.scheduleIds=ModelHelper.copyIntegerArrayList(taskList.getScheduleIds());
     }
 
+    @Override
+    public TaskAssistantModel clone(){
+        return new TaskList(this);
+    }
+
     public String getName() {
         return name;
     }

@@ -10,7 +10,7 @@
 *.RData
 # exclude hidden osx data files.                                                                                                                                                                        
 .DS_Store
-temp
+temp*
 .~lock.*
 # Exclide IDE related files:
 *eclipse*

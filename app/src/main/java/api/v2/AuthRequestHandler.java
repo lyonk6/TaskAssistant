@@ -1,5 +1,6 @@
 package api.v2;
 import api.v2.error.BusinessException;
+import api.v2.error.CriticalException;
 import api.v2.error.SystemException;
 import api.v2.model.*;
 import api.v2.error.Error;
@@ -59,111 +60,89 @@ public class AuthRequestHandler extends BaseRequestHandler{
     }
 
     /**
-     * Verify that each taskId supplied belongs to a TaskList that belongs to the
-     * supplied User id.
-     * @param userId
-     * @param taskIds
+     * Verifies that an client model object is valid and only references
+     * objects owned by the owner of said object.
+     * @param modelObject
      */
-    protected void verifyTaskPrivileges(int userId, ArrayList<Integer> taskIds)
+    protected void verifyPrivileges(TaskAssistantModel modelObject) throws BusinessException, SystemException{
+        int ownerId=getOwnerId(modelObject);
+
+
+        try {
+            verifyPrivileges(modelObject.getCalendarIds(), ownerId);
+        }catch (CriticalException ce){
+            // do nothing
+        }
+
+        try {
+            verifyPrivileges(modelObject.getCategoryIds(), ownerId);
+        }catch (CriticalException ce){
+            // do nothing
+        }
+
+        try {
+            verifyPrivileges(modelObject.getTaskListIds(), ownerId);
+        }catch (CriticalException ce){
+            // do nothing
+        }
+
+        try {
+            verifyPrivileges(modelObject.getTaskIds(), ownerId);
+        }catch (CriticalException ce){
+        // do nothing
+        }
+
+        try {
+            verifyPrivileges(modelObject.getScheduleIds(), ownerId);
+        }catch (CriticalException ce){
+            // do nothing
+        }
+
+        try {
+            verifyPrivileges(modelObject.getReminderIds(), ownerId);
+        }catch (CriticalException ce){
+            // do nothing
+        }
+
+        try {
+            verifyPrivileges(modelObject.getTimeBlockIds(), ownerId);
+        }catch (CriticalException ce){
+            // do nothing
+        }
+    }
+
+    /**
+     * Verify that an ArrayList of model object IDs belong to the given
+     * owner ID.
+     * @param modelIds
+     * @param ownerId
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected void verifyPrivileges(ArrayList<Integer> modelIds, int ownerId)
             throws BusinessException, SystemException {
-        if(taskIds==null || taskIds.size()==0)
-            return;
-        for(Integer i: taskIds){
-            // First fetch the Task specified in the taskIds list.
-            Task task=new Task();
-            task.setId(i);
-            task=(Task) modelRepository.get(task);
-
-            //Next fetch the TaskList that owns this Task.
-            TaskList taskList=new TaskList();
-            taskList.setId(task.getTaskListId());
-            taskList=(TaskList)modelRepository.get(taskList);
-
-            LOGGER.debug("TaskList owner id: " + taskList.getUserId());
-            LOGGER.debug("User id: " + userId);
-            //Finally, verify that ownership of the TaskList.
-            if(taskList.getUserId()==userId)
+        for(int i: modelIds)
+            if(ownerId==getOwnerId(modelRepository.get(i)))
                 continue;
-            else{
-                String message= "This task cannot be accessed by the specified user. ";
-                throwObjectOwnershipError(userId, message);
-            }
-        }
+            else
+                throwObjectOwnershipError(ownerId, "The object with ID=" + i +
+                 " does not belong to this user! ID=" + ownerId);
+
     }
-    /**
-     * Verify that the User with the specified ID has permission to access these
-     * schedules.
-     *
-     * @param userId
-     * @param scheduleIds
-     */
-    protected void verifySchedulePrivileges(int userId, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException{
-        //LOGGER.debug(" Here inside verifySchedulePrivileges. These are our schedule ids {}", new Gson().toJson(scheduleIds));
-        if(scheduleIds==null || scheduleIds.size()==0)
-            return;
-        Schedule schedule=new Schedule();
-        for(int i: scheduleIds) {
-            schedule.setId(i);
-            schedule = (Schedule) modelRepository.get(schedule);
-            //LOGGER.debug("Here is the Schedule we are verifying {}", schedule.toJson());
-            if (schedule.getUserId() == userId)
-                continue;
-            else {
-                String message = "This schedule cannot be accessed by the specified user. ";
-                throwObjectOwnershipError(userId, message);
-            }
-        }
-    }
+
 
     /**
-     * Verify that the User with the specified ID has permission to access these
-     * taskLists.
-     *
-     * @param userId
-     * @param taskListIds
+     * Return the ID of the User that owns this object.
+     * @param modelObject
+     * @return
      */
-    protected void verifyTaskListPrivileges(int userId, ArrayList<Integer> taskListIds) throws BusinessException, SystemException{
-        //LOGGER.debug("Here inside verifyTaskListPrivileges. These are our taskList ids {}", new Gson().toJson(taskListIds));
-        if(taskListIds==null || taskListIds.size()==0)
-            return;
-        TaskList taskList=new TaskList();
-        for(int i: taskListIds) {
-            taskList.setId(i);
-            taskList = (TaskList)modelRepository.get(taskList);
-            //LOGGER.debug("Here is the TaskList we are verifying {}", taskList.toJson());
-            if (taskList.getUserId() == userId)
-                continue;
-            else {
-                String message = "This taskList cannot be accessed by the specified user. ";
-                throwObjectOwnershipError(userId, message);
-            }
-        }
+    protected int getOwnerId(TaskAssistantModel modelObject) throws BusinessException, SystemException{
+        if(modelObject.getParent()==modelObject.getId())
+            return modelObject.getId();
+        else
+            return getOwnerId(modelRepository.get(modelObject.getId()));
     }
 
-    /**
-     * Verify that the User with the specified ID has permission to access these
-     * schedules.
-     *
-     * @param userId
-     * @param categoryIds
-     */
-    protected void verifyCategoryPrivileges(int userId, ArrayList<Integer> categoryIds) throws BusinessException, SystemException {
-        //LOGGER.debug("Here inside verifyCategoryPrivileges. These are our category ids {}", new Gson().toJson(categoryIds));
-        if (categoryIds == null || categoryIds.size() == 0)
-            return;
-        Category category = new Category();
-        for (int i : categoryIds) {
-            category.setId(i);
-            category = (Category) modelRepository.get(category);
-            //LOGGER.debug("Here is the Category we are verifying {}", category.toJson());
-            if (category.getUserId() == userId)
-                continue;
-            else {
-                String message = "This category cannot be accessed by the specified user. ";
-                throwObjectOwnershipError(userId, message);
-            }
-        }
-    }
 
     private void throwObjectOwnershipError(int userId, String message) throws BusinessException, SystemException{
         User user = new User();

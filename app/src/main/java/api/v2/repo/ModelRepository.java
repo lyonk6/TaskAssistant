@@ -56,11 +56,18 @@ public class ModelRepository {
      * @throws BusinessException
      * @throws SystemException
      */
-	public TaskAssistantModel get(TaskAssistantModel t)throws BusinessException, SystemException{
+    public TaskAssistantModel get(TaskAssistantModel t)throws BusinessException, SystemException{
         if(modelMap.containsKey(t.getId()))
             return (modelMap.get(t.getId())).clone();
         else
             throw new BusinessException(t.getClass() + " Object not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
+
+    public TaskAssistantModel get(int i)throws BusinessException, SystemException{
+        if(modelMap.containsKey(i))
+            return (modelMap.get(i)).clone();
+        else
+            throw new BusinessException("Object not found. ID=" + i, Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 
     /**

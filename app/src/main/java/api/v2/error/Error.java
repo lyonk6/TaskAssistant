@@ -5,12 +5,11 @@ package api.v2.error;
  * enumerating Business errors, which ought to encompass all of our checked exceptions.
  *
  * In this API we expect to handle errors of three major types: business errors, system
- * errors and WTF errors. Note that All WTF errors are unchecked. As such, they are not
- * included in this class.
+ * errors and WTF errors.
  *
  * //1000-1999 business errors.
  * //2000-2999 System error.
- * //0000-0999 WTF error.
+ * //0000-0999 other error.
  *
  */
 public enum Error{

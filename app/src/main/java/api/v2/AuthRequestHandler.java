@@ -14,8 +14,11 @@ import javax.mail.internet.InternetAddress;
 
 
 /**
- * BaseAuthRequestHandler is a subclass of BaseRequestHandler and provides functionality 
- * for APIs that require Authentication.
+ * AuthRequestHandler is a subclass of BaseRequestHandler and provides functionality
+ * for APIs that require Authentication. This class verifies that email and password
+ * strings are valid, and verifies that an incoming model object does not reference
+ * any objects it does not have permission to access.
+ *
  * @author kennethlyon
  *
  */
